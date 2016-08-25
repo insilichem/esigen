@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Supporting Information Generator</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="container">
+      <div id="markup">
+        
+
+<h2>Supporting Information</h2>
+
+{% for molecule in molecules %}
+    <article id="content" class="markdown-body">
+    <h1>{{ molecule.name }}</h1>
+    <img src="{{ url_for('static', filename='uploads/{}/{}.png'.format(uuid, molecule.basename)) }}" title="{{ molecule.name }}" width=600 />
+
+    <h2>Relevant magnitudes</h2>
+
+    <table id="relevantdata">
+    <tr>
+        <th>Datum</th>
+        <th>Value</th>
+    </tr>
+    <tr>
+        <td>Stoichiometry</td>
+        <td>{{ molecule.data['stoichiometry'] }}</td></tr>
+    <tr>
+        <td>Number of Basis Functions</td>
+        <td>{{ molecule.data['basis_functions'] }}</td></tr>
+    <tr>
+        <td>Electronic Energy (eV)</td>
+        <td>{{ molecule.data['electronic_energy'] }}</td>
+    </tr>
+    <tr>
+        <td>Sum of electronic and zero-point Energies (eV)</td>
+        <td>{{ molecule.data['zeropoint_energy'] }}</td>
+    </tr>
+    <tr>
+        <td>Sum of electronic and thermal Energies (eV)</td>
+        <td>{{ molecule.data['thermal_energy'] }}</td>
+    </tr>
+    <tr>
+        <td>Sum of electronic and thermal Enthalpies (eV)</td>
+        <td>{{ molecule.data['enthalpy'] }}</td>
+    </tr>
+    <tr>
+        <td>Sum of electronic and thermal Free Energies (eV)</td>
+        <td>{{ molecule.data['free_energy'] }}</td>
+    </tr>
+    <tr>
+        <td>Number of Imaginary Frequencies</td>
+        <td>{{ molecule.data['imaginary_frequencies'] }}</td>
+    </tr>
+    <tr>
+        <td>Mean of α and β Electrons</td>
+        <td>{{ molecule.data['mean_of_electrons'] }}</td>
+    </tr>
+    </table>
+
+    <h2>Molecular Geometry in Cartesian Coordinates</h2>
+        <pre>{{ molecule.xyz_block }}</pre>
+    <hr />
+    </article>
+{% endfor %}
+
+        <p>
+            <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a>
+        </p>
+        <p align="center">
+            Generated automatically with getsupporting.info | @jaimergp
+        </p>
+    </div>
+</div>
+</body>
+</html>

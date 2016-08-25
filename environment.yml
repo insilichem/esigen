@@ -1,0 +1,11 @@
+name: supporting
+channels:
+  - samoturk
+dependencies:
+  - python=2.7
+  - flask
+  - pymol
+  - numpy
+  - pip:
+      - apschedule
+      - cclib=1.4
