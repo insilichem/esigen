@@ -7,5 +7,5 @@ dependencies:
   - pymol
   - numpy
   - pip:
-      - apschedule
+      - apscheduler
       - cclib==1.4
