@@ -8,4 +8,4 @@ dependencies:
   - numpy
   - pip:
       - apschedule
-      - cclib=1.4
+      - cclib==1.4
