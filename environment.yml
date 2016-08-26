@@ -10,4 +10,4 @@ dependencies:
       - apscheduler
       - gunicorn
       - flask
-      - cclib==1.4
+      - cclib==1.4.1
