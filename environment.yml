@@ -2,6 +2,7 @@ name: supporting
 channels:
   - samoturk
 dependencies:
+  - nomkl
   - python=2.7
   - flask
   - pymol
