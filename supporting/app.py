@@ -14,13 +14,14 @@ from uuid import uuid4
 import datetime
 import shutil
 
-from flask import Flask, request, redirect, url_for, render_template
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 
 import supporting
 
 # logging.basicConfig()
 app = Flask(__name__)
 
+UPLOADS = "tmp/"
 
 @app.route("/")
 def index():
@@ -41,7 +42,7 @@ def upload():
         is_ajax = True
 
     # Target folder for these uploads.
-    target = "supporting/static/uploads/{}".format(upload_key)
+    target = os.path.join(UPLOADS, upload_key)
     try:
         os.mkdir(target)
     except:
@@ -66,7 +67,7 @@ def upload_complete(uuid):
     """The location we send them to at the end of the upload."""
 
     # Get their reports.
-    root = "supporting/static/uploads/{}".format(uuid)
+    root = os.path.join(UPLOADS, uuid)
     if not os.path.isdir(root):
         return "Error: UUID not found!"
 
@@ -77,6 +78,11 @@ def upload_complete(uuid):
     return render_template("reports.html", uuid=uuid, molecules=molecules)
 
 
+@app.route('/images/<path:filename>')
+def get_image(filename):
+    print(os.path.join('..', UPLOADS, filename))
+    return send_from_directory("../tmp", filename, as_attachment=True)
+
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
     return json.dumps(dict(
@@ -86,9 +92,8 @@ def ajax_response(status, msg):
 
 
 def clean_uploads():
-    uploads = "supporting/static/uploads/"
-    for uuid in os.listdir(uploads):
-        path = os.path.join(uploads, uuid)
+    for uuid in os.listdir(UPLOADS):
+        path = os.path.join(UPLOADS, uuid)
         delta = datetime.datetime.now() - modification_date(path)
         if delta > datetime.timedelta(days=1):
             shutil.rmtree(path)

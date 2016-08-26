@@ -15,8 +15,8 @@
 {% for molecule in molecules %}
     <article id="content" class="markdown-body">
     <h1>{{ molecule.name }}</h1>
-    <img src="{{ url_for('static', filename='uploads/{}/{}.png'.format(uuid, molecule.basename)) }}" title="{{ molecule.name }}" width=600 />
-
+    <img src="{{ url_for('get_image', filename='{}/{}.png'.format(uuid, molecule.basename)) }}" title="{{ molecule.name }}" width=600 />
+    <p>{{ url_for('get_image', filename='{}/{}.png'.format(uuid, molecule.basename)) }}</p>
     <h2>Relevant magnitudes</h2>
 
     <table id="relevantdata">
