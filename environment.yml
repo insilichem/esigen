@@ -1,11 +1,13 @@
 name: supporting
 channels:
-  - samoturk
+  - omnia
+  - egilliesix
 dependencies:
   - python=2.7
   - nomkl
   - pymol
   - numpy
+  - libglu
   - pip:
       - apscheduler
       - gunicorn
