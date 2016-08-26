@@ -4,9 +4,10 @@ channels:
 dependencies:
   - python=2.7
   - nomkl
-  - flask
   - pymol
   - numpy
   - pip:
       - apscheduler
+      - gunicorn
+      - flask
       - cclib==1.4
