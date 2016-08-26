@@ -21,7 +21,7 @@ import supporting
 # logging.basicConfig()
 app = Flask(__name__)
 
-UPLOADS = "tmp/"
+UPLOADS = "/tmp"
 
 @app.route("/")
 def index():
@@ -80,8 +80,7 @@ def upload_complete(uuid):
 
 @app.route('/images/<path:filename>')
 def get_image(filename):
-    print(os.path.join('..', UPLOADS, filename))
-    return send_from_directory("../tmp", filename, as_attachment=True)
+    return send_from_directory(UPLOADS, filename, as_attachment=True)
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
