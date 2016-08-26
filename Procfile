@@ -1,0 +1,1 @@
+web: gunicorn supporting.run:app --log-file supporting.log

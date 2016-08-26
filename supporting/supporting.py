@@ -27,11 +27,11 @@ except ImportError:
     sys.exit('You must install cclib to use this script.')
 try:
     import pymol
-#    pymol.finish_launching(['pymol', '-qc'])
     HAS_PYMOL = True
 except ImportError:
     HAS_PYMOL = False
-    
+
+from pymol_server import pymol_client    
 
 PERIODIC_TABLE = PeriodicTable()
 
@@ -104,9 +104,28 @@ class BaseInputFile(object):
         pymol.cmd.label('not symbol C+H+O+N+P+S', 'name')
         if output_path is None:
             output_path = self.name + '.png'
-        pymol.cmd.png(output_path, width=width, ray=1, quiet=2, **kwargs)
+        pymol.cmd.png(output_path, width, ray=1, quiet=2, **kwargs)
         pymol.cmd.refresh()
         pymol.cmd.sync(2.5)
+
+    def render_with_pymol_server(self, output_path=None, width=1200, **kwargs):
+        if output_path is None:
+            output_path = self.name + '.png'
+        client = pymol_client()
+        client.do('reinitialize')
+        client.loadPDB(self.pdb_block, self.name)
+        client.do('bg_color white')
+        client.do('preset.ball_and_stick()')
+        client.do('set sphere_scale, 0.2, symbol H')
+        client.do('set float_labels, on')
+        client.do('set label_position, 0 0 5')
+        client.do('alter not symbol C+H+O+N+P+S, vdw=3')
+        client.do('util.cbag()')
+        client.do('color grey, symbol C')
+        client.do('label not symbol C+H+O+N+P+S, name')
+        client.do('png {}, width={}, ray=1, quiet=1'.format(output_path, width))
+        client.do('refresh')
+        client.do('cmd.sync(2.5)')
 
     def view_with_nglview(self, **kwargs):
         import nglview as nv
@@ -302,7 +321,7 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
     with open(path + '.xyz', 'w') as f:
         f.write(inputfile.xyz_block)
 
-    inputfile.render_with_pymol(output_path=path + '.png')
+    inputfile.render_with_pymol_server(output_path=path + '.png')
     return inputfile
 
 def main(paths=None, output_filename='supporting.md'):

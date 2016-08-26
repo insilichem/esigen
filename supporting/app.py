@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+################################################
+#       Supporting Information Generator       #
+# -------------------------------------------- #
+# By Jaime RGP <jaime@insilichem.com> @ 2016   #
+################################################
 
 from __future__ import unicode_literals, print_function, division
 import os
 import json
 from uuid import uuid4
-import logging
 import datetime
 import shutil
 
@@ -14,7 +18,7 @@ from flask import Flask, request, redirect, url_for, render_template
 
 import supporting
 
-logging.basicConfig()
+# logging.basicConfig()
 app = Flask(__name__)
 
 
