@@ -1,47 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Supporting Information Generator</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dropzone.css') }}" />
+{% endblock %}
+
+{% block content %}
 <h1>Supporting Information Generator</h1>
 
-<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
-<!--     <strong>Title:</strong><br>
-    <input type="text" size="80" name="title" placeholder="A quick method to generate supporting information for your publications."><p>
-
-    <strong>Authors:</strong><br>
-    <input type="text" size="80" name="authors" placeholder="R-Guerra, J."><p>
-
-    <strong>Images:</strong><br>
-    <input type="radio" name="images" value="yes" checked> Yes
-    <input type="radio" name="images" value="no"> No<p>
-
-    <strong>Abstract:</strong><br>
-    <textarea rows="4" cols="75" name="textarea">Lorem ipsum bla bla.</textarea><p>
- -->
-    <h3>Choose or drop your Gaussian output files (.qfi, .out):</h3>
-    <input id="file-picker" type="file" name="file" accept=".qfi,.out" multiple><p>
-
-    <div id="dropbox">
-        Drag and Drop Files Here
-    </div><p>
-
-    <fieldset id="progress" style="display: none">
-        <legend>Files Progress</legend>
-
-        <div class="progress-trough">
-            <div id="progress-bar" class="progress-bar">0%</div>
-        </div>
-    </fieldset><p>
-
-    <input type="submit" value="Upload!" id="upload-button">
+<form class="dropzone" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <input name="upload_key" type="hidden" value="{{ uuid }}" />
+<div class="fallback">
+    <h3>Choose your Gaussian output files (.qfi, .out)</h3>
+    <p><input name="file" type="file" multiple /></p>
+    <p><input class="btn" type="submit" value="Upload!" id="upload-button"></p>
+</div>
 </form>
+{% endblock %}
 
-<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='js/uploadr.js') }}"></script>
-
-</body>
-</html>
+{% block morejs %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+<script type="text/javascript">
+Dropzone.options.uploadForm = {
+  maxFilesize: 20, // MB
+  acceptedFiles: ".qfi,.out",
+  dictDefaultMessage: "Drop your Gaussian output files (.qfi, .out) here",
+  init: function() {
+    this.on("queuecomplete", function(file) { window.location = "{{ url_for('upload_complete', uuid=uuid) }}" });
+  }
+};
+</script>
+{% endblock %}

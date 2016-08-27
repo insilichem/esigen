@@ -25,17 +25,14 @@ UPLOADS = "/tmp"
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", uuid= str(uuid4()))
 
 
 @app.route("/upload", methods=["POST"])
 def upload():
     """Handle the upload of a file."""
     form = request.form
-
-    # Create a unique "session ID" for this particular batch of uploads.
-    upload_key = str(uuid4())
-
+    upload_key = form['upload_key']
     # Is the upload using Ajax, or a direct POST by the form?
     is_ajax = False
     if form.get("__ajax", None) == "true":

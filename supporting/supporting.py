@@ -125,7 +125,7 @@ class BaseInputFile(object):
         client.do('label not symbol C+H+O+N+P+S, name')
         client.do('png {}, width={}, ray=1, quiet=1'.format(output_path, width))
         client.do('refresh')
-        client.do('cmd.sync(2.5)')
+        client.do('cmd.sync()')
 
     def view_with_nglview(self, **kwargs):
         import nglview as nv
