@@ -187,7 +187,7 @@
   .dropzone.dz-started .dz-message {
     display: none; }
   .dropzone.dz-drag-hover {
-    border: 4px dashed #ff7496; }
+    border: 2px dashed #ff7496; }
     .dropzone.dz-drag-hover .dz-message {
       opacity: 0.5; }
   .dropzone .dz-message {
