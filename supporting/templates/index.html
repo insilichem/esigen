@@ -15,18 +15,53 @@
     <p><input class="btn" type="submit" value="Upload!" id="upload-button"></p>
 </div>
 </form>
+<p align="center"><button id="upload-btn" style="display: none">Process!</button></p>
 {% endblock %}
 
 {% block morejs %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
 <script type="text/javascript">
-Dropzone.options.uploadForm = {
+
+Dropzone.options.uploadForm = { 
+  autoProcessQueue: false,
+  addRemoveLinks: true,
   maxFilesize: 20, // MB
   acceptedFiles: ".qfi,.out",
+  createImageThumbnails: false,
   dictDefaultMessage: "Drop your Gaussian output files (.qfi, .out) here",
-  init: function() {
-    this.on("queuecomplete", function(file) { window.location = "{{ url_for('upload_complete', uuid=uuid) }}" });
+    init: function() {
+    var submitButton = document.querySelector("button#upload-btn")
+    myDropzone = this; // closure
+    submitButton.addEventListener("click", function() {
+      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+      submitButton.disabled = true;
+      submitButton.innerText = 'Processing...';
+    });
+
+    // You might want to show the submit button only when 
+    // files are dropped here:
+    this.on("addedfile", function(file) {
+      submitButton.style.display = 'block';
+    });
+    this.on("removedfile", function(file) {
+      if (this.files.length == 0) {
+        submitButton.style.display = 'none';
+      }
+    });
+    this.on("error", function(file) {
+      if (!file.accepted) {
+        this.removeFile(file);
+      }
+    });
+
+    this.on("queuecomplete", function(file) {
+      if ( this.files[0].status == Dropzone.SUCCESS && this.getQueuedFiles().length <= 1 ) {
+        window.location = "{{ url_for('upload_complete', uuid=uuid) }}";
+      }
+    });
+
   }
 };
+
 </script>
 {% endblock %}

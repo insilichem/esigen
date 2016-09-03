@@ -43,7 +43,9 @@ def upload():
     try:
         os.mkdir(target)
     except:
-        if is_ajax:
+        if os.path.isdir(target):
+            pass
+        elif is_ajax:
             return ajax_response(False, "Couldn't create upload directory: {}".format(target))
         else:
             return "Couldn't create upload directory: {}".format(target)
@@ -78,6 +80,7 @@ def upload_complete(uuid):
 @app.route('/images/<path:filename>')
 def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
+
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
