@@ -24,8 +24,6 @@ from cclib.parser.data import ccData
 from cclib.parser.utils import convertor, PeriodicTable
 try:
     import pymol
-    pymol.finish_launching(['pymol', '-qc'])
-    from pymol_server import pymol_client
     HAS_PYMOL = True
 except ImportError:
     HAS_PYMOL = False
@@ -110,6 +108,7 @@ class BaseInputFile(object):
     def render_with_pymol_server(self, output_path=None, width=1200, **kwargs):
         if output_path is None:
             output_path = self.name + '.png'
+        from pymol_server import pymol_client
         client = pymol_client()
         client.do('reinitialize')
         client.loadPDB(self.pdb_block, self.name)

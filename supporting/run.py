@@ -2,7 +2,7 @@ import logging, atexit
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from pymol_server import pymol_start_server
+from pymol_server import pymol_start
 from app import app, clean_uploads
 
 def schedule():
@@ -17,7 +17,7 @@ def schedule():
     # Shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())
 
-pymol_start_server()
+pymol_start()
 schedule()
 logging.basicConfig()
 
