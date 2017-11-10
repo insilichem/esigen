@@ -24,11 +24,11 @@ from cclib.parser.data import ccData
 from cclib.parser.utils import convertor, PeriodicTable
 try:
     import pymol
+    pymol.finish_launching(['pymol', '-qc'])
     from pymol_server import pymol_client
     HAS_PYMOL = True
 except ImportError:
     HAS_PYMOL = False
-# Own
 
 
 PERIODIC_TABLE = PeriodicTable()
