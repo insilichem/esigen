@@ -1,15 +1,27 @@
 name: supporting
-channels:
-  - omnia
-  - egilliesix
 dependencies:
-  - python=2.7
-  - nomkl
-  - pymol
-  - numpy
-  - libglu
-  - pip:
-      - apscheduler
-      - gunicorn
-      - flask
-      - cclib==1.4.1
+- egilliesix::libglu=9.0.0=0
+- egilliesix::sqlite=3.13.0=1
+- freetype=2.5.5=1
+- libgfortran=3.0.0=1
+- libpng=1.6.22=0
+- libxml2=2.9.2=0
+- nomkl=1.0=0
+- numpy=1.11.1=py27_nomkl_0
+- omnia::freeglut=3.0.0=1
+- omnia::glew=1.11.0=0
+- omnia::pymol=1.7.4.0=py27_0
+- openblas=0.2.14=4
+- openssl=1.0.2h=1
+- pip=8.1.2=py27_0
+- python=2.7.12=1
+- readline=6.2=2
+- setuptools=26.1.1=py27_0
+- tk=8.5.18=0
+- wheel=0.29.0=py27_0
+- zlib=1.2.8=3
+- pip:
+  - apscheduler==3.2.0
+  - cclib==1.4.1
+  - flask==0.11.1
+  - gunicorn==19.6.0
