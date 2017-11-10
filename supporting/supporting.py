@@ -19,26 +19,25 @@ import sys
 from collections import defaultdict
 from textwrap import dedent
 # 3rd party
-try:
-    import cclib
-    from cclib.parser.data import ccData
-    from cclib.parser.utils import convertor, PeriodicTable
-except ImportError:
-    sys.exit('You must install cclib to use this script.')
+import cclib
+from cclib.parser.data import ccData
+from cclib.parser.utils import convertor, PeriodicTable
 try:
     import pymol
+    from pymol_server import pymol_client
     HAS_PYMOL = True
 except ImportError:
     HAS_PYMOL = False
+# Own
 
-from pymol_server import pymol_client    
 
 PERIODIC_TABLE = PeriodicTable()
+
 
 class BaseInputFile(object):
 
     SUPPORTED_KEYS = ['stoichiometry', 'basis_functions', 'electronic_energy',
-                      'thermal_energy', 'zeropoint_energy', 'enthalpy', 
+                      'thermal_energy', 'zeropoint_energy', 'enthalpy',
                       'free_energy', 'imaginary_frequencies', 'mean_of_electrons',
                       'atomic_numbers', 'atoms', 'coordinates']
 
@@ -56,7 +55,7 @@ class BaseInputFile(object):
             return ValueError('File is not yet parsed. Run self.parse()!')
         try:
             return self.data[key]
-        except KeyError: 
+        except KeyError:
             if key not in self.SUPPORTED_KEYS:
                 raise NotImplementedError('Key "{}" is not implemented'.format(key))
             else:
@@ -67,7 +66,7 @@ class BaseInputFile(object):
         Parse the contents of input file and provide the needed information
         """
         raise NotImplementedError
-    
+
     @property
     def is_parsed(self):
         return self._parsed
@@ -76,13 +75,13 @@ class BaseInputFile(object):
     def xyz_block(self):
         return '\n'.join(self._xyz_lines)
 
-    @property    
+    @property
     def _xyz_lines(self):
         if not self.is_parsed:
             raise RuntimeError('File is not yet parsed!')
-        return ['{:6} {: 8.6f} {: 8.6f} {: 8.6f}'.format(a, *xyz) 
+        return ['{:6} {: 8.6f} {: 8.6f} {: 8.6f}'.format(a, *xyz)
                 for (a, xyz) in zip(self.data['atoms'], self.data['coordinates'])]
-    
+
     @property
     def pdb_block(self):
         return _xyz2pdb(*self._xyz_lines)
@@ -134,12 +133,12 @@ class BaseInputFile(object):
         structure = nv.TextStructure(self.pdb_block, ext='pdb')
         parameters = {"clipNear": 0, "clipFar": 100, "clipDist": 0, "fogNear": 1000, "fogFar": 100}
         representations = [
-            {'type': 'ball+stick', 
+            {'type': 'ball+stick',
              'params': {'sele': 'not #H', 'radius': 0.2, 'nearClip': False }},
-            {'type': 'ball+stick', 
+            {'type': 'ball+stick',
              'params': {'sele': 'not #C and not #H and not #O and not #N and not #P and not #S',
                         'aspectRatio': 5, 'nearClip': False }},
-            {'type': 'ball+stick', 
+            {'type': 'ball+stick',
              'params': {'sele': '#H or #C or #N or #O or #P or #S',
              'radius': 0.1, 'aspectRatio': 1.5, 'nearClip': False }}]
         return nv.NGLWidget(structure, parameters=parameters, representations=representations, **kwargs)
@@ -155,8 +154,8 @@ class BaseInputFile(object):
 
 def _xyz2pdb(*lines):
     s = '{field:<6}{serial_number:>5d} {atom_name:^4}{alt_loc_indicator:<1}{res_name:<3} {chain_id:<1}{res_seq_number:>4d}{insert_code:<1}   {x_coord: >8.3f}{y_coord: >8.3f}{z_coord: >8.3f}{occupancy:>6.2f}{temp_factor:>6.2f}          {element_symbol:>2}{charge:>2}'
-    default = {'alt_loc_indicator': '', 'res_name': 'UNK', 'chain_id': '', 
-               'res_seq_number': 1, 'insert_code': '', 'occupancy': 1.0, 
+    default = {'alt_loc_indicator': '', 'res_name': 'UNK', 'chain_id': '',
+               'res_seq_number': 1, 'insert_code': '', 'occupancy': 1.0,
                'temp_factor': 0.0, 'charge': ''}
     pdb = ['TITLE unknown', 'MODEL 1']
     counter = defaultdict(int)
@@ -269,22 +268,22 @@ def render_with_pymol(path):
     pymol.cmd.refresh()
 
 
-def generate(path, output_filehandler=None, output_filename_template='supporting.md'):
+def generate(path, output_filehandler=None, output_filename_template='supporting.md',
+             cli_mode=False, image=True):
     inputfile = GaussianInputFile(path)
     inputfile.parse()
-    value_length = max(len(str(inputfile.data[k])) for k in 
+    value_length = max(len(str(inputfile.data[k])) for k in
                       ('stoichiometry', 'basis_functions', 'thermal_energy',
-                       'zeropoint_energy', 'enthalpy', 'free_energy', 
-                       'imaginary_frequencies', 'mean_of_electrons'))
+                       'zeropoint_energy', 'enthalpy', 'free_energy',
+                       'imaginary_frequencies', 'mean_of_electrons',
+                       'electronic_energy'))
 
     output = dedent(
         """
         # {name}
-
         """
-        + ("![{name}]({image})" if HAS_PYMOL else "") +
+        + ("\n![{name}]({image})\n" if HAS_PYMOL else "") +
         """
-
         __Relevant magnitudes__
 
         | Datum                                            | {header:{length}}   |
@@ -307,21 +306,22 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
 
         ***
 
-        """).format(name=inputfile.name, cartesians=inputfile.xyz_block, 
+        """).format(name=inputfile.name, cartesians=inputfile.xyz_block,
                     image=path + '.png', length=value_length,
                     sep='-'*value_length, header='Value', **inputfile.data)
-    
+
     if hasattr(output_filehandler, 'write'):
         output_filehandler.write(output)
     else:
         output_filename = new_filename(output_filename_template)
         with open(output_filename, 'w+') as md:
             md.write(output)
-    
+
     with open(path + '.xyz', 'w') as f:
         f.write(inputfile.xyz_block)
 
-    inputfile.render_with_pymol_server(output_path=path + '.png')
+    if image:
+        inputfile.render_with_pymol(output_path=path + '.png')
     return inputfile
 
 def main(paths=None, output_filename='supporting.md'):
