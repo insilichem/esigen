@@ -5,20 +5,36 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github.css') }}">
 </head>
 <body>
+<script src="http://nglviewer.org/ngl/js/ngl.js"></script>
 
 <div class="container">
       <div id="markup">
-        
+
 
 <h2>Supporting Information</h2>
-
+<script>
+</script>
 {% for molecule in molecules %}
     <article id="content" class="markdown-body">
     <h1>{{ molecule.name }}</h1>
-    <img src="{{ url_for('get_image', filename='{}/{}.png'.format(uuid, molecule.basename)) }}" title="{{ molecule.name }}" width=700 />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var stage = new NGL.Stage("viewport{{ loop.index }}");
+            stage.setParameters({ backgroundColor: 'white' })
+            window.stage = stage;
+            stage.loadFile("{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}", {ext: 'pdb'}).then(function (component) {
+                window.component = component;
+                // add a "cartoon" representation to the structure component
+                component.addRepresentation("ball+stick");
+                // provide a "good" view of the structure
+                component.autoView();
+            });
+        });
+    </script>
+    <div id="viewport{{ loop.index }}" style="width:700px; height:500px;"></div>
     <h2>Relevant magnitudes</h2>
 
-    <table id="relevantdata">
+    <table class="relevantdata">
     <tr>
         <th>Datum</th>
         <th>Value</th>

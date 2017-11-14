@@ -740,7 +740,7 @@ pre {
   box-shadow: inset 0 -1px 0 #bbb;
 }
 
-table#relevantdata td + td {
+table.relevantdata td + td {
     text-align: right;
     font-family: monospace, monospace;
 

@@ -13,7 +13,6 @@ import json
 from uuid import uuid4
 import datetime
 import shutil
-
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 
 import supporting
@@ -73,6 +72,11 @@ def upload_complete(uuid):
     paths = [os.path.join(root, fn)
              for fn in os.listdir(root) if os.path.splitext(fn)[1] in ('.qfi', '.out')]
     molecules = supporting.main(paths=paths, output_filename=root + '/supporting.md')
+
+    for molecule in molecules:
+        pdbpath = os.path.join(root, molecule.basename + '.pdb')
+        with open(pdbpath, 'w') as f:
+            f.write(molecule.pdb_block)
 
     return render_template("reports.html", uuid=uuid, molecules=molecules)
 
