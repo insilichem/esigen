@@ -20,7 +20,7 @@ from .core import main as supporting_main
 # logging.basicConfig()
 app = Flask(__name__)
 if 'DYNO' in os.environ:  # only trigger SSLify if the app is running on Heroku
-    app = SSLify(app)
+    sslify = SSLify(app)
 
 UPLOADS = "/tmp"
 
