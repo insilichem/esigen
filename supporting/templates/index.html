@@ -57,6 +57,7 @@ Dropzone.options.uploadForm = {
 
     this.on("queuecomplete", function(file) {
       if ( this.files[0].status == Dropzone.SUCCESS && this.getQueuedFiles().length <= 1 ) {
+        var url = "{{ url_for('upload_complete', uuid=uuid) }}";
         window.location = window.location.protocol + '//' + window.location.host + url;
       }
     });
