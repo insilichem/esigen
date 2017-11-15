@@ -23,7 +23,10 @@ import os
 import shutil
 import subprocess
 import sys
-from cStringIO import StringIO
+try:
+    from cStringIO import StringIO
+except ImportError:  # Python 3?
+    from io import StringIO
 from supporting.core import generate
 
 
@@ -34,7 +37,7 @@ def run(path, xyz=False, preview=True, width=300):
         HAS_PYMOL = True
     except ImportError:
         print('Install PyMOL to render images! With conda, use:\n'
-            '  conda install -c omnia -c egilliesix pymol libglu python=2.7')
+            '  conda install -c omnia -c egilliesix pymol libglu python=2.7', file=sys.stderr)
         HAS_PYMOL = False
     fd = StringIO()
     report = generate(path, output_filehandler=fd, image=preview)

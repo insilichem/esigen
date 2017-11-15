@@ -289,7 +289,7 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
         | Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |
         | Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |
         | Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |
-        | Mean of α and β Electrons                        | `{mean_of_electrons:>{length}}` |
+        | Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |
 
         __Molecular Geometry in Cartesian Coordinates__
 
@@ -301,6 +301,7 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
 
         """).format(name=inputfile.name, cartesians=inputfile.xyz_block,
                     image=path + '.png', length=value_length,
+                    a_and_b='a and b' if sys.version_info.major == 2 else 'α and β',
                     sep='-'*value_length, header='Value', **inputfile.data)
 
     if hasattr(output_filehandler, 'write'):
