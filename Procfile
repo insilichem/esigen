@@ -1,1 +1,1 @@
-web: gunicorn supporting.run:app --log-file -
+web: gunicorn supporting.run:app --preload --log-file -

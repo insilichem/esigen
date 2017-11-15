@@ -19,7 +19,7 @@ from .core import main as supporting_main
 
 # logging.basicConfig()
 app = Flask(__name__)
-if 'DYNO' in os.environ:  # only trigger SSLify if the app is running on Heroku
+if os.environ.get('IN_PRODUCTION'):  # only trigger SSLify if the app is running on Heroku
     sslify = SSLify(app)
 
 UPLOADS = "/tmp"
@@ -87,12 +87,6 @@ def upload_complete(uuid):
 @app.route('/images/<path:filename>')
 def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
-
-
-@app.before_request
-def before_request():
-    if not request.url.startswith('https'):
-        return redirect(request.url.replace('http', 'https', 1))
 
 
 def ajax_response(status, msg):
