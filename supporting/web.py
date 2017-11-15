@@ -14,11 +14,13 @@ from uuid import uuid4
 import datetime
 import shutil
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
-
+from flask_sslify import SSLify
 from .core import main as supporting_main
 
 # logging.basicConfig()
 app = Flask(__name__)
+if 'DYNO' in os.environ:  # only trigger SSLify if the app is running on Heroku
+    app = SSLify(app)
 
 UPLOADS = "/tmp"
 

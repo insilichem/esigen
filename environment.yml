@@ -6,4 +6,5 @@ dependencies:
   - apscheduler
   - cclib==1.4.1
   - flask
+  - flask-sslify
   - gunicorn
