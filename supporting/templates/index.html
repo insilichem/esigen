@@ -22,12 +22,13 @@
 <script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
 <script type="text/javascript">
 
-Dropzone.options.uploadForm = { 
+Dropzone.options.uploadForm = {
   autoProcessQueue: false,
   addRemoveLinks: true,
   maxFilesize: 20, // MB
   acceptedFiles: ".qfi,.out",
   createImageThumbnails: false,
+  dictCancelUpload: 'Cancel',
   dictDefaultMessage: "Drop your Gaussian output files (.qfi, .out) here",
     init: function() {
     var submitButton = document.querySelector("button#upload-btn")
@@ -38,7 +39,7 @@ Dropzone.options.uploadForm = {
       submitButton.innerText = 'Processing...';
     });
 
-    // You might want to show the submit button only when 
+    // You might want to show the submit button only when
     // files are dropped here:
     this.on("addedfile", function(file) {
       submitButton.style.display = 'block';
