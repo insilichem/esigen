@@ -89,6 +89,12 @@ def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
 
 
+@app.before_request
+def before_request():
+    if not request.url.startswith('https'):
+        return redirect(request.url.replace('http', 'https', 1))
+
+
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
     return json.dumps(dict(
