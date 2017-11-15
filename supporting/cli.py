@@ -17,17 +17,25 @@ Requires:
     - libcaca 0.99 (other versions might work too)
 """
 
-from __future__ import division, print_function
+from __future__ import division, print_function, absolute_import
 import argparse
 import os
 import shutil
 import subprocess
 import sys
 from cStringIO import StringIO
-from supporting import generate, HAS_PYMOL
+from supporting.core import generate
 
 
 def run(path, xyz=False, preview=True, width=300):
+    try:
+        import pymol
+        pymol.finish_launching(['pymol', '-qc'])
+        HAS_PYMOL = True
+    except ImportError:
+        print('Install PyMOL to render images! With conda, use:\n'
+            '  conda install -c omnia -c egilliesix pymol libglu python=2.7')
+        HAS_PYMOL = False
     fd = StringIO()
     report = generate(path, output_filehandler=fd, image=preview)
     fd.seek(0)

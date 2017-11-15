@@ -1,8 +1,11 @@
-import logging, atexit
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
+from __future__ import print_function, division, absolute_import
+import logging, atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from app import app, clean_uploads
+from supporting.web import app, clean_uploads
 
 
 def schedule():
@@ -19,15 +22,3 @@ def schedule():
 
 schedule()
 logging.basicConfig()
-
-
-
-
-
-
-
-
-
-
-
-

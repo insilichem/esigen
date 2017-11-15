@@ -7,7 +7,7 @@
 # By Jaime RGP <jaime@insilichem.com> @ 2016   #
 ################################################
 
-from __future__ import unicode_literals, print_function, division
+from __future__ import unicode_literals, print_function, division, absolute_import
 import os
 import json
 from uuid import uuid4
@@ -15,7 +15,7 @@ import datetime
 import shutil
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 
-import supporting
+from .core import main as supporting_main
 
 # logging.basicConfig()
 app = Flask(__name__)
@@ -71,7 +71,7 @@ def upload_complete(uuid):
 
     paths = [os.path.join(root, fn)
              for fn in os.listdir(root) if os.path.splitext(fn)[1] in ('.qfi', '.out')]
-    molecules = supporting.main(paths=paths, output_filename=root + '/supporting.md',
+    molecules = supporting_main(paths=paths, output_filename=root + '/supporting.md',
                                 image=False)
 
     for molecule in molecules:

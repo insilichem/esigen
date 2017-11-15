@@ -13,7 +13,7 @@ Generate supporting information for computational chemistry publications
 """
 
 # Stdlib
-from __future__ import division, print_function
+from __future__ import division, print_function, absolute_import
 import os
 import sys
 from collections import defaultdict
@@ -22,11 +22,6 @@ from textwrap import dedent
 import cclib
 from cclib.parser.data import ccData
 from cclib.parser.utils import convertor, PeriodicTable
-try:
-    import pymol
-    HAS_PYMOL = True
-except ImportError:
-    HAS_PYMOL = False
 
 
 PERIODIC_TABLE = PeriodicTable()
@@ -85,9 +80,7 @@ class BaseInputFile(object):
         return _xyz2pdb(*self._xyz_lines)
 
     def render_with_pymol(self, output_path=None, width=1200, **kwargs):
-        if not HAS_PYMOL:
-            print('PyMOL is required to render images!')
-            return
+        import pymol
         pymol.cmd.reinitialize()
         pymol.cmd.read_pdbstr(self.pdb_block, self.name)
         pymol.cmd.bg_color('white')
@@ -108,7 +101,7 @@ class BaseInputFile(object):
     def render_with_pymol_server(self, output_path=None, width=1200, **kwargs):
         if output_path is None:
             output_path = self.name + '.png'
-        from pymol_server import pymol_client
+        from ._pymol_server import pymol_client
         client = pymol_client()
         client.do('reinitialize')
         client.loadPDB(self.pdb_block, self.name)
@@ -251,6 +244,7 @@ def new_filename(path):
 
 
 def render_with_pymol(path):
+    import pymol
     pymol.cmd.reinitialize()
     name, _ = os.path.splitext(path)
     pymol.cmd.load(path)
@@ -281,7 +275,7 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
         """
         # {name}
         """
-        + ("\n![{name}]({image})\n" if HAS_PYMOL else "") +
+        + ("\n![{name}]({image})\n" if image else "") +
         """
         __Relevant magnitudes__
 
