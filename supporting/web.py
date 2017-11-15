@@ -59,7 +59,7 @@ def upload():
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("upload_complete", uuid=upload_key), _scheme='https')
+        return redirect(url_for("upload_complete", uuid=upload_key, _scheme='https'))
 
 
 @app.route("/reports/<uuid>")
