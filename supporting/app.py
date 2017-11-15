@@ -71,7 +71,8 @@ def upload_complete(uuid):
 
     paths = [os.path.join(root, fn)
              for fn in os.listdir(root) if os.path.splitext(fn)[1] in ('.qfi', '.out')]
-    molecules = supporting.main(paths=paths, output_filename=root + '/supporting.md')
+    molecules = supporting.main(paths=paths, output_filename=root + '/supporting.md',
+                                image=False)
 
     for molecule in molecules:
         pdbpath = os.path.join(root, molecule.basename + '.pdb')

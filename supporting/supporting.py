@@ -323,13 +323,15 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
         inputfile.render_with_pymol(output_path=path + '.png')
     return inputfile
 
-def main(paths=None, output_filename='supporting.md'):
+
+def main(paths=None, output_filename='supporting.md', image=True):
     if paths is None:
         paths = sys.argv[1:]
     molecules = []
     with open(new_filename(output_filename), 'w+') as filehandler:
         for path in paths:
-            molecule = generate(path, output_filehandler=filehandler)
+            molecule = generate(path, output_filehandler=filehandler,
+                                image=image)
             molecules.append(molecule)
     return molecules
 
