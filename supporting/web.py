@@ -19,7 +19,11 @@ from .core import main as supporting_main
 
 # logging.basicConfig()
 app = Flask(__name__)
-if os.environ.get('IN_PRODUCTION'):  # only trigger SSLify if the app is running on Heroku
+
+PRODUCTION = False
+if os.environ.get('IN_PRODUCTION'):
+    # only trigger SSLify if the app is running on Heroku
+    PRODUCTION = True
     sslify = SSLify(app)
 
 UPLOADS = "/tmp"
@@ -43,6 +47,8 @@ def upload():
     if form.get("__ajax", None) == "true":
         is_ajax = True
 
+    url_kwargs = dict(_external=True, _scheme='https') if PRODUCTION else {}
+
     # Target folder for these uploads.
     target = os.path.join(UPLOADS, upload_key)
     try:
@@ -58,8 +64,7 @@ def upload():
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("upload_complete", uuid=upload_key,
-                                _external=True, _scheme='https'))
+        return redirect(url_for("upload_complete", uuid=upload_key, **url_kwargs))
 
 
 @app.route("/reports/<uuid>")
@@ -81,7 +86,7 @@ def upload_complete(uuid):
         with open(pdbpath, 'w') as f:
             f.write(molecule.pdb_block)
 
-    return render_template("reports.html", uuid=uuid, molecules=molecules)
+    return render_template("reports.html", uuid=uuid, molecules=molecules, show_NAs=False)
 
 
 @app.route('/images/<path:filename>')
@@ -91,10 +96,7 @@ def get_image(filename):
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
-    return json.dumps(dict(
-        status=status_code,
-        msg=msg,
-    ))
+    return json.dumps(dict(status=status_code, msg=msg))
 
 
 def clean_uploads():
