@@ -65,8 +65,17 @@ def parse_args():
 
 
 def main():
+    try:
+        import pymol
+        pymol.finish_launching(['pymol', '-qc'])
+        HAS_PYMOL = True
+    except ImportError:
+        HAS_PYMOL = False
+        print('Install PyMOL to render images! With conda, use:\n'
+            '  conda install -c omnia -c egilliesix pymol libglu python=2.7', file=sys.stderr)
     args = parse_args()
     for path in args.paths:
+        run(path, xyz=args.xyz, preview=HAS_PYMOL and not args.nopreview, width=args.width,
             show_NAs=args.show_NAs)
 
 
