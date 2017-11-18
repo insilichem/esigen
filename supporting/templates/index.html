@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block head %}
+<script>
+if(performance.navigation.type == 2){
+  location.reload(true);
+}
+</script>
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dropzone.css') }}" />
 {% endblock %}
 

@@ -24,9 +24,13 @@ if os.environ.get('IN_PRODUCTION'):  # only trigger SSLify if the app is running
 
 UPLOADS = "/tmp"
 
+
 @app.route("/")
 def index():
-    return render_template("index.html", uuid= str(uuid4()))
+    uuid = str(uuid4())
+    while os.path.exists(os.path.join(UPLOADS, uuid)):
+        uuid = str(uuid4())
+    return render_template("index.html", uuid=uuid)
 
 
 @app.route("/upload", methods=["POST"])
@@ -44,12 +48,7 @@ def upload():
     try:
         os.mkdir(target)
     except:
-        if os.path.isdir(target):
-            pass
-        elif is_ajax:
-            return ajax_response(False, "Couldn't create upload directory: {}".format(target))
-        else:
-            return "Couldn't create upload directory: {}".format(target)
+        return redirect(url_for("index", **url_kwargs))
 
     for upload in request.files.getlist("file"):
         filename = upload.filename.rsplit("/")[0]
