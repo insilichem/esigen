@@ -262,7 +262,7 @@ def render_with_pymol(path):
 
 
 def generate(path, output_filehandler=None, output_filename_template='supporting.md',
-             cli_mode=False, image=True):
+             cli_mode=False, image=True, show_NAs=False):
     inputfile = GaussianInputFile(path)
     inputfile.parse()
     value_length = max(len(str(inputfile.data[k])) for k in
@@ -271,39 +271,48 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
                        'imaginary_frequencies', 'mean_of_electrons',
                        'electronic_energy'))
 
-    output = dedent(
-        """
-        # {name}
-        """
-        + ("\n![{name}]({image})\n" if image else "") +
-        """
-        __Relevant magnitudes__
-
-        | Datum                                            | {header:{length}}   |
-        |:-------------------------------------------------|---{sep}:|
-        | Stoichiometry                                    | `{stoichiometry:>{length}}` |
-        | Number of Basis Functions                        | `{basis_functions:>{length}}` |
-        | Electronic Energy (eV)                           | `{electronic_energy:>{length}}` |
-        | Sum of electronic and zero-point Energies (eV)   | `{zeropoint_energy:>{length}}` |
-        | Sum of electronic and thermal Energies (eV)      | `{thermal_energy:>{length}}` |
-        | Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |
-        | Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |
-        | Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |
-        | Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |
-
-        __Molecular Geometry in Cartesian Coordinates__
-
-        ```xyz
-        {cartesians}
-        ```
-
-        ***
-
-        """).format(name=inputfile.name, cartesians=inputfile.xyz_block,
-                    image=path + '.png', length=value_length,
-                    a_and_b='a and b' if sys.version_info.major == 2 else 'α and β',
-                    sep='-'*value_length, header='Value', **inputfile.data)
-
+    output = ['# {name}']
+    if image:
+        output.append("\n![{name}]({image})\n")
+    output.extend([
+        '__Relevant magnitudes__',
+        '',
+        '| Datum                                            | {header:{length}}   |',
+        '|:-------------------------------------------------|---{sep}:|'])
+    if show_NAs or inputfile.data['stoichiometry'] != 'N/A':
+        output.append('| Stoichiometry                                    | `{stoichiometry:>{length}}` |')
+    if show_NAs or inputfile.data['basis_functions'] != 'N/A':
+        output.append('| Number of Basis Functions                        | `{basis_functions:>{length}}` |')
+    if show_NAs or inputfile.data['electronic_energy'] != 'N/A':
+        output.append('| Electronic Energy (eV)                           | `{electronic_energy:>{length}}` |')
+    if show_NAs or inputfile.data['zeropoint_energy'] != 'N/A':
+        output.append('| Sum of electronic and zero-point Energies (eV)   | `{zeropoint_energy:>{length}}` |')
+    if show_NAs or inputfile.data['thermal_energy'] != 'N/A':
+        output.append('| Sum of electronic and thermal Energies (eV)      | `{thermal_energy:>{length}}` |')
+    if show_NAs or inputfile.data['enthalpy'] != 'N/A':
+        output.append('| Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |')
+    if show_NAs or inputfile.data['free_energy'] != 'N/A':
+        output.append('| Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |')
+    if show_NAs or inputfile.data['imaginary_frequencies'] != 'N/A':
+        output.append('| Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |')
+    if show_NAs or inputfile.data['mean_of_electrons'] != 'N/A':
+        output.append('| Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |')
+    output.extend([
+        '|:-------------------------------------------------|---{sep}:|',
+        '',
+        '__Molecular Geometry in Cartesian Coordinates__',
+        '',
+        '```xyz',
+        '{cartesians}',
+        '```',
+        '',
+        '***',
+        ])
+    output = '\n'.join(output).format(
+        name=inputfile.name, cartesians=inputfile.xyz_block,
+        image=path + '.png', length=value_length,
+        a_and_b='a and b' if sys.version_info.major == 2 else 'α and β',
+        sep='-'*value_length, header='Value', **inputfile.data)
     if hasattr(output_filehandler, 'write'):
         output_filehandler.write(output)
     else:
@@ -319,14 +328,14 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
     return inputfile
 
 
-def main(paths=None, output_filename='supporting.md', image=True):
+def main(paths=None, output_filename='supporting.md', image=True, show_NAs=False):
     if paths is None:
         paths = sys.argv[1:]
     molecules = []
     with open(new_filename(output_filename), 'w+') as filehandler:
         for path in paths:
             molecule = generate(path, output_filehandler=filehandler,
-                                image=image)
+                                image=image, show_NAs=show_NAs)
             molecules.append(molecule)
     return molecules
 
