@@ -13,7 +13,7 @@ def schedule():
     scheduler.start()
     scheduler.add_job(
         func=clean_uploads,
-        trigger=IntervalTrigger(hours=6),
+        trigger=IntervalTrigger(hours=1),
         id='clean_job',
         name='Clean upload files if older than interval',
         replace_existing=True)
