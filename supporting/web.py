@@ -89,6 +89,11 @@ def upload_complete(uuid):
     return render_template("reports.html", uuid=uuid, molecules=molecules, show_NAs=False)
 
 
+@app.route("/privacy_policy.html")
+def privacy_policy():
+    return render_template("privacy_policy.html")
+
+
 @app.route('/images/<path:filename>')
 def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
