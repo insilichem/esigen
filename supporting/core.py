@@ -96,41 +96,61 @@ class BaseInputFile(object):
         return render.view_with_chemview(self, **kwargs)
 
     # Report methods
-    def report(self, with_image=True):
+    def report(self, with_image=True, show_NAs=False):
         if not self.is_parsed:
             raise RuntimeError('File is not yet parsed!')
+        value_length = self._field_length()
+        output = ['# {name}']
+        image_path = None
         if with_image:
             image_path = self.render_with_pymol()
-        value_length = self._field_length()
-        output = dedent(
-        """
-        # {name}
-        """
-            + ("\n![{name}]({image})\n" if with_image else "") +
-        """
-        __Relevant magnitudes__
+            output.append("\n![{name}]({image})\n")
+        output.extend([
+            '__Relevant magnitudes__',
+            '',
+            '| Datum                                            | {header:{length}}   |',
+            '|:-------------------------------------------------|---{sep}:|'])
+        if show_NAs or self.data['stoichiometry'] != 'N/A':
+            output.append(
+                '| Stoichiometry                                    | `{stoichiometry:>{length}}` |')
+        if show_NAs or self.data['basis_functions'] != 'N/A':
+            output.append(
+                '| Number of Basis Functions                        | `{basis_functions:>{length}}` |')
+        if show_NAs or self.data['electronic_energy'] != 'N/A':
+            output.append(
+                '| Electronic Energy (eV)                           | `{electronic_energy:>{length}}` |')
+        if show_NAs or self.data['zeropoint_energy'] != 'N/A':
+            output.append(
+                '| Sum of electronic and zero-point Energies (eV)   | `{zeropoint_energy:>{length}}` |')
+        if show_NAs or self.data['thermal_energy'] != 'N/A':
+            output.append(
+                '| Sum of electronic and thermal Energies (eV)      | `{thermal_energy:>{length}}` |')
+        if show_NAs or self.data['enthalpy'] != 'N/A':
+            output.append(
+                '| Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |')
+        if show_NAs or self.data['free_energy'] != 'N/A':
+            output.append(
+                '| Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |')
+        if show_NAs or self.data['imaginary_frequencies'] != 'N/A':
+            output.append(
+                '| Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |')
+        if show_NAs or self.data['mean_of_electrons'] != 'N/A':
+            output.append(
+                '| Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |')
+        output.extend([
+            '|:-------------------------------------------------|---{sep}:|',
+            '',
+            '__Molecular Geometry in Cartesian Coordinates__',
+            '',
+            '```xyz',
+            '{cartesians}',
+            '```',
+            '',
+            '***',
+        ])
 
-        | Datum                                            | {header:{length}}   |
-        |:-------------------------------------------------|---{sep}:|
-        | Stoichiometry                                    | `{stoichiometry:>{length}}` |
-        | Number of Basis Functions                        | `{basis_functions:>{length}}` |
-        | Electronic Energy (eV)                           | `{electronic_energy:>{length}}` |
-        | Sum of electronic and zero-point Energies (eV)   | `{zeropoint_energy:>{length}}` |
-        | Sum of electronic and thermal Energies (eV)      | `{thermal_energy:>{length}}` |
-        | Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |
-        | Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |
-        | Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |
-        | Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |
 
-        __Molecular Geometry in Cartesian Coordinates__
-
-        ```xyz
-        {cartesians}
-        ```
-
-        ***
-
-        """).format(name=self.name, cartesians=self.xyz_block,
+        output = '\n'.join(output).format(name=self.name, cartesians=self.xyz_block,
                     image=image_path, length=value_length,
                     a_and_b='a and b' if sys.version_info.major == 2 else 'α and β',
                     sep='-' * value_length, header='Value', **self.data)
@@ -154,11 +174,11 @@ class BaseInputFile(object):
 
 
 def generate(path, output_filehandler=None, output_filename_template='supporting.md',
-             cli_mode=False, image=True):
+             cli_mode=False, image=True, show_NAs=False):
     from .io import GaussianInputFile
     inputfile = GaussianInputFile(path)
     inputfile.parse()
-    output = inputfile.report()
+    output = inputfile.report(with_image=image, show_NAs=show_NAs)
 
     if hasattr(output_filehandler, 'write'):
         output_filehandler.write(output)
@@ -170,21 +190,14 @@ def generate(path, output_filehandler=None, output_filename_template='supporting
     with open(path + '.xyz', 'w') as f:
         f.write(inputfile.xyz_block)
 
-    if image:
-        inputfile.render_with_pymol(output_path=path + '.png')
     return inputfile
 
 
-def main(paths=None, output_filename='supporting.md', image=True):
-    if paths is None:
-        paths = sys.argv[1:]
+def main(paths, output_filename='supporting.md', image=True, show_NAs=False):
     molecules = []
     with open(new_filename(output_filename), 'w+') as filehandler:
         for path in paths:
             molecule = generate(path, output_filehandler=filehandler,
-                                image=image)
+                                image=image, show_NAs=show_NAs)
             molecules.append(molecule)
     return molecules
-
-if __name__ == '__main__':
-    main()

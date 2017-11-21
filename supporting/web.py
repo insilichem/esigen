@@ -19,14 +19,22 @@ from .core import main as supporting_main
 
 # logging.basicConfig()
 app = Flask(__name__)
-if os.environ.get('IN_PRODUCTION'):  # only trigger SSLify if the app is running on Heroku
+
+PRODUCTION = False
+if os.environ.get('IN_PRODUCTION'):
+    # only trigger SSLify if the app is running on Heroku
+    PRODUCTION = True
     sslify = SSLify(app)
 
 UPLOADS = "/tmp"
 
+
 @app.route("/")
 def index():
-    return render_template("index.html", uuid= str(uuid4()))
+    uuid = str(uuid4())
+    while os.path.exists(os.path.join(UPLOADS, uuid)):
+        uuid = str(uuid4())
+    return render_template("index.html", uuid=uuid)
 
 
 @app.route("/upload", methods=["POST"])
@@ -39,17 +47,14 @@ def upload():
     if form.get("__ajax", None) == "true":
         is_ajax = True
 
+    url_kwargs = dict(_external=True, _scheme='https') if PRODUCTION else {}
+
     # Target folder for these uploads.
     target = os.path.join(UPLOADS, upload_key)
     try:
         os.mkdir(target)
     except:
-        if os.path.isdir(target):
-            pass
-        elif is_ajax:
-            return ajax_response(False, "Couldn't create upload directory: {}".format(target))
-        else:
-            return "Couldn't create upload directory: {}".format(target)
+        return redirect(url_for("index", **url_kwargs))
 
     for upload in request.files.getlist("file"):
         filename = upload.filename.rsplit("/")[0]
@@ -59,12 +64,11 @@ def upload():
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("upload_complete", uuid=upload_key,
-                                _external=True, _scheme='https'))
+        return redirect(url_for("report", uuid=upload_key, **url_kwargs))
 
 
-@app.route("/reports/<uuid>")
-def upload_complete(uuid):
+@app.route("/report/<uuid>")
+def report(uuid):
     """The location we send them to at the end of the upload."""
 
     # Get their reports.
@@ -73,8 +77,9 @@ def upload_complete(uuid):
         return "Error: UUID not found!"
 
     paths = [os.path.join(root, fn)
-             for fn in os.listdir(root) if os.path.splitext(fn)[1] in ('.qfi', '.out')]
-    molecules = supporting_main(paths=paths, output_filename=root + '/supporting.md',
+             for fn in sorted(os.listdir(root))
+             if os.path.splitext(fn)[1] in ('.qfi', '.out')]
+    molecules = supporting_main(paths, output_filename=root + '/supporting.md',
                                 image=False)
 
     for molecule in molecules:
@@ -82,7 +87,12 @@ def upload_complete(uuid):
         with open(pdbpath, 'w') as f:
             f.write(molecule.pdb_block)
 
-    return render_template("reports.html", uuid=uuid, molecules=molecules)
+    return render_template("report.html", uuid=uuid, molecules=molecules, show_NAs=True)
+
+
+@app.route("/privacy_policy.html")
+def privacy_policy():
+    return render_template("privacy_policy.html")
 
 
 @app.route('/images/<path:filename>')
@@ -92,20 +102,17 @@ def get_image(filename):
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
-    return json.dumps(dict(
-        status=status_code,
-        msg=msg,
-    ))
+    return json.dumps(dict(status=status_code, msg=msg))
 
 
 def clean_uploads():
     for uuid in os.listdir(UPLOADS):
         path = os.path.join(UPLOADS, uuid)
-        delta = datetime.datetime.now() - modification_date(path)
-        if delta > datetime.timedelta(days=1):
+        delta = datetime.datetime.now() - _modification_date(path)
+        if delta > datetime.timedelta(hours=1):
             shutil.rmtree(path)
 
 
-def modification_date(filename):
+def _modification_date(filename):
     t = os.path.getmtime(filename)
     return datetime.datetime.fromtimestamp(t)

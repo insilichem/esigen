@@ -14,6 +14,7 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie9.css') }}" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="{{ url_for('static', filename='css/ie8.css') }}" /><![endif]-->
 		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css') }}" /></noscript>
+		<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 		{% block head %}{% endblock %}
 	</head>
 	<body class="is-loading">
@@ -34,7 +35,9 @@
 				<!-- Footer -->
 					<footer id="footer">
 						<ul class="copyright">
-							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li><li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
+							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li>
+							<li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
+							<li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
 						</ul>
 					</footer>
 

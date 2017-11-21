@@ -44,7 +44,7 @@ def render_with_pymol(parsed_file, output_path=None, width=1200, **kwargs):
     pymol.cmd.color('grey', 'symbol C')
     pymol.cmd.label('not symbol C+H+O+N+P+S', 'name')
     if output_path is None:
-        output_path = parsed_file.name + '.png'
+        output_path = parsed_file.path + '.png'
     pymol.cmd.png(output_path, width, ray=1, quiet=2, **kwargs)
     pymol.cmd.refresh()
     pymol.cmd.sync(2.5)
@@ -53,7 +53,7 @@ def render_with_pymol(parsed_file, output_path=None, width=1200, **kwargs):
 
 def render_with_pymol_server(parsed_file, output_path=None, width=1200, **kwargs):
     if output_path is None:
-        output_path = parsed_file.name + '.png'
+        output_path = parsed_file.path + '.png'
     from ._pymol_server import pymol_client
     client = pymol_client()
     client.do('reinitialize')
@@ -71,6 +71,7 @@ def render_with_pymol_server(parsed_file, output_path=None, width=1200, **kwargs
     client.do('refresh')
     client.do('cmd.sync()')
     return output_path
+
 
 def view_with_nglview(parsed_file, **kwargs):
     import nglview as nv
