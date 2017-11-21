@@ -108,7 +108,7 @@ def clean_uploads():
     for uuid in os.listdir(UPLOADS):
         path = os.path.join(UPLOADS, uuid)
         delta = datetime.datetime.now() - modification_date(path)
-        if delta > datetime.timedelta(days=1):
+        if delta > datetime.timedelta(hours=1):
             shutil.rmtree(path)
 
 
