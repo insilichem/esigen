@@ -10,7 +10,7 @@
 <script>
 function AddNGLWidget(index, moleculeUrl) {
     var stage = new NGL.Stage("viewport"+index);
-    stage.setParameters({ backgroundColor: 'white' })
+    stage.setParameters({ backgroundColor: 'white', fogFar: 100, fogNear:100 })
     stage.loadFile(moleculeUrl, {ext: 'pdb'}).then(function (component) {
         var sele = 'not (_C or _H or _N or _O)';
         component.addRepresentation("cartoon");  // for proteins
