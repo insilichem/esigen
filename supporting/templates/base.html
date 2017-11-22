@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>{% if title %}{{ title }} - {% endif %}Supporting Information Generator</title>
+		<title>{% if title %}{{ title }} - {% endif %}InsiliChem ESIGen - Supporting Information Generator</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script><![endif]-->
@@ -34,7 +34,8 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<span>Brought to you by <a href="http://www.insilichem.com" target="_blank">InsiliChem</a>, Maréchal's Group</span>
+						<span>Brought to you by <a href="http://www.insilichem.com" target="_blank">InsiliChem</a>, Maréchal's Group
+						{% if 'HEROKU_RELEASE_VERSION' in env %} | {{ env['HEROKU_RELEASE_VERSION'] }}{% endif %}</span>
 						<ul class="copyright">
 							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li>
 							<li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
