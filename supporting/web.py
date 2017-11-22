@@ -14,10 +14,10 @@ from uuid import uuid4
 import datetime
 import shutil
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
+from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
 from .core import main as supporting_main
 
-# logging.basicConfig()
 app = Flask(__name__)
 
 PRODUCTION = False
@@ -28,13 +28,23 @@ if os.environ.get('IN_PRODUCTION'):
 
 UPLOADS = "/tmp"
 
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+app.jinja_env.globals['MAX_CONTENT_LENGTH'] = 50
+app.config['PRODUCTION'] = PRODUCTION
+app.config['UPLOADS'] = UPLOADS
+app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
+app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
+ALLOWED_EXTENSIONS = ('.qfi', '.out')
+URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
+
 
 @app.route("/")
 def index():
+    message = str(request.args.get('message', ''))[:100]
     uuid = str(uuid4())
     while os.path.exists(os.path.join(UPLOADS, uuid)):
         uuid = str(uuid4())
-    return render_template("index.html", env=os.environ.copy(), uuid=uuid)
+    return render_template("index.html", uuid=uuid, message=message)
 
 
 @app.route("/upload", methods=["POST"])
@@ -47,24 +57,23 @@ def upload():
     if form.get("__ajax", None) == "true":
         is_ajax = True
 
-    url_kwargs = dict(_external=True, _scheme='https') if PRODUCTION else {}
-
     # Target folder for these uploads.
     target = os.path.join(UPLOADS, upload_key)
     try:
-        os.mkdir(target)
-    except:
-        return redirect(url_for("index", **url_kwargs))
+        os.makedirs(target)
+    except Exception as e:
+        if not isinstance(e, OSError):
+            return redirect(url_for("index", **URL_KWARGS))
 
-    for upload in request.files.getlist("file"):
-        filename = upload.filename.rsplit("/")[0]
-        destination = "/".join([target, filename])
+    for upload in allowed_filename(*request.files.getlist("file")):
+        filename = secure_filename(upload.filename).rsplit("/")[0]
+        destination = os.path.join(target, filename)
         upload.save(destination)
 
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("upload_complete", uuid=upload_key, **url_kwargs))
+        return redirect(url_for("upload_complete", uuid=upload_key, **URL_KWARGS))
 
 
 @app.route("/reports/<uuid>")
@@ -77,7 +86,10 @@ def upload_complete(uuid):
         return "Error: UUID not found!"
 
     paths = [os.path.join(root, fn)
-             for fn in os.listdir(root) if os.path.splitext(fn)[1] in ('.qfi', '.out')]
+             for fn in os.listdir(root) if os.path.splitext(fn)[1] in ALLOWED_EXTENSIONS]
+    if not paths:
+        return redirect(url_for('index', message='No files were uploaded! Try again',
+                                **URL_KWARGS))
     molecules = supporting_main(paths=paths, output_filename=root + '/supporting.md',
                                 image=False)
 
@@ -115,3 +127,10 @@ def clean_uploads():
 def modification_date(filename):
     t = os.path.getmtime(filename)
     return datetime.datetime.fromtimestamp(t)
+
+
+def allowed_filename(*filenames):
+    for filename in filenames:
+        fn = filename.filename
+        if '.' in fn and os.path.splitext(fn)[1].lower() in ALLOWED_EXTENSIONS:
+            yield filename

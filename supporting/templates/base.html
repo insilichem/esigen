@@ -21,12 +21,14 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
+				{% block message %}
+				{% endblock%}
 				<!-- Main -->
 					<section id="main">
 						<p>Sponsored by ...</p>
 						{% block content %}
 						{% endblock %}
+
 						<footer>
 							{% block content_footer %}
 							{% endblock %}
@@ -35,12 +37,13 @@
 
 				<!-- Footer -->
 					<footer id="footer">
+						<p class="small">Les bons outils font les bons ouvriers</p>
 						<span>Brought to you by <a href="http://www.insilichem.com" target="_blank">InsiliChem</a>, Maréchal's Group
-						{% if 'HEROKU_RELEASE_VERSION' in env %} | {{ env['HEROKU_RELEASE_VERSION'] }}{% endif %}</span>
+						{% if HEROKU_RELEASE_VERSION%} | {{ HEROKU_RELEASE_VERSION }}{% endif %}</span>
 						<ul class="copyright">
 							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li>
 							<li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
-							{% if 'IN_PRODUCTION' in env %}
+							{% if IN_PRODUCTION %}
 							<li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
 							 {% endif %}
 						</ul>
@@ -57,7 +60,7 @@
 				}
 			</script>
 		{% block morejs %}{% endblock %}
-		{% if 'IN_PRODUCTION' in env %}
+		{% if IN_PRODUCTION %}
 		<!--Global site tag(gtag.js) - Google Analytics-->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75978749-2"></script>
 		<script>
