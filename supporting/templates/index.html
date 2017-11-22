@@ -10,17 +10,21 @@ if(performance.navigation.type == 2){
 {% endblock %}
 
 {% block content %}
-<h1>Supporting Information Generator</h1>
+<p>
+  <img src="{{ url_for('static', filename='favicon.png') }}" />
+</p>
+<h1>InsiliChem ESI<br />Supporting Information Generator</h1>
 
 <form class="dropzone" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
     <input name="upload_key" type="hidden" value="{{ uuid }}" />
 <div class="fallback">
-    <h3>Choose your Gaussian output files (.qfi, .out)</h3>
+    <h3>Choose your Gaussian* output files (.qfi, .out)</h3>
     <p><input name="file" type="file" multiple /></p>
     <p><input class="btn" type="submit" value="Upload!" id="upload-button"></p>
 </div>
 </form>
 <p align="center"><button id="upload-btn" style="display: none">Process!</button></p>
+<span class="small">* More formats to come</span>
 {% endblock %}
 
 {% block morejs %}
@@ -34,7 +38,7 @@ Dropzone.options.uploadForm = {
   acceptedFiles: ".qfi,.out",
   createImageThumbnails: false,
   dictCancelUpload: 'Cancel',
-  dictDefaultMessage: "Drop your Gaussian output files here",
+  dictDefaultMessage: "Drop your Gaussian* output files here",
     init: function() {
     var submitButton = document.querySelector("button#upload-btn")
     myDropzone = this; // closure
