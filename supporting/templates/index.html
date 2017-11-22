@@ -42,7 +42,7 @@ if(performance.navigation.type == 2){
 Dropzone.options.uploadForm = {
   autoProcessQueue: false,
   addRemoveLinks: true,
-  maxFilesize: {{ MAX_CONTENT_LENGTH }} / 5, // MB
+  maxFilesize: {{ MAX_CONTENT_LENGTH }}, // MB
   maxFiles: 5,
   parallelUploads: 5,
   acceptedFiles: ".qfi,.out",
