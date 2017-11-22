@@ -672,7 +672,7 @@
 		position: relative;
 		max-width: 100%;
 		min-width: 27em;
-		padding: 4.5em 3em 3em 3em ;
+		padding: 3em ;
 		background: #ffffff;
 		border-radius: 4px;
 		cursor: default;
@@ -701,8 +701,9 @@
 			#main .avatar img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 100%;
-				box-shadow: 0 0 0 1.5em #ffffff;
+				background-color: #ffffff;
+				border-left: 1.5em solid #ffffff;
+				border-right: 1.5em solid #ffffff;
 			}
 
 			#main .avatar:before {
