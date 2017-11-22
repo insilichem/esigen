@@ -39,7 +39,9 @@
 						<ul class="copyright">
 							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li>
 							<li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
+							{% if 'IN_PRODUCTION' in env %}
 							<li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+							 {% endif %}
 						</ul>
 					</footer>
 
@@ -54,5 +56,15 @@
 				}
 			</script>
 		{% block morejs %}{% endblock %}
+		{% if 'IN_PRODUCTION' in env %}
+		< !--Global site tag(gtag.js) - Google Analytics-->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75978749-2"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', 'UA-75978749-2');
+		</script>
+		{% endif %}
 	</body>
 </html>
