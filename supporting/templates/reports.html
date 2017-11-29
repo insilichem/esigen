@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ESIGen - Supporting Information Generator</title>
+<title>ESIgen - Supporting Information Generator</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github.css') }}">
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
@@ -48,7 +48,7 @@ function AddNGLWidget(index, moleculeUrl) {
         {% for molecule in molecules %}
             <article id="content" class="markdown-body">
             <h1>{{ molecule.name }}</h1>
-            <div id="viewport{{ loop.index }}" style="width:800px; height:500px;"></div>
+            <div id="viewport{{ loop.index }}" class="ngl-viewport"></div>
             <script>
                 document.addEventListener("DOMContentLoaded", AddNGLWidget("{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
             </script>
