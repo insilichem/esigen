@@ -832,3 +832,27 @@
 .message {
 	color: #ffffff;
 }
+
+#disclaimer {
+	margin: 3em 0 1em 0;
+	padding: 1em;
+	position: relative;
+	width: 60%;
+	max-width: 100%;
+	min-width: 27em;
+	background: #e7b3b3;
+	border-radius: 4px;
+	cursor: default;
+	text-align: center;
+	color: #800000;
+}
+		@media screen and (max-width: 480px) {
+
+			#disclaimer {
+				min-width: 0;
+				max-width: 100%;
+				width: 100%;
+				padding: 0.5em ;
+			}
+
+		}

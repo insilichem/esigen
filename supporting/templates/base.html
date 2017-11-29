@@ -35,6 +35,11 @@
 						</footer>
 					</section>
 
+					{% if IN_PRODUCTION %}
+					<section id="disclaimer">
+						You are using a demo version of ESIgen. Your results and uploaded files will be deleted after one hour!
+					</section>
+					{% endif %}
 				<!-- Footer -->
 					<footer id="footer">
 						<p class="small">Les bons outils font les bons ouvriers</p>
