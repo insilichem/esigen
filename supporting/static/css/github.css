@@ -751,3 +751,60 @@ table.relevantdata td + td {
   height: 30em;
 }
 
+/* Format page for print-ready version */
+@media print {
+    html,
+    body,
+    section {
+        background: none !important
+    }
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+        -ms-filter: none !important
+    }
+    a,
+    a:visited {
+        text-decoration: underline
+    }
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: ""
+    }
+    pre,
+    blockquote {
+        page-break-inside: avoid
+    }
+    thead {
+        display: table-header-group
+    }
+    tr,
+    img {
+        page-break-inside: avoid
+    }
+    img {
+        max-width: 100% !important
+    }
+    @page {
+        margin: 1.5cm 1cm 1cm 1.5cm;
+    }
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3
+    }
+    h1,
+    h2,
+    h3 {
+        page-break-after: avoid
+    }
+    div.cartesian {
+      page-break-inside: avoid
+    }
+    .hide-on-print {
+      display: none;
+    }
+}

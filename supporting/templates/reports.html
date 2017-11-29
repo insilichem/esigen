@@ -114,18 +114,20 @@ function AddNGLWidget(index, moleculeUrl) {
             {% endif %}
             </table>
 
+            <div class="cartesian">
             <h2>Molecular Geometry in Cartesian Coordinates</h2>
                 <pre>{{ molecule.xyz_block }}</pre>
+            </div>
             <hr />
             </article>
         {% endfor %}
 
         <div id="footer">
-            <p id="footer-tools">
-                <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a>
+            <p class="hide-on-print">
+                <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a> · <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
             </p>
             <p align="center">
-                Generated automatically with <a href="https://github.com/insilichem/supporting" target="_blank">insilichem/supporting</a> | <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
+                Generated automatically with <a href="https://github.com/insilichem/supporting" target="_blank">insilichem/supporting</a>
             </p>
         </div>
     </div>
