@@ -745,3 +745,9 @@ table.relevantdata td + td {
     font-family: monospace, monospace;
 
 }
+
+.ngl-viewport {
+  width: 100%;
+  height: 30em;
+}
+
