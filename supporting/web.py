@@ -34,7 +34,7 @@ app.config['PRODUCTION'] = PRODUCTION
 app.config['UPLOADS'] = UPLOADS
 app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
 app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
-ALLOWED_EXTENSIONS = ('.qfi', '.out')
+ALLOWED_EXTENSIONS = ('.qfi', '.out', '.log')
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
 
 
