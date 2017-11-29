@@ -18,7 +18,8 @@ if(performance.navigation.type == 2){
 <div class="avatar">
   <img src="{{ url_for('static', filename='favicon.png') }}" />
 </div>
-<h1>InsiliChem ESIGen<br />Supporting Information Generator</h1>
+<h1>ESIGen</h1>
+<h2>Supporting Information Generator</h2>
 <form class="dropzone" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
     <input name="upload_key" type="hidden" value="{{ uuid }}" />
 <div class="fallback">
