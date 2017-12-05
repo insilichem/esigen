@@ -7,4 +7,5 @@ dependencies:
   - cclib==1.4.1
   - flask
   - flask-sslify
+  - markdown
   - gunicorn

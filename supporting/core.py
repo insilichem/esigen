@@ -18,23 +18,30 @@ import os
 import sys
 from collections import defaultdict
 from textwrap import dedent
+from itertools import chain
 # 3rd party
 import cclib
 from cclib.parser.data import ccData
 from cclib.parser.utils import convertor, PeriodicTable
+from markdown import markdown
+from jinja2 import PackageLoader
+from jinja2.sandbox import SandboxedEnvironment as Environment
+from jinja2.meta import find_undeclared_variables
 # Own
 from . import render
 from .utils import new_filename, _xyz2pdb
 
 PERIODIC_TABLE = PeriodicTable()
+__here__ = os.path.abspath(os.path.dirname(__file__))
 
 
 class BaseInputFile(object):
 
-    SUPPORTED_KEYS = ['stoichiometry', 'basis_functions', 'electronic_energy',
-                      'thermal_energy', 'zeropoint_energy', 'enthalpy',
-                      'free_energy', 'imaginary_frequencies', 'mean_of_electrons',
-                      'atomic_numbers', 'atoms', 'coordinates']
+    SCALAR_FIELDS = ['stoichiometry', 'basis_functions', 'electronic_energy',
+                     'thermal_energy', 'zeropoint_energy', 'enthalpy',
+                     'free_energy', 'imaginary_frequencies', 'mean_of_electrons']
+    ARRAY_FIELDS = ['atomic_numbers', 'atoms', 'coordinates']
+    SUPPORTED_KEYS = SCALAR_FIELDS + ARRAY_FIELDS
 
     def __init__(self, path):
         if not os.path.isfile(path):
@@ -42,7 +49,9 @@ class BaseInputFile(object):
         self.path = path
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.basename = os.path.basename(path)
-        self.data = {k: 'N/A' for k in self.SUPPORTED_KEYS}
+        self.data = self.parse()
+        self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
+                                     loader=PackageLoader('supporting', 'templates/reports'))
         self._parsed = False
 
     def __getitem__(self, key):
@@ -95,109 +104,23 @@ class BaseInputFile(object):
     def view_with_chemview(self, **kwargs):
         return render.view_with_chemview(self, **kwargs)
 
-    # Report methods
-    def report(self, with_image=True, show_NAs=False):
-        if not self.is_parsed:
-            raise RuntimeError('File is not yet parsed!')
-        value_length = self._field_length()
-        output = ['# {name}']
-        image_path = None
-        if with_image:
-            image_path = self.render_with_pymol()
-            output.append("\n![{name}]({image})\n")
-        output.extend([
-            '__Relevant magnitudes__',
-            '',
-            '| Datum                                            | {header:{length}}   |',
-            '|:-------------------------------------------------|---{sep}:|'])
-        if show_NAs or self.data['stoichiometry'] != 'N/A':
-            output.append(
-                '| Stoichiometry                                    | `{stoichiometry:>{length}}` |')
-        if show_NAs or self.data['basis_functions'] != 'N/A':
-            output.append(
-                '| Number of Basis Functions                        | `{basis_functions:>{length}}` |')
-        if show_NAs or self.data['electronic_energy'] != 'N/A':
-            output.append(
-                '| Electronic Energy (eV)                           | `{electronic_energy:>{length}}` |')
-        if show_NAs or self.data['zeropoint_energy'] != 'N/A':
-            output.append(
-                '| Sum of electronic and zero-point Energies (eV)   | `{zeropoint_energy:>{length}}` |')
-        if show_NAs or self.data['thermal_energy'] != 'N/A':
-            output.append(
-                '| Sum of electronic and thermal Energies (eV)      | `{thermal_energy:>{length}}` |')
-        if show_NAs or self.data['enthalpy'] != 'N/A':
-            output.append(
-                '| Sum of electronic and thermal Enthalpies (eV)    | `{enthalpy:>{length}}` |')
-        if show_NAs or self.data['free_energy'] != 'N/A':
-            output.append(
-                '| Sum of electronic and thermal Free Energies (eV) | `{free_energy:>{length}}` |')
-        if show_NAs or self.data['imaginary_frequencies'] != 'N/A':
-            output.append(
-                '| Number of Imaginary Frequencies                  | `{imaginary_frequencies:>{length}}` |')
-        if show_NAs or self.data['mean_of_electrons'] != 'N/A':
-            output.append(
-                '| Mean of {a_and_b} Electrons                        | `{mean_of_electrons:>{length}}` |')
-        output.extend([
-            '|:-------------------------------------------------|---{sep}:|',
-            '',
-            '__Molecular Geometry in Cartesian Coordinates__',
-            '',
-            '```xyz',
-            '{cartesians}',
-            '```',
-            '',
-            '***',
-        ])
-
-
-        output = '\n'.join(output).format(name=self.name, cartesians=self.xyz_block,
-                    image=image_path, length=value_length,
-                    a_and_b='a and b' if sys.version_info.major == 2 else 'α and β',
-                    sep='-' * value_length, header='Value', **self.data)
-
-        return output
-
-    def report_with_template(self, template):
+    def report(self, template='default.md', process_markdown=False, show_NAs=True, preview=True):
         """
         Generate a report from a Jinja template
         """
         if not self.is_parsed:
             raise RuntimeError('File is not yet parsed!')
-        return template.format(**self.data)
+        t = self.jinja_env.get_template(template)
+        image = None
+        if preview:
+            with open(t.filename) as f:
+                ast = self.jinja_env.parse(f.read())
+            if 'image' in find_undeclared_variables(ast):
+                image = self.render_with_pymol()
 
-    def _field_length(self):
-        return max(len(str(self.data[k])) for k in
-                           ('stoichiometry', 'basis_functions', 'thermal_energy',
-                           'zeropoint_energy', 'enthalpy', 'free_energy',
-                           'imaginary_frequencies', 'mean_of_electrons',
-                           'electronic_energy'))
-
-
-def generate(path, output_filehandler=None, output_filename_template='supporting.md',
-             cli_mode=False, image=True, show_NAs=False):
-    from .io import GaussianInputFile
-    inputfile = GaussianInputFile(path)
-    inputfile.parse()
-    output = inputfile.report(with_image=image, show_NAs=show_NAs)
-
-    if hasattr(output_filehandler, 'write'):
-        output_filehandler.write(output)
-    else:
-        output_filename = new_filename(output_filename_template)
-        with open(output_filename, 'w+') as md:
-            md.write(output)
-
-    with open(path + '.xyz', 'w') as f:
-        f.write(inputfile.xyz_block)
-
-    return inputfile
-
-
-def main(paths, output_filename='supporting.md', image=True, show_NAs=False):
-    molecules = []
-    with open(new_filename(output_filename), 'w+') as filehandler:
-        for path in paths:
-            molecule = generate(path, output_filehandler=filehandler,
-                                image=image, show_NAs=show_NAs)
-            molecules.append(molecule)
-    return molecules
+        rendered = t.render(show_NAs=show_NAs, cartesians=self.cartesians,
+                            name=self.name, image=image, preview=preview, **self.data)
+        if process_markdown or os.environ.get('IN_PRODUCTION'):
+            return markdown(rendered, extensions=['markdown.extensions.tables',
+                                                  'markdown.extensions.fenced_code'])
+        return rendered
