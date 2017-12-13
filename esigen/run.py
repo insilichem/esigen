@@ -5,7 +5,7 @@ from __future__ import print_function, division, absolute_import
 import logging, atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
-from supporting.web import app, clean_uploads
+from esigen.web import app, clean_uploads
 
 
 def schedule():

@@ -1,4 +1,4 @@
-# Insilichem ESI: Supporting information generator
+# ESIgen: Supporting information generator
 
 Automatically generate supporting information documents for your Chemistry publications.
 
@@ -10,7 +10,7 @@ Visit http://esi.insilichem.com and submit your Gaussian outputs there. This is 
 
 If you need to process a lot of files or are worried about your privacy, we recommend using it locally.
 
-1. Download and unzip [this repository](https://github.com/insilichem/supporting)
+1. Download and unzip [this repository](https://github.com/insilichem/esigen)
 2. Download [Miniconda](https://conda.io/miniconda.html)
 3. Create a new conda environment and activate it
 4. Enter the repo directory and run `python runserver.py`
@@ -18,11 +18,11 @@ If you need to process a lot of files or are worried about your privacy, we reco
 For Linux, this roughly translates to:
 
 ```
-wget https://github.com/insilichem/supporting/archive/master.zip && unzip master.zip
+wget https://github.com/insilichem/esigen/archive/master.zip && unzip master.zip
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda*.sh
-conda env create -f supporting-master/environment.yml # or environment-pymol.yml if you need CLI image rendering (not web)
-source activate supporting
-cd supporting-master
+conda env create -f esigen-master/environment.yml # or environment-pymol.yml if you need CLI image rendering (not web)
+source activate esigen
+cd esigen-master
 python runserver.py
 ```
 

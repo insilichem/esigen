@@ -1,4 +1,4 @@
-name: supporting
+name: esigen
 dependencies:
 - nomkl
 - numpy

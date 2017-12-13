@@ -51,7 +51,7 @@ class BaseInputFile(object):
         self.basename = os.path.basename(path)
         self.data = self.parse()
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
-                                     loader=PackageLoader('supporting', 'templates/reports'))
+                                     loader=PackageLoader('esigen', 'templates/reports'))
         self._parsed = False
 
     def __getitem__(self, key):

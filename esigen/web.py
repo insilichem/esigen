@@ -15,7 +15,7 @@ import datetime
 import shutil
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from flask_sslify import SSLify
-from .core import main as supporting_main
+from esigen.io import GaussianInputFile
 
 # logging.basicConfig()
 app = Flask(__name__)
@@ -76,16 +76,15 @@ def report(uuid):
     if not os.path.isdir(root):
         return "Error: UUID not found!"
 
-    paths = [os.path.join(root, fn)
-             for fn in sorted(os.listdir(root))
-             if os.path.splitext(fn)[1] in ('.qfi', '.out')]
-    molecules = supporting_main(paths, output_filename=root + '/supporting.md',
-                                image=False)
-
-    for molecule in molecules:
-        pdbpath = os.path.join(root, molecule.basename + '.pdb')
-        with open(pdbpath, 'w') as f:
-            f.write(molecule.pdb_block)
+    molecules = []
+    for fn in sorted(os.listdir(root)):
+        if os.path.splitext(fn)[1] in ('.qfi', '.out'):
+            path = os.path.join(root, fn)
+            molecule = GaussianInputFile(path)
+            molecule.parse()
+            molecules.append(molecule)
+            with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
+                f.write(molecule.pdb_block)
 
     return render_template("report.html", uuid=uuid, molecules=molecules, show_NAs=True)
 

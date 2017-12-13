@@ -23,11 +23,11 @@ import os
 import shutil
 import subprocess
 import sys
-from supporting.io import GaussianInputFile
+from esigen.io import GaussianInputFile
 
 
 def run(path, template='default.md', show_NAs=False, preview=True):
-    g = GaussianInputFile(sys.argv[1])
+    g = GaussianInputFile(path)
     g.parse()
     return g.report(template=template, show_NAs=show_NAs, preview=preview)
 
