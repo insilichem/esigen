@@ -75,8 +75,6 @@ def render_with_pymol_server(parsed_file, output_path=None, width=1200, **kwargs
 
 def view_with_nglview(parsed_file, **kwargs):
     import nglview as nv
-    if not parsed_file.is_parsed:
-        raise RuntimeError('File is not yet parsed!')
     structure = nv.TextStructure(parsed_file.pdb_block, ext='pdb')
     parameters = {"clipNear": 0, "clipFar": 100, "clipDist": 0, "fogNear": 1000, "fogFar": 100}
     representations = [
@@ -93,8 +91,6 @@ def view_with_nglview(parsed_file, **kwargs):
 
 def view_with_chemview(parsed_file, **kwargs):
     import chemview as cv
-    if not parsed_file.is_parsed:
-        raise RuntimeError('File is not yet parsed!')
     topology = {'atom_types': parsed_file.data['atoms']}
     coords = parsed_file.data['coordinates']
     return cv.MolecularViewer(coords, topology, **kwargs)

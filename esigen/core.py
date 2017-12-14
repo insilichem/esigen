@@ -52,11 +52,9 @@ class BaseInputFile(object):
         self.data = self.parse()
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
                                      loader=PackageLoader('esigen', 'templates/reports'))
-        self._parsed = False
+        # Make sure we get a consistent spacing for later replacing
 
     def __getitem__(self, key):
-        if not self._parsed:
-            return ValueError('File is not yet parsed. Run self.parse()!')
         try:
             return self.data[key]
         except KeyError:
@@ -72,18 +70,12 @@ class BaseInputFile(object):
         raise NotImplementedError
 
     @property
-    def is_parsed(self):
-        return self._parsed
-
-    @property
     def xyz_block(self):
         return '\n'.join(self._xyz_lines)
     cartesians = xyz_block
 
     @property
     def _xyz_lines(self):
-        if not self.is_parsed:
-            raise RuntimeError('File is not yet parsed!')
         return ['{:6} {: 8.6f} {: 8.6f} {: 8.6f}'.format(a, *xyz)
                 for (a, xyz) in zip(self.data['atoms'], self.data['coordinates'])]
 
