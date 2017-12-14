@@ -58,7 +58,7 @@ def upload():
 
     for upload in request.files.getlist("file"):
         filename = upload.filename.rsplit("/")[0]
-        destination = "/".join([target, filename])
+        destination = os.path.join(target, filename)
         upload.save(destination)
 
     if is_ajax:
