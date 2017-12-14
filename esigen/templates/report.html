@@ -1,8 +1,15 @@
+{% macro viewer3d(loop, uuid, molecule) %}
+    <div id="viewport{{ loop.index }}" class="ngl-viewport"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", AddNGLWidget(
+            "{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
+    </script>
+{% endmacro %}
 <!DOCTYPE html>
 <html>
 <head>
 <title>Supporting Information Generator</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/{}.css'.format(css)) }}">
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
 <body>
@@ -45,78 +52,10 @@ function AddNGLWidget(index, moleculeUrl) {
 <div class="container">
     <div id="markup">
         <h2>Supporting Information</h2>
-        {% for molecule in molecules %}
+        {% for molecule, report in reports %}
             <article id="content" class="markdown-body">
-            <h1>{{ molecule.name }}</h1>
-            <div id="viewport{{ loop.index }}" style="width:800px; height:500px;"></div>
-            <script>
-                document.addEventListener("DOMContentLoaded", AddNGLWidget("{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
-            </script>
-            <h2>Relevant magnitudes</h2>
-            <table class="relevantdata">
-            <tr>
-                <th>Datum</th>
-                <th>Value</th>
-            </tr>
-            {% if show_NAs or molecule.data['stoichiometry'] != 'N/A' %}
-            <tr>
-                <td>Stoichiometry</td>
-                <td>{{ molecule.data['stoichiometry'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['basis_functions'] != 'N/A' %}
-            <tr>
-                <td>Number of Basis Functions</td>
-                <td>{{ molecule.data['basis_functions'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['electronic_energy'] != 'N/A' %}
-            <tr>
-                <td>Electronic Energy (eV)</td>
-                <td>{{ molecule.data['electronic_energy'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['zeropoint_energy'] != 'N/A' %}
-            <tr>
-                <td>Sum of electronic and zero-point Energies (eV)</td>
-                <td>{{ molecule.data['zeropoint_energy'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['thermal_energy'] != 'N/A' %}
-            <tr>
-                <td>Sum of electronic and thermal Energies (eV)</td>
-                <td>{{ molecule.data['thermal_energy'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['enthalpy'] != 'N/A' %}
-            <tr>
-                <td>Sum of electronic and thermal Enthalpies (eV)</td>
-                <td>{{ molecule.data['enthalpy'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['free_energy'] != 'N/A' %}
-            <tr>
-                <td>Sum of electronic and thermal Free Energies (eV)</td>
-                <td>{{ molecule.data['free_energy'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['imaginary_frequencies'] != 'N/A' %}
-            <tr>
-                <td>Number of Imaginary Frequencies</td>
-                <td>{{ molecule.data['imaginary_frequencies'] }}</td>
-            </tr>
-            {% endif %}
-            {% if show_NAs or molecule.data['mean_of_electrons'] != 'N/A' %}
-            <tr>
-                <td>Mean of α and β Electrons</td>
-                <td>{{ molecule.data['mean_of_electrons'] }}</td>
-            </tr>
-            {% endif %}
-            </table>
-
-            <h2>Molecular Geometry in Cartesian Coordinates</h2>
-                <pre>{{ molecule.xyz_block }}</pre>
-            <hr />
+                {# Not proud of this part, but it works... #}
+                {{ report|safe|replace("{{ viewer3d }}", viewer3d(loop, uuid, molecule) ) }}
             </article>
         {% endfor %}
 

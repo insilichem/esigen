@@ -53,6 +53,7 @@ class BaseInputFile(object):
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
                                      loader=PackageLoader('esigen', 'templates/reports'))
         # Make sure we get a consistent spacing for later replacing
+        self.jinja_env.globals['viewer3d'] = '{{ viewer3d }}'
 
     def __getitem__(self, key):
         try:
@@ -96,22 +97,30 @@ class BaseInputFile(object):
     def view_with_chemview(self, **kwargs):
         return render.view_with_chemview(self, **kwargs)
 
-    def report(self, template='default.md', process_markdown=False, show_NAs=True, preview=True):
+    def report(self, template='default.md', process_markdown=False, show_NAs=True, preview=True,
+               web=False):
         """
         Generate a report from a Jinja template
         """
-        if not self.is_parsed:
-            raise RuntimeError('File is not yet parsed!')
-        t = self.jinja_env.get_template(template)
         image = None
-        if preview:
-            with open(t.filename) as f:
-                ast = self.jinja_env.parse(f.read())
-            if 'image' in find_undeclared_variables(ast):
-                image = self.render_with_pymol()
-
-        rendered = t.render(show_NAs=show_NAs, cartesians=self.cartesians,
+        try:
+            t = self.jinja_env.get_template(template)
+            if preview:
+                with open(t.filename) as f:
+                    ast = self.jinja_env.parse(f.read())
+                if 'image' in find_undeclared_variables(ast):
+                    image = self.render_with_pymol()
+        except:
+            # Maybe it is not a file, but a Jinja string
+            t = self.jinja_env.from_string(template)
+            if preview:
+                ast = self.jinja_env.parse(template)
+                if 'image' in find_undeclared_variables(ast):
+                    image = self.render_with_pymol()
+        rendered = t.render(show_NAs=show_NAs, cartesians=self.cartesians, web=web,
                             name=self.name, image=image, preview=preview, **self.data)
+        print(rendered)
+
         if process_markdown or os.environ.get('IN_PRODUCTION'):
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code'])

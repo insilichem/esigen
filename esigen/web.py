@@ -13,6 +13,7 @@ import json
 from uuid import uuid4
 import datetime
 import shutil
+from textwrap import dedent
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from flask_sslify import SSLify
 from esigen.io import GaussianInputFile
@@ -68,7 +69,7 @@ def upload():
 
 
 @app.route("/report/<uuid>")
-def report(uuid):
+def report(uuid, template='default.md', css='github'):
     """The location we send them to at the end of the upload."""
 
     # Get their reports.
@@ -76,17 +77,19 @@ def report(uuid):
     if not os.path.isdir(root):
         return "Error: UUID not found!"
 
-    molecules = []
+    reports, molecules = [], []
     for fn in sorted(os.listdir(root)):
-        if os.path.splitext(fn)[1] in ('.qfi', '.out'):
-            path = os.path.join(root, fn)
-            molecule = GaussianInputFile(path)
-            molecule.parse()
-            molecules.append(molecule)
-            with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
-                f.write(molecule.pdb_block)
+        if not os.path.splitext(fn)[1] in ('.qfi', '.out'):
+            continue
+        path = os.path.join(root, fn)
+        molecule = GaussianInputFile(path)
+        report = molecule.report(template=template, preview=False, process_markdown=True,
+                                 web=True)
+        reports.append((molecule, report))
+        with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
+            f.write(molecule.pdb_block)
 
-    return render_template("report.html", uuid=uuid, molecules=molecules, show_NAs=True)
+    return render_template('report.html', css=css, uuid=uuid, reports=reports, show_NAs=True)
 
 
 @app.route("/privacy_policy.html")
