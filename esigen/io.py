@@ -22,25 +22,27 @@ class GaussianInputFile(BaseInputFile):
     def parse(self, ignore_errors=False):
         with open(self.path) as fh:
             parsed = GaussianParser(fh).parse()
-        # if parsed.optdone:
-        #     print('Warning! File {} is not optimized.'.format(self.path))
-        self.data['atoms'] = [PERIODIC_TABLE.element[n] for n in parsed.atomnos]
-        self.data['atomic_numbers'] = parsed.atomnos
-        self.data['coordinates'] = parsed.atomcoords[-1]
-        self.data['stoichiometry'] = getattr(parsed, 'stoichiometry', 'N/A')
-        self.data['basis_functions'] = getattr(parsed, 'nbasis', 'N/A')
+        if parsed.optdone:
+            print('Warning! File {} is not optimized.'.format(self.path))
+        data = {}
+        data['atoms'] = [PERIODIC_TABLE.element[n] for n in parsed.atomnos]
+        data['atomic_numbers'] = parsed.atomnos
+        data['coordinates'] = parsed.atomcoords[-1]
+        data['stoichiometry'] = getattr(parsed, 'stoichiometry', 'N/A')
+        data['basis_functions'] = getattr(parsed, 'nbasis', 'N/A')
         if hasattr(parsed, 'scfenergies'):
             e = convertor(parsed.scfenergies[-1], 'eV', 'hartree')
-            self.data['electronic_energy'] = e
-        self.data['thermal_energy'] = getattr(parsed, 'thermalenergies', 'N/A')
-        self.data['zeropoint_energy'] = getattr(parsed, 'zeropointenergies', 'N/A')
-        self.data['enthalpy'] = getattr(parsed, 'enthalpy', 'N/A')
-        self.data['free_energy'] = getattr(parsed, 'freeenergy', 'N/A')
-        self.data['imaginary_frequencies'] = getattr(parsed, 'imaginaryfreqs', 'N/A')
+            data['electronic_energy'] = e
+        data['thermal_energy'] = getattr(parsed, 'thermalenergies', 'N/A')
+        data['zeropoint_energy'] = getattr(parsed, 'zeropointenergies', 'N/A')
+        data['enthalpy'] = getattr(parsed, 'enthalpy', 'N/A')
+        data['free_energy'] = getattr(parsed, 'freeenergy', 'N/A')
+        data['imaginary_frequencies'] = getattr(parsed, 'imaginaryfreqs', 'N/A')
         if hasattr(parsed, 'alphaelectrons') and hasattr(parsed, 'betaelectrons'):
-            self.data['mean_of_electrons'] = (parsed.alphaelectrons + parsed.betaelectrons) // 2
-        self._parsed = True
-        return self.data
+            data['mean_of_electrons'] = (parsed.alphaelectrons + parsed.betaelectrons) // 2
+        else:
+            data['mean_of_electrons'] = 'N/A'
+        return data
 
 
 class GaussianParser(Gaussian):
