@@ -86,10 +86,11 @@ def report(uuid, template='default.md', css='github'):
         report = molecule.report(template=template, preview=False, process_markdown=True,
                                  web=True)
         reports.append((molecule, report))
+        ngl = '{{ viewer3d }}' in report
         with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
             f.write(molecule.pdb_block)
 
-    return render_template('report.html', css=css, uuid=uuid, reports=reports, show_NAs=True)
+    return render_template('report.html', css=css, uuid=uuid, reports=reports, ngl=ngl, show_NAs=True)
 
 
 @app.route("/privacy_policy.html")

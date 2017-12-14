@@ -13,6 +13,7 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
 <body>
+{% if ngl %}
 <script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
 <script>
 function AddNGLWidget(index, moleculeUrl) {
@@ -49,6 +50,7 @@ function AddNGLWidget(index, moleculeUrl) {
     return stage;
 };
 </script>
+{% endif %}
 <div class="container">
     <div id="markup">
         <h2>Supporting Information</h2>
