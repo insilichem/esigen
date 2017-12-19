@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ESIgen - Supporting Information Generator</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/github.css') }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
+</head>
+<body>
+<script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
+<script>
+function AddNGLWidget(index, moleculeUrl) {
+    var stage = new NGL.Stage("viewport"+index);
+    stage.setParameters({ backgroundColor: 'white', fogFar: 100, fogNear:100 })
+    stage.loadFile(moleculeUrl, {ext: 'pdb'}).then(function (component) {
+        var sele = 'not (_C or _H or _N or _O)';
+        component.addRepresentation("cartoon");  // for proteins
+        component.addRepresentation("licorice", {multipleBond: "symmetric"}); // for ligands
+        component.addRepresentation("ball+stick", {sele: sele, aspectRatio: 3.0}); // for metals
+        // add labels to non-CHON atoms
+        var labelText = {}
+        var selectionObject = new NGL.Selection(sele);
+        component.structure.eachAtom(function(AtomProxy) {
+            var elem = AtomProxy.element
+            labelText[AtomProxy.index] = elem.charAt(0).toUpperCase() + elem.slice(1).toLowerCase();
+        }, selectionObject);
+        component.addRepresentation(
+            'label', {  sele: sele,
+                        color: '#222222',
+                        name: 'non-CHON element',
+                        labelType: 'text',
+                        labelText: labelText,
+                        xOffset: 0.5,
+                        showBorder: true,
+                        borderColor: '#FFFFFF',
+                        borderWidth: 0.05,
+                        sdf: true
+                        }
+        );
+        // provide a "good" view of the structure
+        component.autoView();
+    });
+    return stage;
+};
+</script>
+<div class="container">
+    <div id="markup">
+        <h2>Supporting Information</h2>
+        {% for molecule in molecules %}
+            <article id="content" class="markdown-body">
+            <h1>{{ molecule.name }}</h1>
+            <div id="viewport{{ loop.index }}" class="ngl-viewport"></div>
+            <script>
+                document.addEventListener("DOMContentLoaded", AddNGLWidget("{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
+            </script>
+            <h2>Relevant magnitudes</h2>
+            <table class="relevantdata">
+            <tr>
+                <th>Datum</th>
+                <th>Value</th>
+            </tr>
+            {% if show_NAs or molecule.data['stoichiometry'] != 'N/A' %}
+            <tr>
+                <td>Stoichiometry</td>
+                <td>{{ molecule.data['stoichiometry'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['basis_functions'] != 'N/A' %}
+            <tr>
+                <td>Number of Basis Functions</td>
+                <td>{{ molecule.data['basis_functions'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['electronic_energy'] != 'N/A' %}
+            <tr>
+                <td>Electronic Energy (eV)</td>
+                <td>{{ molecule.data['electronic_energy'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['zeropoint_energy'] != 'N/A' %}
+            <tr>
+                <td>Sum of electronic and zero-point Energies (eV)</td>
+                <td>{{ molecule.data['zeropoint_energy'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['thermal_energy'] != 'N/A' %}
+            <tr>
+                <td>Sum of electronic and thermal Energies (eV)</td>
+                <td>{{ molecule.data['thermal_energy'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['enthalpy'] != 'N/A' %}
+            <tr>
+                <td>Sum of electronic and thermal Enthalpies (eV)</td>
+                <td>{{ molecule.data['enthalpy'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['free_energy'] != 'N/A' %}
+            <tr>
+                <td>Sum of electronic and thermal Free Energies (eV)</td>
+                <td>{{ molecule.data['free_energy'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['imaginary_frequencies'] != 'N/A' %}
+            <tr>
+                <td>Number of Imaginary Frequencies</td>
+                <td>{{ molecule.data['imaginary_frequencies'] }}</td>
+            </tr>
+            {% endif %}
+            {% if show_NAs or molecule.data['mean_of_electrons'] != 'N/A' %}
+            <tr>
+                <td>Mean of α and β Electrons</td>
+                <td>{{ molecule.data['mean_of_electrons'] }}</td>
+            </tr>
+            {% endif %}
+            </table>
+
+            <div class="cartesian">
+            <h2>Molecular Geometry in Cartesian Coordinates</h2>
+                <pre>{{ molecule.xyz_block }}</pre>
+            </div>
+            <hr />
+            </article>
+        {% endfor %}
+
+        <div id="footer">
+            <p class="hide-on-print">
+                <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a> · <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
+            </p>
+            <p align="center">
+                Generated automatically with <a href="https://github.com/insilichem/supporting" target="_blank">insilichem/supporting</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

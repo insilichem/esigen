@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="{{ url_for('report') }}" method="POST" enctype="multipart/form-data">
+    <input name="upload_key" type="hidden" value="{{ uuid }}" />
+</form>
+{% endblock %}

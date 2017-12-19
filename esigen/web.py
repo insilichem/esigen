@@ -15,10 +15,10 @@ import datetime
 import shutil
 from textwrap import dedent
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
+from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
 from esigen.io import GaussianInputFile
 
-# logging.basicConfig()
 app = Flask(__name__)
 
 PRODUCTION = False
@@ -29,13 +29,23 @@ if os.environ.get('IN_PRODUCTION'):
 
 UPLOADS = "/tmp"
 
+app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
+app.jinja_env.globals['MAX_CONTENT_LENGTH'] = 50
+app.config['PRODUCTION'] = PRODUCTION
+app.config['UPLOADS'] = UPLOADS
+app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
+app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
+ALLOWED_EXTENSIONS = ('.qfi', '.out', '.log')
+URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
+
 
 @app.route("/")
 def index():
+    message = str(request.args.get('message', ''))[:100]
     uuid = str(uuid4())
     while os.path.exists(os.path.join(UPLOADS, uuid)):
         uuid = str(uuid4())
-    return render_template("index.html", uuid=uuid)
+    return render_template("index.html", uuid=uuid, message=message)
 
 
 @app.route("/upload", methods=["POST"])
@@ -48,29 +58,35 @@ def upload():
     if form.get("__ajax", None) == "true":
         is_ajax = True
 
-    url_kwargs = dict(_external=True, _scheme='https') if PRODUCTION else {}
-
     # Target folder for these uploads.
     target = os.path.join(UPLOADS, upload_key)
     try:
-        os.mkdir(target)
-    except:
-        return redirect(url_for("index", **url_kwargs))
+        os.makedirs(target)
+    except Exception as e:
+        if not isinstance(e, OSError):
+            return redirect(url_for("index", **URL_KWARGS))
 
-    for upload in request.files.getlist("file"):
-        filename = upload.filename.rsplit("/")[0]
+    for upload in allowed_filename(*request.files.getlist("file")):
+        filename = secure_filename(upload.filename).rsplit("/")[0]
         destination = os.path.join(target, filename)
         upload.save(destination)
 
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("report", uuid=upload_key, **url_kwargs))
+        return redirect(url_for("configure_report", uuid=upload_key, **URL_KWARGS))
 
+
+@app.route("/configure/<uuid>"):
+def configure_report(uuid)
+    if not uuid:
+        return redirect(url_for("index", **URL_KWARGS))
 
 @app.route("/report/<uuid>")
 def report(uuid, template='default.md', css='github'):
     """The location we send them to at the end of the upload."""
+    if not uuid:
+        return redirect(url_for("index", **URL_KWARGS))
 
     # Get their reports.
     root = os.path.join(UPLOADS, uuid)
@@ -79,7 +95,7 @@ def report(uuid, template='default.md', css='github'):
 
     reports, molecules = [], []
     for fn in sorted(os.listdir(root)):
-        if not os.path.splitext(fn)[1] in ('.qfi', '.out'):
+        if not os.path.splitext(fn)[1] in ALLOWED_EXTENSIONS:
             continue
         path = os.path.join(root, fn)
         molecule = GaussianInputFile(path)
@@ -90,7 +106,8 @@ def report(uuid, template='default.md', css='github'):
         with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
             f.write(molecule.pdb_block)
 
-    return render_template('report.html', css=css, uuid=uuid, reports=reports, ngl=ngl, show_NAs=True)
+    return render_template('report.html', css=css, uuid=uuid,
+                           reports=reports, ngl=ngl, show_NAs=True)
 
 
 @app.route("/privacy_policy.html")
@@ -119,3 +136,10 @@ def clean_uploads():
 def _modification_date(filename):
     t = os.path.getmtime(filename)
     return datetime.datetime.fromtimestamp(t)
+
+
+def allowed_filename(*filenames):
+    for filename in filenames:
+        fn = filename.filename
+        if '.' in fn and os.path.splitext(fn)[1].lower() in ALLOWED_EXTENSIONS:
+            yield filename

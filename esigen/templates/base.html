@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>{% if title %}{{ title }} - {% endif %}Supporting Information Generator</title>
+		<title>{% if title %}{{ title }} - {% endif %}ESIgen - Supporting Information Generator</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script><![endif]-->
@@ -21,23 +21,36 @@
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
+				{% block message %}
+				{% endblock%}
 				<!-- Main -->
 					<section id="main">
+						<p>Sponsored by ...</p>
 						{% block content %}
 						{% endblock %}
+
 						<footer>
 							{% block content_footer %}
 							{% endblock %}
 						</footer>
 					</section>
 
+					{% if IN_PRODUCTION %}
+					<section id="disclaimer">
+						You are using a demo version of ESIgen. Your results and uploaded files will be deleted after one hour!
+					</section>
+					{% endif %}
 				<!-- Footer -->
 					<footer id="footer">
+						<p class="small">Les bons outils font les bons ouvriers</p>
+						<span>Brought to you by <a href="http://www.insilichem.com" target="_blank">InsiliChem</a>, Maréchal's Group
+						{% if HEROKU_RELEASE_VERSION%} | {{ HEROKU_RELEASE_VERSION }}{% endif %}</span>
 						<ul class="copyright">
 							<li>With ♥ by <a href="https://github.com/jaimergp">@jaimergp</a></li>
 							<li>UI adapted from <a href="http://html5up.net">HTML5 UP</a></li>
+							{% if IN_PRODUCTION %}
 							<li><a href="{{ url_for('privacy_policy') }}">Privacy Policy</a></li>
+							 {% endif %}
 						</ul>
 					</footer>
 
@@ -52,5 +65,15 @@
 				}
 			</script>
 		{% block morejs %}{% endblock %}
+		{% if IN_PRODUCTION %}
+		<!--Global site tag(gtag.js) - Google Analytics-->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75978749-2"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', 'UA-75978749-2');
+		</script>
+		{% endif %}
 	</body>
 </html>

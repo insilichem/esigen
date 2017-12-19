@@ -137,7 +137,7 @@
 		}
 
 		a:hover {
-			color: #ff7496;
+			color: #3ba778;
 		}
 
 	strong, b {
@@ -672,7 +672,7 @@
 		position: relative;
 		max-width: 100%;
 		min-width: 27em;
-		padding: 4.5em 3em 3em 3em ;
+		padding: 3em ;
 		background: #ffffff;
 		border-radius: 4px;
 		cursor: default;
@@ -701,8 +701,9 @@
 			#main .avatar img {
 				display: block;
 				margin: 0 auto;
-				border-radius: 100%;
-				box-shadow: 0 0 0 1.5em #ffffff;
+				background-color: #ffffff;
+				border-left: 1.5em solid #ffffff;
+				border-right: 1.5em solid #ffffff;
 			}
 
 			#main .avatar:before {
@@ -821,4 +822,37 @@
 
 		body.is-ie #wrapper {
 			height: 100%;
+		}
+
+
+.small {
+	font-size: 80%;
+}
+
+.message {
+	color: #ffffff;
+}
+
+#disclaimer {
+	margin: 3em 0 1em 0;
+	padding: 1em;
+	position: relative;
+	width: 60%;
+	max-width: 100%;
+	min-width: 27em;
+	background: #e7b3b3;
+	border-radius: 4px;
+	cursor: default;
+	text-align: center;
+	color: #800000;
+}
+		@media screen and (max-width: 480px) {
+
+			#disclaimer {
+				min-width: 0;
+				max-width: 100%;
+				width: 100%;
+				padding: 0.5em ;
+			}
+
 		}
