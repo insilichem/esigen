@@ -42,7 +42,8 @@ class GaussianInputFile(BaseInputFile):
             data['mean_of_electrons'] = (parsed.alphaelectrons + parsed.betaelectrons) // 2
         else:
             data['mean_of_electrons'] = 'N/A'
-        return data
+        parsed.curated_data = data
+        return parsed
 
 
 class GaussianParser(Gaussian):

@@ -49,7 +49,8 @@ class BaseInputFile(object):
         self.path = path
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.basename = os.path.basename(path)
-        self.data = self.parse()
+        self._parsed = self.parse()
+        self.data = self._parsed.data
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
                                      loader=PackageLoader('esigen', 'templates/reports'))
         # Make sure we get a consistent spacing for later replacing
