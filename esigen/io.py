@@ -10,9 +10,9 @@
 # Stdlib
 from __future__ import division, print_function, absolute_import
 import os
+import logging
 from collections import defaultdict
-from cclib.parser import Gaussian
-from cclib.parser.data import ccData
+from cclib.parser import Gaussian as _cclib_Gaussian
 from cclib.parser.utils import convertor
 from .core import BaseInputFile, PERIODIC_TABLE
 
@@ -21,9 +21,7 @@ class GaussianInputFile(BaseInputFile):
 
     def parse(self, ignore_errors=False):
         with open(self.path) as fh:
-            parsed = GaussianParser(fh).parse()
-        if parsed.optdone:
-            print('Warning! File {} is not optimized.'.format(self.path))
+            parsed = GaussianParser(fh, loglevel=logging.WARNING).parse()
         data = {}
         data['atoms'] = [PERIODIC_TABLE.element[n] for n in parsed.atomnos]
         data['atomic_numbers'] = parsed.atomnos
