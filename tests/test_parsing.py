@@ -7,10 +7,11 @@
 # By Jaime RGP <jaime@insilichem.com> @ 2016   #
 ################################################
 
-from __future__ import print_function
-from esigen.web import app
+# Stdlib
+from __future__ import division, print_function
 
-if __name__ == '__main__':
-    print("Running local server...")
-    app.run(debug=True, threaded=True)
 
+def test_magnitudes(original_file, parsed_file):
+    for original, parsed in zip(original_file, parsed_file):
+        for orig_k, orig_v in original.data.items():
+            assert parsed.data[orig_k] == orig_v

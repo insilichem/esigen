@@ -1,0 +1,75 @@
+{% macro viewer3d(loop, uuid, molecule) %}
+    <div id="viewport{{ loop.index }}" class="ngl-viewport"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", AddNGLWidget(
+            "{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
+    </script>
+{% endmacro %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Supporting Information Generator</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/{}'.format(css)) }}">
+<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
+</head>
+<body>
+{% if ngl %}
+<script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
+<script>
+function AddNGLWidget(index, moleculeUrl) {
+    var stage = new NGL.Stage("viewport"+index,
+        {fogNear: 100, fogFar: 100, backgroundColor: 'white'});
+    stage.loadFile(moleculeUrl, {ext: 'pdb'}).then(function (component) {
+        var sele = 'not (_C or _H or _N or _O)';
+        component.addRepresentation("cartoon");  // for proteins
+        component.addRepresentation("licorice", {multipleBond: "symmetric"}); // for ligands
+        component.addRepresentation("ball+stick", {sele: sele, aspectRatio: 3.0}); // for metals
+        // add labels to non-CHON atoms
+        var labelText = {}
+        var selectionObject = new NGL.Selection(sele);
+        component.structure.eachAtom(function(AtomProxy) {
+            var elem = AtomProxy.element
+            labelText[AtomProxy.index] = elem.charAt(0).toUpperCase() + elem.slice(1).toLowerCase();
+        }, selectionObject);
+        component.addRepresentation(
+            'label', {  sele: sele,
+                        color: '#222222',
+                        name: 'non-CHON element',
+                        labelType: 'text',
+                        labelText: labelText,
+                        xOffset: 0.5,
+                        showBorder: true,
+                        borderColor: '#FFFFFF',
+                        borderWidth: 0.05,
+                        sdf: true
+                        }
+        );
+        // provide a "good" view of the structure
+        component.autoView();
+    });
+    return stage;
+};
+</script>
+{% endif %}
+<div class="container">
+    <div id="markup">
+        <h2>Supporting Information</h2>
+        {% for molecule, report in reports %}
+            <article id="content" class="markdown-body">
+                {# Not proud of this part, but it works... #}
+                {{ report|safe|replace("{{ viewer3d }}", viewer3d(loop, uuid, molecule) ) }}
+            </article>
+        {% endfor %}
+
+        <div id="footer">
+            <p>
+                <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a>
+            </p>
+            <p align="center">
+                Generated automatically with <a href="https://github.com/insilichem/esigen" target="_blank">insilichem/esigen</a> | <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

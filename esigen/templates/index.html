@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+if(performance.navigation.type == 2){
+  location.reload(true);
+}
+</script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dropzone.css') }}" />
+{% endblock %}
+
+{% if message %}
+{% block message %}
+<p class="message">{{ message }}</p>
+{% endblock %}
+{% endif %}
+{% block content %}
+<p>Sponsored by ...</p>
+<div class="avatar">
+  <img src="{{ url_for('static', filename='favicon.png') }}" />
+</div>
+<h1>ESIgen</h1>
+<h2>Supporting Information Generator</h2>
+<form class="dropzone" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <input name="upload_key" type="hidden" value="{{ uuid }}" />
+<div class="fallback">
+    <h3>Choose your Gaussian* output files (.qfi, .out)</h3>
+    <p><input name="file" type="file" multiple /></p>
+    <p><input class="btn" type="submit" value="Upload!" id="upload-button"></p>
+</div>
+</form>
+<p align="center" id="upload-msg" style="display:none; color: #800000;">
+  One or more files were too big or had wrong format.
+</p>
+<p align="center"><button id="upload-btn" style="display: none">Process!</button></p>
+
+<form id="configure-form" action="{{ url_for('configure_report') }}" method="POST">
+    <input name="upload_key" type="hidden" value="{{ uuid }}" />
+</form>
+{% endblock %}
+{% block content_footer %}
+<p class="small">* More formats to come</p>
+{% endblock %}
+{% block morejs %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
+<script type="text/javascript">
+
+Dropzone.options.uploadForm = {
+  autoProcessQueue: false,
+  addRemoveLinks: true,
+  maxFilesize: {{ MAX_CONTENT_LENGTH }}, // MB
+  maxFiles: 5,
+  parallelUploads: 5,
+  acceptedFiles: ".qfi,.out,.log",
+  createImageThumbnails: false,
+  dictCancelUpload: 'Cancel',
+  dictFileTooBig: 'File too big!',
+  dictDefaultMessage: "Drop your Gaussian* output files here",
+    init: function() {
+    var submitButton = document.querySelector("button#upload-btn")
+    myDropzone = this; // closure
+    submitButton.addEventListener("click", function() {
+      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+      submitButton.disabled = true;
+      submitButton.innerText = 'Processing...';
+    });
+
+    // You might want to show the submit button only when
+    // files are dropped here:
+    this.on("addedfile", function(file) {
+      submitButton.style.display = 'block';
+    });
+    this.on("removedfile", function(file) {
+      if (this.getRejectedFiles() == 0) {
+        document.getElementById('upload-msg').style.display = 'none';
+      }
+      if (this.files.length == 0) {
+        submitButton.style.display = 'none';
+      }
+    });
+    this.on("error", function(file) {
+      if (!file.accepted) {
+        // this.removeFile(file);
+        document.getElementById('upload-msg').style.display = 'block';
+      }
+    });
+
+    this.on("queuecomplete", function(file) {
+      if ( this.files[0].status == Dropzone.SUCCESS && (this.getQueuedFiles().length - this.getRejectedFiles().length) <= 1 ) {
+        document.getElementById('configure-form').submit();
+      }
+    });
+
+  }
+}
+
+</script>
+{% endblock %}

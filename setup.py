@@ -20,9 +20,9 @@ def read(*filenames, **kwargs):
 long_description = read('README.md')
 
 setup(
-    name='supporting',
+    name='esigen',
     version='0.0.1',
-    url='https://github.com/insilichem/supporting',
+    url='https://github.com/insilichem/esigen',
     author='Jaime Rodríguez-Guerra',
     author_email='jaime.rogue@gmail.com',
     description=long_description,
@@ -41,6 +41,6 @@ setup(
     install_requires=['cclib==1.4.1'],
     entry_points='''
         [console_scripts]
-        qmview=supporting.cli:main
+        qmview=esigen.cli:main
         '''
 )
