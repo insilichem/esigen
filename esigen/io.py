@@ -53,9 +53,9 @@ class GaussianParser(Gaussian):
     """
 
     def __init__(self, *args, **kwargs):
-
         # Call the __init__ method of the superclass
-        super(GaussianParser, self).__init__(datatype=ccDataExtended, *args, **kwargs)
+        super(GaussianParser, self).__init__(*args, **kwargs)
+        self.datatype = ccDataExtended
 
     def extract(self, inputfile, line):
         try:
@@ -91,5 +91,4 @@ class ccDataExtended(ccData):
                         'zeropointenergies': ccData.Attribute(float, 'zero-point energies'),
                         'imaginaryfreqs':    ccData.Attribute(int,   'imaginary frequencies'),
                         'alphaelectrons':    ccData.Attribute(int,   'alpha electrons'),
-                        'betaelectrons':     ccData.Attribute(int,   'beta electrons')})
-    _attrlist = sorted(ccData._attributes.keys())
+    _attrlist = sorted(_attributes.keys())
