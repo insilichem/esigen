@@ -50,7 +50,7 @@ class BaseInputFile(object):
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.basename = os.path.basename(path)
         self._parsed = self.parse()
-        self.data = self._parsed.data
+        self.data = self._parsed.curated_data
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
                                      loader=PackageLoader('esigen', 'templates/reports'))
         # Make sure we get a consistent spacing for later replacing
@@ -78,7 +78,7 @@ class BaseInputFile(object):
 
     @property
     def _xyz_lines(self):
-        return ['{:6} {: 8.6f} {: 8.6f} {: 8.6f}'.format(a, *xyz)
+        return ['{:6} {: 10.6f} {: 10.6f} {: 10.6f}'.format(a, *xyz)
                 for (a, xyz) in zip(self.data['atoms'], self.data['coordinates'])]
 
     @property
@@ -120,7 +120,6 @@ class BaseInputFile(object):
                     image = self.render_with_pymol()
         rendered = t.render(show_NAs=show_NAs, cartesians=self.cartesians, web=web,
                             name=self.name, image=image, preview=preview, **self.data)
-        print(rendered)
 
         if process_markdown or os.environ.get('IN_PRODUCTION'):
             return markdown(rendered, extensions=['markdown.extensions.tables',
