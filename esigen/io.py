@@ -49,10 +49,10 @@ class GaussianInputFile(BaseInputFile):
 class GaussianParser(_cclib_Gaussian):
 
     """
-    Subclass while we wait for cclib 1.5.3 or above
+    Subclass while we wait for cclib 1.5.3
     """
 
-    def __init__(self,  * args, **kwargs):
+    def __init__(self, *args, **kwargs):
         # Call the __init__ method of the superclass
         super(GaussianParser, self).__init__(*args, **kwargs)
         self.datatype = ccDataExtended
