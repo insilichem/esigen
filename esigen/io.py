@@ -13,6 +13,7 @@ import os
 import logging
 from collections import defaultdict
 from cclib.parser import Gaussian as _cclib_Gaussian
+from cclib.parser.data import ccData_optdone_bool as ccData
 from cclib.parser.utils import convertor
 from .core import BaseInputFile, PERIODIC_TABLE
 
