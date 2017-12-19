@@ -6,6 +6,10 @@
 ![{{name}}]({{image}})
 {% endif %}
 
+__Requested operations__
+
+`{{ route }}`
+
 __Relevant magnitudes__
 
 | Datum                                            | Value                     |

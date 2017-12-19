@@ -41,17 +41,18 @@ class GaussianInputFile(BaseInputFile):
             data['mean_of_electrons'] = (parsed.alphaelectrons + parsed.betaelectrons) // 2
         else:
             data['mean_of_electrons'] = 'N/A'
+        data['route'] = getattr(parsed, 'route', 'N/A')
         parsed.curated_data = data
         return parsed
 
 
-class GaussianParser(Gaussian):
+class GaussianParser(_cclib_Gaussian):
 
     """
-    Subclass while we wait for cclib 1.5.3
+    Subclass while we wait for cclib 1.5.3 or above
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self,  * args, **kwargs):
         # Call the __init__ method of the superclass
         super(GaussianParser, self).__init__(*args, **kwargs)
         self.datatype = ccDataExtended
@@ -77,6 +78,13 @@ class GaussianParser(Gaussian):
                 beta_index = fields.index('beta')
                 self.set_attribute('alphaelectrons', int(fields[alpha_index-1]))
                 self.set_attribute('betaelectrons', int(fields[beta_index-1]))
+            if line.strip().startswith('#'):
+                route_lines = [line.strip().split('#', 1)[1]]
+                line = inputfile.next()
+                while '-----' not in line:
+                    route_lines.append(line.lstrip())
+                    line = inputfile.next()
+                self.set_attribute('route', ''.join(route_lines))
         except Exception as e:
             print('Warning: Line could not be parsed! Job will continue, but errors may arise')
             print('  Exception:', str(e))
@@ -90,4 +98,6 @@ class ccDataExtended(ccData):
                         'zeropointenergies': ccData.Attribute(float, 'zero-point energies'),
                         'imaginaryfreqs':    ccData.Attribute(int,   'imaginary frequencies'),
                         'alphaelectrons':    ccData.Attribute(int,   'alpha electrons'),
+                        'betaelectrons':     ccData.Attribute(int,   'beta electrons'),
+                        'route':             ccData.Attribute(str,   'route section')})
     _attrlist = sorted(_attributes.keys())
