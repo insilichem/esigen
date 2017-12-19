@@ -1,7 +1,54 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="{{ url_for('report') }}" method="POST" enctype="multipart/form-data">
-    <input name="upload_key" type="hidden" value="{{ uuid }}" />
+<form id='configure-template' action="{{ url_for('report', uuid=uuid) }}" method="POST" >
+    <div class="field">
+        <label for="css">Style</label>
+        <div class="select-wrapper">
+            <select required name='css' id="css">
+                {% for style in styles %}
+                <option value="{{ style }}">{{ style.title() }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <label for="template">Template</label>
+        <div class="select-wrapper">
+            <select required name='template' id='template' onChange="showTextArea();" id="template-value">
+                {% for template in templates %}
+                <option value="{{ template }}">{{ template.title() }}</option>
+                {% endfor %}
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+    </div>
+    <div class="field">
+        <div id='custom-template-area' style='display: none'>
+            <textarea name='template-custom' id='template-custom' rows="10" ></textarea>
+            <p align='right' class='small'>
+                <a href="https://github.com/insilichem/esigen/wiki/Templating" target="_blank">Custom templates help</a>
+            </p>
+        </div>
+    </div>
+    <!-- <input type="checkbox" name='show_NAs' id='show_NAs' value="1" /><label for="show_NAs">Show N/A values</label> -->
+    <p style="margin-top: 1em">
+        <input class="btn" type="submit" value="Generate report" />
+    </p>
 </form>
+<script>
+    function showTextArea() {
+        var form = document.getElementById('configure-template');
+        var template = form.elements['template'].value;
+        var textarea = document.getElementById('custom-template-area');
+        if (template=='custom') {
+            textarea.style.display = 'block';
+        }
+        else {
+            textarea.style.display = 'none';
+        };
+    };
+
+    document.addEventListener('DOMContentLoaded', showTextArea, false);
+</script>
 {% endblock %}

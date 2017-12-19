@@ -101,6 +101,7 @@
 		line-height: 2;
 		letter-spacing: 0.2em;
 		text-transform: uppercase;
+		margin: 0.5em;
 	}
 
 		@media screen and (max-width: 1680px) {
@@ -824,6 +825,12 @@
 			height: 100%;
 		}
 
+textarea#template-custom {
+	padding: 0.5em;
+	font-family: Courier New, Courier, monospace;
+	text-transform: none;
+	letter-spacing: 0;
+}
 
 .small {
 	font-size: 80%;

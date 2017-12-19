@@ -64,7 +64,7 @@ def upload():
         os.makedirs(target)
     except Exception as e:
         if not isinstance(e, OSError):
-            return redirect(url_for("index", **URL_KWARGS))
+            return redirect(url_for("index", message="Upload error. Try again", **URL_KWARGS))
 
     for upload in allowed_filename(*request.files.getlist("file")):
         filename = secure_filename(upload.filename).rsplit("/")[0]
@@ -74,24 +74,51 @@ def upload():
     if is_ajax:
         return ajax_response(True, upload_key)
     else:
-        return redirect(url_for("configure_report", uuid=upload_key, **URL_KWARGS))
+        return redirect(url_for("configure_report", **URL_KWARGS))
 
 
-@app.route("/configure/<uuid>"):
-def configure_report(uuid)
-    if not uuid:
-        return redirect(url_for("index", **URL_KWARGS))
+@app.route("/configure", methods=["GET", "POST"])
+def configure_report():
+    if request.method == 'POST':
+        form = request.form
+        upload_key = form['upload_key']
+        templates = ['default', 'simple']
+        styles = ['github']
+        return render_template("config.html", templates=templates,
+                               styles=styles, uuid=upload_key)
+    return redirect(url_for("index", **URL_KWARGS))
 
-@app.route("/report/<uuid>")
-def report(uuid, template='default.md', css='github'):
+
+@app.route("/report/<uuid>", methods=["GET", "POST"])
+def report(uuid, template='default', css='github', show_NAs=True):
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
-
+    custom_template = False
+    if request.method == 'POST':
+        form = request.form
+        template = form['template']
+        css = form['css']
+        if template == 'custom':
+            custom_template = True
+            template = form['template-custom']
+    else:
+        template = request.args.get('template', template)
+        css = request.args.get('css', css)
+        if template == 'custom':
+            custom_template = True
+            template = request.args.get('template-custom', template)
+    if not custom_template:
+        template_basename, template_ext = os.path.splitext(template)
+        if template_ext != '.md':
+            template = template_basename + '.md'
+    css_basename, css_ext = os.path.splitext(css)
+    if css_ext != '.css':
+        css = css_basename + '.css'
     # Get their reports.
     root = os.path.join(UPLOADS, uuid)
     if not os.path.isdir(root):
-        return "Error: UUID not found!"
+        return redirect(url_for("index", message="Upload error. Try again", **URL_KWARGS))
 
     reports, molecules = [], []
     for fn in sorted(os.listdir(root)):
@@ -107,7 +134,7 @@ def report(uuid, template='default.md', css='github'):
             f.write(molecule.pdb_block)
 
     return render_template('report.html', css=css, uuid=uuid,
-                           reports=reports, ngl=ngl, show_NAs=True)
+                           reports=reports, ngl=ngl, show_NAs=show_NAs)
 
 
 @app.route("/privacy_policy.html")
