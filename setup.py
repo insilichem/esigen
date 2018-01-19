@@ -38,9 +38,9 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    install_requires=['cclib==1.4.1'],
+    install_requires=['cclib'],
     entry_points='''
         [console_scripts]
-        qmview=esigen.cli:main
+        esigen=esigen.cli:main
         '''
 )

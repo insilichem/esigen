@@ -12,38 +12,77 @@ from __future__ import division, print_function, absolute_import
 import os
 import logging
 from collections import defaultdict
+import numpy as np
+from cclib.io.ccio import triggers as ccio_triggers
 from cclib.parser import Gaussian as _cclib_Gaussian
-from cclib.parser.data import ccData_optdone_bool as ccData
+from cclib.parser.data import ccData_optdone_bool, Attribute
 from cclib.parser.utils import convertor
-from .core import BaseInputFile, PERIODIC_TABLE
+from .utils import  PERIODIC_TABLE
 
 
-class GaussianInputFile(BaseInputFile):
+class ccDataExtended(ccData_optdone_bool):
 
-    def parse(self, ignore_errors=False):
-        with open(self.path) as fh:
-            parsed = GaussianParser(fh, loglevel=logging.WARNING).parse()
-        data = {}
-        data['atoms'] = [PERIODIC_TABLE.element[n] for n in parsed.atomnos]
-        data['atomic_numbers'] = parsed.atomnos
-        data['coordinates'] = parsed.atomcoords[-1]
-        data['stoichiometry'] = getattr(parsed, 'stoichiometry', 'N/A')
-        data['basis_functions'] = getattr(parsed, 'nbasis', 'N/A')
-        if hasattr(parsed, 'scfenergies'):
-            e = convertor(parsed.scfenergies[-1], 'eV', 'hartree')
-            data['electronic_energy'] = e
-        data['thermal_energy'] = getattr(parsed, 'thermalenergies', 'N/A')
-        data['zeropoint_energy'] = getattr(parsed, 'zeropointenergies', 'N/A')
-        data['enthalpy'] = getattr(parsed, 'enthalpy', 'N/A')
-        data['free_energy'] = getattr(parsed, 'freeenergy', 'N/A')
-        data['imaginary_frequencies'] = getattr(parsed, 'imaginaryfreqs', 'N/A')
-        if hasattr(parsed, 'alphaelectrons') and hasattr(parsed, 'betaelectrons'):
-            data['mean_of_electrons'] = (parsed.alphaelectrons + parsed.betaelectrons) // 2
-        else:
-            data['mean_of_electrons'] = 'N/A'
-        data['route'] = getattr(parsed, 'route', 'N/A')
-        parsed.curated_data = data
-        return parsed
+    """
+    Extend `cclib.ccData` to add more fields, as required by our custom
+    Gaussian Parser.
+
+    All similar classes should define a new method `getallattributes`, as
+    expected by
+    Notes
+    -----
+    Extending ccData requires the modification of several class attributes:
+
+    - A copy of the original `ccData._attributes` should be updated with the new fields.
+    - As a result, `_attrlist` should be recomputed.
+
+    We can also use properties (@property-decorated instance methods) to add aliases
+    to the parsed fields (for example, `coordinates` points to the last frame in
+    `atomcoords`) or compute values out of them (see `mean_of_electrons`).
+
+    A new list, _properties, is necessary to collect the defined properties,
+    separate from _attrlist to circumvent errors in .arrayify().
+    """
+
+    _attributes = ccData_optdone_bool._attributes.copy()
+    _attributes.update(
+        {'stoichiometry':     Attribute(str,   'stoichiometry',         'N/A'),
+         'thermalenergies':   Attribute(float, 'thermal energies',      'N/A'),
+         'zeropointenergies': Attribute(float, 'zero-point energies',   'N/A'),
+         'imaginaryfreqs':    Attribute(int,   'imaginary frequencies', 'N/A'),
+         'alphaelectrons':    Attribute(int,   'alpha electrons',       'N/A'),
+         'betaelectrons':     Attribute(int,   'beta electrons',        'N/A'),
+         'route':             Attribute(str,   'route section',         'N/A'),
+         })
+    _attrlist = sorted(_attributes.keys())
+    _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy']
+
+    def getallattributes(self):
+        """
+        Collects all defined attributes in _attrlist and _properties, using None
+        if not present.
+        """
+        return {attr: getattr(self, attr, None)
+                for attr in self._attrlist + self._properties}
+
+    # Use properties to add aliases or methods on raw data
+    # Do not forget to update the _properties class attribute
+    @property
+    def mean_of_electrons(self):
+        if hasattr(self, 'alphaelectrons') and hasattr(self, 'betaelectrons'):
+            return (self.alphaelectrons + self.betaelectrons) // 2
+
+    @property
+    def atoms(self):
+        return np.array([PERIODIC_TABLE.element[n] for n in self.atomnos])
+
+    @property
+    def coordinates(self):
+        return self.atomcoords[-1]
+
+    @property
+    def electronic_energy(self):
+        if hasattr(self, 'scfenergies'):
+            return convertor(self.scfenergies[-1], 'eV', 'hartree')
 
 
 class GaussianParser(_cclib_Gaussian):
@@ -54,7 +93,7 @@ class GaussianParser(_cclib_Gaussian):
 
     def __init__(self, *args, **kwargs):
         # Call the __init__ method of the superclass
-        super(GaussianParser, self).__init__(*args, **kwargs)
+        super(GaussianParser, self).__init__(loglevel=logging.WARNING, *args, **kwargs)
         self.datatype = ccDataExtended
 
     def extract(self, inputfile, line):
@@ -84,20 +123,17 @@ class GaussianParser(_cclib_Gaussian):
                 while '-----' not in line:
                     route_lines.append(line.lstrip())
                     line = inputfile.next()
-                self.set_attribute('route', ''.join(route_lines))
+                self.set_attribute('route', ''.join(route_lines).strip())
         except Exception as e:
             print('Warning: Line could not be parsed! Job will continue, but errors may arise')
             print('  Exception:', str(e))
             print('  Line:', line)
 
 
-class ccDataExtended(ccData):
-    _attributes = ccData._attributes.copy()
-    _attributes.update({'stoichiometry':     ccData.Attribute(str,   'stoichiometry'),
-                        'thermalenergies':   ccData.Attribute(float, 'thermal energies'),
-                        'zeropointenergies': ccData.Attribute(float, 'zero-point energies'),
-                        'imaginaryfreqs':    ccData.Attribute(int,   'imaginary frequencies'),
-                        'alphaelectrons':    ccData.Attribute(int,   'alpha electrons'),
-                        'betaelectrons':     ccData.Attribute(int,   'beta electrons'),
-                        'route':             ccData.Attribute(str,   'route section')})
-    _attrlist = sorted(_attributes.keys())
+# Replace cclib default parser with our own
+for i, trigger in enumerate(ccio_triggers):
+    parser, triggerlist, do_break = trigger
+    for query in triggerlist:
+        if "Gaussian" in query:
+            ccio_triggers[i] = (GaussianParser, triggerlist, do_break)
+            break

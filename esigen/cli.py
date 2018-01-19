@@ -23,12 +23,11 @@ import os
 import shutil
 import subprocess
 import sys
-from esigen.io import GaussianInputFile
+from esigen import ESIgenReport
 
 
-def run(path, template='default.md', show_NAs=False, preview=True):
-    g = GaussianInputFile(path)
-    return g.report(template=template, show_NAs=show_NAs, preview=preview)
+def run(path, template='default.md', show_NAs=False, preview=True, reporter=ESIgenReport):
+    return reporter(path).report(template=template, show_NAs=show_NAs, preview=preview)
 
 
 def parse_args():

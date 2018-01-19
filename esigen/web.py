@@ -17,7 +17,7 @@ from textwrap import dedent
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
-from esigen.io import GaussianInputFile
+from esigen import ESIgenReport
 
 app = Flask(__name__)
 
@@ -90,7 +90,8 @@ def configure_report():
 
 
 @app.route("/report/<uuid>", methods=["GET", "POST"])
-def report(uuid, template='default', css='github', show_NAs=True):
+def report(uuid, template='default', css='github', show_NAs=True,
+           reporter=ESIgenReport):
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
@@ -125,7 +126,7 @@ def report(uuid, template='default', css='github', show_NAs=True):
         if not os.path.splitext(fn)[1] in ALLOWED_EXTENSIONS:
             continue
         path = os.path.join(root, fn)
-        molecule = GaussianInputFile(path)
+        molecule = reporter(path)
         report = molecule.report(template=template, preview=False, process_markdown=True,
                                  web=True)
         reports.append((molecule, report))
