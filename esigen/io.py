@@ -26,8 +26,9 @@ class ccDataExtended(ccData_optdone_bool):
     Extend `cclib.ccData` to add more fields, as required by our custom
     Gaussian Parser.
 
-    All similar classes should define a new method `getallattributes`, as
-    expected by
+    All similar classes should define a new method `as_dict`, as
+    expected by ESIgenReport class.
+
     Notes
     -----
     Extending ccData requires the modification of several class attributes:
@@ -56,7 +57,7 @@ class ccDataExtended(ccData_optdone_bool):
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy']
 
-    def getallattributes(self):
+    def as_dict(self):
         """
         Collects all defined attributes in _attrlist and _properties, using None
         if not present.

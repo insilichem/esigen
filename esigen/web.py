@@ -90,32 +90,39 @@ def configure_report():
 
 
 @app.route("/report/<uuid>", methods=["GET", "POST"])
-def report(uuid, template='default', css='github', show_NAs=True,
+def report(uuid, template='default', css='github', missing='N/A',
            reporter=ESIgenReport):
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
+    # POST / GET handling
     custom_template = False
     if request.method == 'POST':
         form = request.form
         template = form['template']
         css = form['css']
+        missing = form['missing-value'][:10] if form.get('missing') else ''
         if template == 'custom':
             custom_template = True
             template = form['template-custom']
     else:
         template = request.args.get('template', template)
         css = request.args.get('css', css)
+        if request.args.get('missing', bool(missing)):
+            missing = request.args.get('missing-value', missing)
         if template == 'custom':
             custom_template = True
             template = request.args.get('template-custom', template)
+    # Template
     if not custom_template:
         template_basename, template_ext = os.path.splitext(template)
         if template_ext != '.md':
             template = template_basename + '.md'
+    # Style
     css_basename, css_ext = os.path.splitext(css)
     if css_ext != '.css':
         css = css_basename + '.css'
+
     # Get their reports.
     root = os.path.join(UPLOADS, uuid)
     if not os.path.isdir(root):
@@ -126,16 +133,14 @@ def report(uuid, template='default', css='github', show_NAs=True,
         if not os.path.splitext(fn)[1] in ALLOWED_EXTENSIONS:
             continue
         path = os.path.join(root, fn)
-        molecule = reporter(path)
-        report = molecule.report(template=template, preview=False, process_markdown=True,
-                                 web=True)
+        molecule = reporter(path, missing=missing[:10])
+        report = molecule.report(template=template, preview='web', process_markdown=True)
         reports.append((molecule, report))
-        ngl = '{{ viewer3d }}' in report
         with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
             f.write(molecule.pdb_block)
 
-    return render_template('report.html', css=css, uuid=uuid,
-                           reports=reports, ngl=ngl, show_NAs=show_NAs)
+    return render_template('report.html', css=css, uuid=uuid, reports=reports,
+                           ngl='{{ viewer3d }}' in report)
 
 
 @app.route("/privacy_policy.html")

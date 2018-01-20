@@ -1,8 +1,8 @@
 # {{name}}
 
-{% if web %}
+{% if preview == 'web' %}
 {{ viewer3d }}
-{% elif preview %}
+{% elif preview == 'static' %}
 ![{{name}}]({{image}})
 {% endif %}
 
@@ -14,37 +14,37 @@ __Relevant magnitudes__
 
 | Datum                                            | Value                     |
 |:-------------------------------------------------|--------------------------:|
-{% if show_NAs or charge != 'N/A' %}
+{% if missing or charge != missing %}
 | Charge                                           | {{charge|center(25)}} |
 {% endif %}
-{% if show_NAs or mult != 'N/A' %}
+{% if missing or mult != missing %}
 | Multiplicity                                     | {{mult|center(25)}} |
 {% endif %}
-{% if show_NAs or stoichiometry != 'N/A' %}
+{% if missing or stoichiometry != missing %}
 | Stoichiometry                                    | {{stoichiometry|center(25)}} |
 {% endif %}
-{% if show_NAs or nbasis != 'N/A' %}
+{% if missing or nbasis != missing %}
 | Number of Basis Functions                        | {{nbasis|center(25)}} |
 {% endif %}
-{% if show_NAs or electronic_energy != 'N/A' %}
+{% if missing or electronic_energy != missing %}
 | Electronic Energy (eV)                           | {{electronic_energy|center(25)}} |
 {% endif %}
-{% if show_NAs or zeropointenergies != 'N/A' %}
+{% if missing or zeropointenergies != missing %}
 | Sum of electronic and zero-point Energies (eV)   | {{zeropointenergies|center(25)}} |
 {% endif %}
-{% if show_NAs or thermalenergies != 'N/A' %}
+{% if missing or thermalenergies != missing %}
 | Sum of electronic and thermal Energies (eV)      | {{thermalenergies|center(25)}} |
 {% endif %}
-{% if show_NAs or enthalpy != 'N/A' %}
+{% if missing or enthalpy != missing %}
 | Sum of electronic and thermal Enthalpies (eV)    | {{enthalpy|center(25)}} |
 {% endif %}
-{% if show_NAs or freeenergy != 'N/A' %}
+{% if missing or freeenergy != missing %}
 | Sum of electronic and thermal Free Energies (eV) | {{freeenergy|center(25)}} |
 {% endif %}
-{% if show_NAs or imaginaryfreqs != 'N/A' %}
+{% if missing or imaginaryfreqs != missing %}
 | Number of Imaginary Frequencies                  | {{imaginaryfreqs|center(25)}} |
 {% endif %}
-{% if show_NAs or mean_of_electrons != 'N/A' %}
+{% if missing or mean_of_electrons != missing %}
 | Mean of alpha and beta Electrons                 | {{mean_of_electrons|center(25)}} |
 {% endif %}
 

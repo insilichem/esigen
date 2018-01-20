@@ -33,6 +33,7 @@ from .utils import new_filename, PERIODIC_TABLE
 from .io import ccDataExtended
 
 __here__ = os.path.abspath(os.path.dirname(__file__))
+BUILTIN_TEMPLATES = os.listdir(os.path.join(__here__, 'templates', 'reports'))
 
 
 class ESIgenReport(object):
@@ -69,10 +70,12 @@ class ESIgenReport(object):
     by passing the `reporter` keyword.
     """
 
-    def __init__(self, path, parser=None, datatype=ccDataExtended, *args, **kwargs):
+    def __init__(self, path, parser=None, datatype=ccDataExtended, missing=None,
+                 *args, **kwargs):
         if not os.path.isfile(path):
             raise ValueError('Path "{}" is not available'.format(path))
         self.path = path
+        self._missing = missing
         if parser is None:
             self.parser = cclib.ccopen(self.path, datatype=datatype)
             self.parser.datatype = datatype  # workaround
@@ -141,41 +144,55 @@ class ESIgenReport(object):
         return render.view_with_chemview(self, **kwargs)
 
     def report(self, template='default.md', process_markdown=False,
-               show_NAs=True, preview=True, web=False):
+               preview='static'):
         """
-        Generate a report from a Jinja template
+        Generate a report from a Jinja template.
+
+        Parameters
+        ----------
+        template : str, optional='default.md'
+            A Jinja2 template in the form of one of the BUILTIN_TEMPLATES,
+            a local file or a string. Take in mind that if a non-existant
+            file is provided, it will be interpreted as a string!
+        process_markdown : bool, optional=False
+            Whether to further re-render a Markdown template as HTML.
+        preview : str, optional='static'
+            Flag passed to the template engine signaling the style of
+            preview to be generated: static, web or None.
         """
-        image = None
-        try:
+        static_preview = preview == 'static'
+        if template in BUILTIN_TEMPLATES:
             t = self.jinja_env.get_template(template)
-            if preview:
+            if static_preview:
                 with open(t.filename) as f:
                     ast = self.jinja_env.parse(f.read())
-                if 'image' in find_undeclared_variables(ast):
-                    image = self.render_with_pymol()
-        except:
+        else:
+            if os.path.isfile(template):
+                with open(template) as f:
+                    template = f.read()
             # Maybe it is not a file, but a Jinja string
             t = self.jinja_env.from_string(template)
-            if preview:
+            if static_preview:
                 ast = self.jinja_env.parse(template)
-                if 'image' in find_undeclared_variables(ast):
-                    image = self.render_with_pymol()
-        rendered = t.render(show_NAs=show_NAs, cartesians=self.cartesians, web=web,
+        image = None
+        if static_preview and 'image' in find_undeclared_variables(ast):
+            image = self.render_with_pymol()
+        rendered = t.render(cartesians=self.cartesians, missing=self._missing,
                             name=self.name, image=image, preview=preview,
-                            **self.data_as_dict(missing='N/A'))
+                            **self.data_as_dict())
         if process_markdown or os.environ.get('IN_PRODUCTION'):
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code'])
         return rendered
 
-    def data_as_dict(self, missing=None):
+    def data_as_dict(self):
         """
         Collects all data fields as a dictionary suitable for Jinja rendering.
-        Also, redefines None values as `missing`
+        Also, redefines None values as `self._missing`.
         """
         d = {}
-        for k, v in self.data.getallattributes().items():
+        for k, v in self.data.as_dict().items():
             if v is None:
-                v = missing
+                v = self._missing
             d[k] = v
         return d

@@ -26,8 +26,10 @@ import sys
 from esigen import ESIgenReport
 
 
-def run(path, template='default.md', show_NAs=False, preview=True, reporter=ESIgenReport):
-    return reporter(path).report(template=template, show_NAs=show_NAs, preview=preview)
+def run(path, template='default.md', missing=None, preview=True, reporter=ESIgenReport):
+    if preview is True:
+        preview = 'static'
+    return reporter(path, missing=missing).report(template=template, preview=preview)
 
 
 def parse_args():
@@ -38,9 +40,9 @@ def parse_args():
     parser.add_argument('--nopreview', action='store_true', default=False,
                         help='Disable terminal preview')
     parser.add_argument('--template', type=str, default='default.md',
-                        help='Jinja template to render report')
-    parser.add_argument('--show_NAs', action='store_true', default=False,
-                        help='Whether to show rows for not available data')
+    parser.add_argument('--missing', type=str, default='N/A',
+                        help='Value to show if a requested field was not found in the '
+                             'provided file(s). By default, do not show them.')
     return parser.parse_args()
 
 
@@ -56,7 +58,7 @@ def main():
     args = parse_args()
     for path in args.paths:
         print(run(path, args.template, preview=HAS_PYMOL and not args.nopreview,
-              show_NAs=args.show_NAs))
+                  missing=args.missing))
 
 
 if __name__ == '__main__':

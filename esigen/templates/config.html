@@ -31,6 +31,11 @@
             </p>
         </div>
     </div>
+    <div class="field">
+        <input type="checkbox" id="missing" name="missing" onChange="showMissingValueField();"/>
+        <label for="missing">Show missing values as...</label>
+        <input type="text" id="missing-value" name="missing-value" maxlength="10" value="N/A" size="10" />
+    </div>
     <!-- <input type="checkbox" name='show_NAs' id='show_NAs' value="1" /><label for="show_NAs">Show N/A values</label> -->
     <p style="margin-top: 1em">
         <input class="btn" type="submit" value="Generate report" />
@@ -48,7 +53,12 @@
             textarea.style.display = 'none';
         };
     };
-
+    function showMissingValueField() {
+        var form = document.getElementById('configure-template');
+        var checked = form.elements['missing'].checked;
+        document.getElementById('missing-value').disabled = !checked;
+    }
     document.addEventListener('DOMContentLoaded', showTextArea, false);
+    document.addEventListener('DOMContentLoaded', showMissingValueField, false);
 </script>
 {% endblock %}
