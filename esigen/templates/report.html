@@ -13,6 +13,8 @@
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
 <body>
+<script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/xepOnline.jqPlugin.js') }}"></script>
 {% if ngl %}
 <script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
 <script>
@@ -51,7 +53,7 @@ function AddNGLWidget(index, moleculeUrl) {
 };
 </script>
 {% endif %}
-<div class="container">
+<div id="main" class="container">
     <div id="markup">
         <h2>Supporting Information</h2>
         {% for molecule, report in reports %}
@@ -62,14 +64,27 @@ function AddNGLWidget(index, moleculeUrl) {
         {% endfor %}
 
         <div id="footer">
-            <p>
-                <a href="javascript:window.print()">Print this page</a> · <a href="{{ url_for('index') }}">Back to front page</a>
+            <p class="do-not-print">
+                Generate PDF: <a href="" onclick="return generatePDF();">online</a> or <a href="javascript:window.print()">via browser (recommended)</a> · <a href="{{ url_for('index') }}">Back to front page</a> ·
+                <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
             </p>
             <p align="center">
-                Generated automatically with <a href="https://github.com/insilichem/esigen" target="_blank">insilichem/esigen</a> | <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
+                Generated automatically with <a href="https://github.com/insilichem/esigen" target="_blank">insilichem/esigen</a>
             </p>
         </div>
     </div>
 </div>
+<script>
+    function generatePDF() {
+        return xepOnline.Formatter.Format('main',  {
+            render: 'download',
+            filename: 'esigen-report',
+            embedLocalImages: true,
+            resolution: 600,
+            pageWidth: '216mm',
+            pageHeight: '279mm'
+        });
+    };
+</script>
 </body>
 </html>
