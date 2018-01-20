@@ -31,7 +31,8 @@ def run(path, template='default.md', show_NAs=False, preview=True, reporter=ESIg
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Preview a Gaussian output file')
+    parser = argparse.ArgumentParser(prog="esigen",
+        description='Generate Supporting Information reports for Comp Chem studies.')
     parser.add_argument('paths', metavar='PATH', type=str, nargs='+',
                         help='One or more paths to *.out, *.qfi files')
     parser.add_argument('--nopreview', action='store_true', default=False,

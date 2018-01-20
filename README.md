@@ -26,7 +26,7 @@ cd esigen-master
 python runserver.py
 ```
 
-You can also install it as a Python CLI program with `python setup.py install`, which will provide an executable called `qmview` with the same purpose. Run `qmview -h` to print usage guidelines.
+You can also install it as a Python CLI program with `python setup.py install`, which will provide an executable called `esigen` with the same purpose. Run `esigen -h` to print usage guidelines.
 
 
 # Acknowledgments
