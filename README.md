@@ -4,7 +4,7 @@ Automatically generate supporting information documents for your Chemistry publi
 
 # Usage
 
-Visit http://esi.insilichem.com and submit your Gaussian outputs there. This is only a demo server, so performance won't be stellar... All files will be deleted within 24h and we won't collect any data from you.
+Visit http://esi.insilichem.com and submit your Gaussian outputs there. This is only a demo server, so performance won't be stellar... All files will be deleted within 1h and we won't collect any data from you.
 
 # Local installation
 
