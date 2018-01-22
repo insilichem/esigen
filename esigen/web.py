@@ -218,11 +218,10 @@ if HAS_PYMOL is None:
         pymol_start_server()
         HAS_PYMOL = True
     except ImportError as e:
-        HAS_PYMOL = FALSE
-        print(e)
+        HAS_PYMOL = False
         print('Install PyMOL to render images! With conda, use:\n'
-                '  conda install -c omnia -c egilliesix pymol libglu python=2.7',
-                file=sys.stderr)
-def main():
+              '  conda install -c omnia -c egilliesix pymol libglu python=2.7.\n'
+              'More details:\n', e, file=sys.stderr)
 
+def main():
     app.run(debug=True, threaded=True)
