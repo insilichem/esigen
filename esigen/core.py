@@ -13,14 +13,14 @@ Generate supporting information for computational chemistry publications
 """
 
 # Stdlib
-from __future__ import division, print_function, absolute_import
+from __future__ import division, print_function, absolute_import, unicode_literals
 import os
 import sys
 from collections import defaultdict
 from textwrap import dedent
 from itertools import chain
 # 3rd party
-import cclib
+from cclib.io.ccio import guess_filetype
 from cclib.parser.data import ccData
 from cclib.parser.utils import convertor
 from markdown import markdown
@@ -77,7 +77,12 @@ class ESIgenReport(object):
         self.path = path
         self._missing = missing
         if parser is None:
-            self.parser = cclib.ccopen(self.path, datatype=datatype)
+            with open(self.path) as f:
+                guessed = guess_filetype(f)
+            if guessed is None:
+                raise ValueError('File {} is not parsable!'.format(self.path))
+            fh = open(self.path) if sys.version_info.major == 2 else self.path
+            self.parser = guessed(fh, datatype=datatype)
             self.parser.datatype = datatype  # workaround
             self.parser = self.parser.parse
         self.name = os.path.splitext(os.path.basename(path))[0]
