@@ -9,7 +9,9 @@ dependencies:
   - numpy
   - libglu
   - pip:
-      - apscheduler
-      - gunicorn
-      - flask
-      - cclib==1.4.1
+    - apscheduler
+    - cclib
+    - flask
+    - flask-sslify
+    - markdown
+    - gunicorn

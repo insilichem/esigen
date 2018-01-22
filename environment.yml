@@ -4,7 +4,7 @@ dependencies:
 - numpy
 - pip:
   - apscheduler
-  - cclib==1.4.1
+  - cclib
   - flask
   - flask-sslify
   - markdown
