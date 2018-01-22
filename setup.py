@@ -38,9 +38,10 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    install_requires=['cclib'],
+    install_requires=['cclib', 'flask'],
     entry_points='''
         [console_scripts]
         esigen=esigen.cli:main
+        esigenweb=esigen.web:main
         '''
 )
