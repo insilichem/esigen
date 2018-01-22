@@ -10,11 +10,17 @@
 from __future__ import unicode_literals, print_function, division, absolute_import
 import os
 import json
+import sys
 from uuid import uuid4
 import datetime
 import shutil
 from textwrap import dedent
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory
+from zipfile import ZipFile, ZIP_DEFLATED
+try:
+    from StringIO import BytesIO
+except ImportError:
+    from io import BytesIO
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
 from esigen import ESIgenReport
@@ -35,7 +41,7 @@ app.config['PRODUCTION'] = PRODUCTION
 app.config['UPLOADS'] = UPLOADS
 app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
 app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
-ALLOWED_EXTENSIONS = ('.qfi', '.out', '.log')
+ALLOWED_EXTENSIONS = set(('.out', '.log', '.adfout', '.qfi'))
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
 
 
@@ -89,12 +95,15 @@ def configure_report():
     return redirect(url_for("index", **URL_KWARGS))
 
 
-@app.route("/report/<uuid>", methods=["GET", "POST"])
+@app.route("/report/<uuid>/", methods=["GET", "POST"])
+@app.route("/report/<uuid>/<engine>", methods=["GET", "POST"])
 def report(uuid, template='default', css='github', missing='N/A',
-           reporter=ESIgenReport):
+           reporter=ESIgenReport, engine='html'):
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
+    if engine not in ('html', 'zip'):
+        engine = 'html'
     # POST / GET handling
     custom_template = False
     if request.method == 'POST':
@@ -129,18 +138,39 @@ def report(uuid, template='default', css='github', missing='N/A',
         return redirect(url_for("index", message="Upload error. Try again", **URL_KWARGS))
 
     reports, molecules = [], []
+    html = engine == 'html'
     for fn in sorted(os.listdir(root)):
-        if not os.path.splitext(fn)[1] in ALLOWED_EXTENSIONS:
+        if os.path.splitext(fn)[1] not in ALLOWED_EXTENSIONS:
             continue
         path = os.path.join(root, fn)
-        molecule = reporter(path, missing=missing[:10])
-        report = molecule.report(template=template, preview='web', process_markdown=True)
+        try:
+            molecule = reporter(path, missing=missing[:10])
+        except ValueError as e:
+            print(e, file=sys.stderr)
+            continue
+        report = molecule.report(template=template, preview='web', # if html else 'static',
+                                 process_markdown=html)
         reports.append((molecule, report))
+        with open(os.path.join(root, molecule.basename + '.md'), 'w') as f:
+            f.write(report)
         with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
             f.write(molecule.pdb_block)
+        with open(os.path.join(root, molecule.basename + '.xyz'), 'w') as f:
+            f.write(molecule.xyz_block)
+    if not reports:
+        return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
 
-    return render_template('report.html', css=css, uuid=uuid, reports=reports,
-                           ngl='{{ viewer3d }}' in report)
+    if engine == 'html':
+        return render_template('report.html', css=css, uuid=uuid, reports=reports,
+                               ngl='{{ viewer3d }}' in report)
+    elif engine == 'zip':
+        memfile = BytesIO()
+        with ZipFile(memfile, 'w', ZIP_DEFLATED) as zf:
+            for base, dirs, files in os.walk(root):
+                for filename in files:
+                    zf.write(os.path.join(base, filename), arcname=filename)
+        memfile.seek(0)
+        return send_file(memfile, attachment_filename='{}.zip'.format(uuid), as_attachment=True)
 
 
 @app.route("/privacy_policy.html")
@@ -176,3 +206,8 @@ def allowed_filename(*filenames):
         fn = filename.filename
         if '.' in fn and os.path.splitext(fn)[1].lower() in ALLOWED_EXTENSIONS:
             yield filename
+
+
+def main():
+    print("Running local server...")
+    app.run(debug=True, threaded=True)
