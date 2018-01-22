@@ -2,7 +2,7 @@
 
 {% if preview == 'web' %}
 {{ viewer3d }}
-{% elif preview == 'static' %}
+{% elif preview in ('static', 'static_server') %}
 ![{{name}}]({{image}})
 {% endif %}
 

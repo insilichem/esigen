@@ -184,7 +184,7 @@ class ESIgenReport(object):
             if preview == 'static':
                 image = self.render_with_pymol()
             elif preview == 'static_server':
-                image = self.render_with_pymol_server()
+                image = os.path.basename(self.render_with_pymol_server())
 
         rendered = t.render(cartesians=self.cartesians, missing=self._missing,
                             name=self.name, image=image, preview=preview,
