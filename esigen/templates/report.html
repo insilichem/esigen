@@ -15,6 +15,7 @@
 <body>
 <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/xepOnline.jqPlugin.js') }}"></script>
+<script src="{{ url_for('static', filename='js/clipboard.min.js') }}"></script>
 {% if ngl %}
 <script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
 <script>
@@ -71,6 +72,7 @@ function AddNGLWidget(index, moleculeUrl) {
             <p class="do-not-print">
                 <a href="" onclick="return generatePDF();">Download PDF</a> &middot;
                 <a href="zip">ZIP</a> &middot;
+                <a href="javascript:return" id='copy-btn' data-clipboard-target="#markup">Copy to clipboard</a> &middot;
                 <a href="javascript:window.print()" target="_blank">Print</a> &middot;
                 <a href="{{ url_for('index') }}">Back to front page</a> &middot;
                 <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
@@ -105,7 +107,12 @@ function AddNGLWidget(index, moleculeUrl) {
                 setTimeout(generatePDF, 500);
             }
         });
-
+    });
+    var clipboard = new Clipboard('#copy-btn');
+    clipboard.on('success', function (e) {
+        e.clearSelection();
+        jQuery('#loader').toggle('show');
+        setTimeout(function() { jQuery('#loader').toggle('hide');}, 1000);
     });
 </script>
 </body>
