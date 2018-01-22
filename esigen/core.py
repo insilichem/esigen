@@ -111,7 +111,7 @@ class ESIgenReport(object):
 
     @property
     def xyz_block(self):
-        return '\n'.join(['{:6} {: 10.6f} {: 10.6f} {: 10.6f}'.format(a, *xyz)
+        return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
                           for (a, xyz) in zip(self.data.atoms, self.data.coordinates)])
     cartesians = xyz_block
 
@@ -150,8 +150,7 @@ class ESIgenReport(object):
     def view_with_chemview(self, **kwargs):
         return render.view_with_chemview(self, **kwargs)
 
-    def report(self, template='default.md', process_markdown=False,
-               preview='static'):
+    def report(self, template='default.md', process_markdown=False, preview=None):
         """
         Generate a report from a Jinja template.
 

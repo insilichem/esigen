@@ -49,13 +49,13 @@ class ccDataExtended(ccData_optdone_bool):
         {'stoichiometry':     Attribute(str,   'stoichiometry',         'N/A'),
          'thermalenergies':   Attribute(float, 'thermal energies',      'N/A'),
          'zeropointenergies': Attribute(float, 'zero-point energies',   'N/A'),
-         'imaginaryfreqs':    Attribute(int,   'imaginary frequencies', 'N/A'),
          'alphaelectrons':    Attribute(int,   'alpha electrons',       'N/A'),
          'betaelectrons':     Attribute(int,   'beta electrons',        'N/A'),
          'route':             Attribute(str,   'route section',         'N/A'),
          })
     _attrlist = sorted(_attributes.keys())
-    _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy']
+    _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
+                   'imaginary_freqs']
 
     def as_dict(self):
         """
@@ -85,6 +85,11 @@ class ccDataExtended(ccData_optdone_bool):
         if hasattr(self, 'scfenergies'):
             return convertor(self.scfenergies[-1], 'eV', 'hartree')
 
+    @property
+    def imaginary_freqs(self):
+        if hasattr(self, 'vibfreqs'):
+            return (self.vibfreqs < 0).sum()
+
 
 class GaussianParser(_cclib_Gaussian):
 
@@ -110,8 +115,6 @@ class GaussianParser(_cclib_Gaussian):
                 self.set_attribute('enthalpy', convertor(float(line.split()[6]), 'hartree', 'eV'))
             if "Sum of electronic and thermal Free Energies=" in line:
                 self.set_attribute('freeenergy', convertor(float(line.split()[7]), 'hartree', 'eV'))
-            if "imaginary frequencies (negative Signs)" in line:
-                self.set_attribute('imaginaryfreqs', int(line.split()[1]))
             if "alpha electrons" in line:
                 fields = line.split()
                 alpha_index = fields.index('alpha')

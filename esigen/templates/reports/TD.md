@@ -54,7 +54,7 @@ __Molecular Geometry in Cartesian Coordinates__
 {{cartesians}}
 ```
 
-## Excited states
+__Excited states__
 
 {% for state in etsecs[:5] %}
 {% set symmetry = etsyms[loop.index-1] %}

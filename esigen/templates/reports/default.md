@@ -41,8 +41,8 @@ __Relevant magnitudes__
 {% if missing or freeenergy != missing %}
 | Sum of electronic and thermal Free Energies (eV) | {{freeenergy|center(25)}} |
 {% endif %}
-{% if missing or imaginaryfreqs != missing %}
-| Number of Imaginary Frequencies                  | {{imaginaryfreqs|center(25)}} |
+{% if missing or imaginary_freqs != missing %}
+| Number of Imaginary Frequencies                  | {{imaginary_freqs|center(25)}} |
 {% endif %}
 {% if missing or mean_of_electrons != missing %}
 | Mean of alpha and beta Electrons                 | {{mean_of_electrons|center(25)}} |
@@ -53,5 +53,15 @@ __Molecular Geometry in Cartesian Coordinates__
 ```xyz
 {{cartesians}}
 ```
+{% if vibfreqs != missing %}
 
+__Frequencies__
+
+```
+{% for freq in vibfreqs[:10] %}
+{{'{:>3d}'.format(loop.index)}}. {{ '{: 12.4f}'.format(freq) }} cm-1 (Symmetry: {{vibsyms[loop.index-1]}}) {% if freq < 0 %} * {% endif %}
+
+{% endfor %}
+{% endif %}
+```
 ***
