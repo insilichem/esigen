@@ -18,9 +18,12 @@
 {% if ngl %}
 <script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
 <script>
+document.NGLStages = {};
 function AddNGLWidget(index, moleculeUrl) {
+    if (index in document.NGLStages) return document.NGLStages[index];
     var stage = new NGL.Stage("viewport"+index,
         {fogNear: 100, fogFar: 100, backgroundColor: 'white'});
+    document.NGLStages[index] = stage;
     stage.loadFile(moleculeUrl, {ext: 'pdb'}).then(function (component) {
         var sele = 'not (_C or _H or _N or _O)';
         component.addRepresentation("cartoon");  // for proteins
@@ -64,8 +67,11 @@ function AddNGLWidget(index, moleculeUrl) {
         {% endfor %}
 
         <div id="footer">
+            <div id="loader" class="loader" style="display:none;"></div>
             <p class="do-not-print">
-                Generate PDF: <a href="" onclick="return generatePDF();">online</a> or <a href="javascript:window.print()">via browser (recommended)</a> · <a href="{{ url_for('index') }}">Back to front page</a> ·
+                <a href="" onclick="return generatePDF();">Download PDF</a> &middot;
+                <a href="javascript:window.print()" target="_blank">Print</a> &middot;
+                <a href="{{ url_for('index') }}">Back to front page</a> &middot;
                 <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
             </p>
             <p align="center">
@@ -76,15 +82,30 @@ function AddNGLWidget(index, moleculeUrl) {
 </div>
 <script>
     function generatePDF() {
-        return xepOnline.Formatter.Format('main',  {
-            render: 'download',
+        var response = xepOnline.Formatter.Format('main',  {
+            //render: 'download',
             filename: 'esigen-report',
             embedLocalImages: true,
-            resolution: 600,
+            resolution: 300,
             pageWidth: '216mm',
             pageHeight: '279mm'
         });
+        return response;
     };
+    document.addEventListener('DOMContentLoaded', function () {
+        jQuery(document).on("xepOnlineStatus", function (event, state) {
+            if (state == "Started") {
+                jQuery('#loader').toggle('show');
+            }
+            else if (state == "Finished") {
+                jQuery('#loader').toggle('hide');
+            }
+            else if (state == "Errored") {
+                setTimeout(generatePDF, 500);
+            }
+        });
+
+    });
 </script>
 </body>
 </html>
