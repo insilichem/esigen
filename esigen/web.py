@@ -110,7 +110,7 @@ def report(uuid, template='default', css='github', missing='N/A',
         form = request.form
         template = form['template']
         css = form['css']
-        missing = form['missing-value'][:10] if form.get('missing') else ''
+        missing = form['missing-value'] if form.get('missing') else ''
         if template == 'custom':
             custom_template = True
             template = form['template-custom']
@@ -139,17 +139,19 @@ def report(uuid, template='default', css='github', missing='N/A',
 
     reports, molecules = [], []
     html = engine == 'html'
+    if html:
+        preview = 'web'
+    elif HAS_PYMOL and engine =='zip':
+        preview = 'static_server'
+    else:
+        preview = None
+    missing = missing[:10] if missing is not None else None
     for fn in sorted(os.listdir(root)):
         if os.path.splitext(fn)[1] not in ALLOWED_EXTENSIONS:
             continue
         path = os.path.join(root, fn)
-        try:
-            molecule = reporter(path, missing=missing[:10])
-        except ValueError as e:
-            print(e, file=sys.stderr)
-            continue
-        report = molecule.report(template=template, preview='web', # if html else 'static',
-                                 process_markdown=html)
+        molecule = reporter(path, missing=missing)
+        report = molecule.report(template=template, preview=preview, process_markdown=html)
         reports.append((molecule, report))
         with open(os.path.join(root, molecule.basename + '.md'), 'w') as f:
             f.write(report)
@@ -208,6 +210,19 @@ def allowed_filename(*filenames):
             yield filename
 
 
+HAS_PYMOL = None
+print("Running local server...")
+if HAS_PYMOL is None:
+    try:
+        from ._pymol_server import pymol_start_server
+        pymol_start_server()
+        HAS_PYMOL = True
+    except ImportError as e:
+        HAS_PYMOL = FALSE
+        print(e)
+        print('Install PyMOL to render images! With conda, use:\n'
+                '  conda install -c omnia -c egilliesix pymol libglu python=2.7',
+                file=sys.stderr)
 def main():
-    print("Running local server...")
+
     app.run(debug=True, threaded=True)

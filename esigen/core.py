@@ -163,9 +163,9 @@ class ESIgenReport(object):
             Whether to further re-render a Markdown template as HTML.
         preview : str, optional='static'
             Flag passed to the template engine signaling the style of
-            preview to be generated: static, web or None.
+            preview to be generated: static, static_server, web or None.
         """
-        static_preview = preview == 'static'
+        static_preview = preview in ('static', 'static_server')
         if template in BUILTIN_TEMPLATES:
             t = self.jinja_env.get_template(template)
             if static_preview:
@@ -181,7 +181,11 @@ class ESIgenReport(object):
                 ast = self.jinja_env.parse(template)
         image = None
         if static_preview and 'image' in find_undeclared_variables(ast):
-            image = self.render_with_pymol()
+            if preview == 'static':
+                image = self.render_with_pymol()
+            elif preview == 'static_server':
+                image = self.render_with_pymol_server()
+
         rendered = t.render(cartesians=self.cartesians, missing=self._missing,
                             name=self.name, image=image, preview=preview,
                             **self.data_as_dict())
