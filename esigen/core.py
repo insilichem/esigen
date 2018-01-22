@@ -92,6 +92,8 @@ class ESIgenReport(object):
                                      loader=PackageLoader('esigen', 'templates/reports'))
         # Make sure we get a consistent spacing for later replacing
         self.jinja_env.globals['viewer3d'] = '{{ viewer3d }}'
+        self.jinja_env.globals['missing'] = missing
+        self.jinja_env.globals['convertor'] = convertor
 
     def parse(self, *args, **kwargs):
         """
@@ -186,9 +188,8 @@ class ESIgenReport(object):
             elif preview == 'static_server':
                 image = os.path.basename(self.render_with_pymol_server())
 
-        rendered = t.render(cartesians=self.cartesians, missing=self._missing,
-                            name=self.name, image=image, preview=preview,
-                            **self.data_as_dict())
+        rendered = t.render(cartesians=self.cartesians, name=self.name,
+                            image=image, preview=preview, **self.data_as_dict())
         if process_markdown or os.environ.get('IN_PRODUCTION'):
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code'])
