@@ -62,7 +62,7 @@ class ccDataExtended(ccData_optdone_bool):
          })
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
-                   'imaginary_freqs']
+                   'imaginary_freqs', 'cartesians']
 
     def as_dict(self):
         """
@@ -97,6 +97,33 @@ class ccDataExtended(ccData_optdone_bool):
         if hasattr(self, 'vibfreqs'):
             return (self.vibfreqs < 0).sum()
 
+    @property
+    def xyz_block(self):
+        return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
+                          for (a, xyz) in zip(self.atoms, self.coordinates)])
+    cartesians = xyz_block
+
+    @property
+    def pdb_block(self):
+        s = ('{field:<6}{serial_number:>5d} '
+             '{atom_name:^4}{alt_loc_indicator:<1}{res_name:<3} '
+             '{chain_id:<1}{res_seq_number:>4d}{insert_code:<1}   '
+             '{x_coord: >8.3f}{y_coord: >8.3f}{z_coord: >8.3f}'
+             '{occupancy:>6.2f}{temp_factor:>6.2f}          '
+             '{element:>2}{charge:>2}')
+        default = {'alt_loc_indicator': '', 'res_name': 'UNK', 'chain_id': '',
+                   'res_seq_number': 1, 'insert_code': '', 'occupancy': 1.0,
+                   'temp_factor': 0.0, 'charge': ''}
+        pdb = ['TITLE unknown', 'MODEL 1']
+        counter = defaultdict(int)
+        for i, (element, (x, y, z)) in enumerate(zip(self.atoms, self.coordinates)):
+            field = 'ATOM' if element.upper() in 'CHONPS' else 'HETATM'
+            counter[element] += 1
+            pdb.append(s.format(field=field, serial_number=i + 1, element=element,
+                                atom_name='{}{}'.format(element, counter[element]),
+                                x_coord=x, y_coord=y, z_coord=z, **default))
+        pdb.append('ENDMDL\nEND\n')
+        return '\n'.join(pdb)
 
 class GaussianParser(_cclib_Gaussian):
 

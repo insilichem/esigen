@@ -104,34 +104,6 @@ class ESIgenReport(object):
         except ValueError:
             raise ValueError("File {} could not be parsed. Please")
 
-    @property
-    def xyz_block(self):
-        return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
-                          for (a, xyz) in zip(self.data.atoms, self.data.coordinates)])
-    cartesians = xyz_block
-
-    @property
-    def pdb_block(self):
-        s = ('{field:<6}{serial_number:>5d} '
-             '{atom_name:^4}{alt_loc_indicator:<1}{res_name:<3} '
-             '{chain_id:<1}{res_seq_number:>4d}{insert_code:<1}   '
-             '{x_coord: >8.3f}{y_coord: >8.3f}{z_coord: >8.3f}'
-             '{occupancy:>6.2f}{temp_factor:>6.2f}          '
-             '{element:>2}{charge:>2}')
-        default = {'alt_loc_indicator': '', 'res_name': 'UNK', 'chain_id': '',
-                   'res_seq_number': 1, 'insert_code': '', 'occupancy': 1.0,
-                   'temp_factor': 0.0, 'charge': ''}
-        pdb = ['TITLE unknown', 'MODEL 1']
-        counter = defaultdict(int)
-        for i, (element, (x, y, z)) in enumerate(zip(self.data.atoms, self.data.coordinates)):
-            field = 'ATOM' if element.upper() in 'CHONPS' else 'HETATM'
-            counter[element] += 1
-            pdb.append(s.format(field=field, serial_number=i + 1, element=element,
-                                atom_name='{}{}'.format(element, counter[element]),
-                                x_coord=x, y_coord=y, z_coord=z, **default))
-        pdb.append('ENDMDL\nEND\n')
-        return '\n'.join(pdb)
-
     # Render methods
     def render_with_pymol(self, **kwargs):
         return render.render_with_pymol(self, **kwargs)
@@ -182,8 +154,8 @@ class ESIgenReport(object):
             elif preview == 'static_server':
                 image = os.path.basename(self.render_with_pymol_server())
 
-        rendered = t.render(cartesians=self.cartesians, name=self.name,
-                            image=image, preview=preview, **self.data_as_dict())
+        rendered = t.render(name=self.name, image=image, preview=preview,
+                            **self.data_as_dict())
         if process_markdown or os.environ.get('IN_PRODUCTION'):
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code'])

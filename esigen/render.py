@@ -11,6 +11,7 @@ import os
 
 
 def render_with_pymol_from_file(path):
+    """Render molecule from file (any format supported by PyMol)"""
     import pymol
     pymol.cmd.reinitialize()
     name, _ = os.path.splitext(path)
@@ -29,9 +30,10 @@ def render_with_pymol_from_file(path):
 
 
 def render_with_pymol(parsed_file, output_path=None, width=1200, **kwargs):
+    """Render ESIGenReport with PyMol"""
     import pymol
     pymol.cmd.reinitialize()
-    pymol.cmd.read_pdbstr(parsed_file.pdb_block, parsed_file.name)
+    pymol.cmd.read_pdbstr(parsed_file.data.pdb_block, parsed_file.name)
     pymol.cmd.bg_color('white')
     pymol.preset.ball_and_stick()
     pymol.cmd.set('sphere_scale', 0.2, 'symbol H')
@@ -50,12 +52,13 @@ def render_with_pymol(parsed_file, output_path=None, width=1200, **kwargs):
 
 
 def render_with_pymol_server(parsed_file, output_path=None, width=1200, **kwargs):
+    """Render ESIgenReport with PyMol (server-client model)"""
     if output_path is None:
         output_path = parsed_file.path + '.png'
     from ._pymol_server import pymol_client
     client = pymol_client()
     client.do('reinitialize')
-    client.loadPDB(parsed_file.pdb_block, parsed_file.name)
+    client.loadPDB(parsed_file.data.pdb_block, parsed_file.name)
     client.do('bg_color white')
     client.do('preset.ball_and_stick()')
     client.do('set sphere_scale, 0.2, symbol H')
@@ -72,8 +75,9 @@ def render_with_pymol_server(parsed_file, output_path=None, width=1200, **kwargs
 
 
 def view_with_nglview(parsed_file, **kwargs):
+    """Render ESIgenReport with nglview (for Jupyter Notebooks)"""
     import nglview as nv
-    structure = nv.TextStructure(parsed_file.pdb_block, ext='pdb')
+    structure = nv.TextStructure(parsed_file.data.pdb_block, ext='pdb')
     parameters = {"clipNear": 0, "clipFar": 100, "clipDist": 0, "fogNear": 1000, "fogFar": 100}
     representations = [
         {'type': 'ball+stick',
@@ -88,7 +92,8 @@ def view_with_nglview(parsed_file, **kwargs):
 
 
 def view_with_chemview(parsed_file, **kwargs):
+    """Render ESIgenReport with chemview (for Jupyter Notebooks)"""
     import chemview as cv
-    topology = {'atom_types': parsed_file.data['atoms']}
-    coords = parsed_file.data['coordinates']
+    topology = {'atom_types': parsed_file.data.atoms}
+    coords = parsed_file.data.coordinates
     return cv.MolecularViewer(coords, topology, **kwargs)

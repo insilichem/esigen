@@ -159,9 +159,9 @@ def report(uuid, template='default', css='github', missing='N/A',
         with open(os.path.join(root, molecule.basename + '.md'), 'w') as f:
             f.write(report)
         with open(os.path.join(root, molecule.basename + '.pdb'), 'w') as f:
-            f.write(molecule.pdb_block)
+            f.write(molecule.data.pdb_block)
         with open(os.path.join(root, molecule.basename + '.xyz'), 'w') as f:
-            f.write(molecule.xyz_block)
+            f.write(molecule.data.xyz_block)
     if not reports:
         return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
 
