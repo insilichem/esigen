@@ -44,11 +44,11 @@ class ESIgenReport(object):
         Path to the file to be analyzed
     parser: callable, optional
         If provided, use an alternative parsing logic. This callable must return
-        a ccData subclass with a `getallattributes` method. See `esigen.io.ccDataExtended`
-        for an example.
+        a ccData subclass with a `as_dict` method that provides all fields in a
+        dict. See `esigen.io.ccDataExtended` for an example.
     datatype: cclib.parser.ccData or subclass, optional
         Use a subclass to add new fields compatible with a custom parser.
-    *args, **kwargs: arguments to be passed to `parser`
+    *args, **kwargs: arguments that will be passed to `parser`
 
     Notes
     -----
@@ -56,7 +56,7 @@ class ESIgenReport(object):
     will use `cclib.ccopen` to parse the results automatically, but a
     specific one can be chosen with the `parser` option (see above).
 
-    Then the resulting `cclib.ccData` object is stored in `ESIgenReport.data`. A dict
+    Then the resulting `cclib.ccData`-like object is stored in `ESIgenReport.data`. A dict
     view of this object can be obtained with `ESIgenReport.data_as_dict`.
 
     To implement new fields, subclass `ESIgenReport` and modify `ESIgenReport.PARSERS`

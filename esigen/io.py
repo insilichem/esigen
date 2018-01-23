@@ -134,8 +134,9 @@ class GaussianParser(_cclib_Gaussian):
     def __init__(self, *args, **kwargs):
         # Call the __init__ method of the superclass
         super(GaussianParser, self).__init__(*args, **kwargs)
-        self.datatype = ccDataExtended
+        self.datatype = ccDataExtended  # workaround
 
+    # Reimplement .extract() in your own subclasses to add more fields.
     def extract(self, inputfile, line):
         try:
             super(GaussianParser, self).extract(inputfile, line)
