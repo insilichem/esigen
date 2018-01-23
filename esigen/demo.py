@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+This module handles the execution on the demo server.
+
+It provides a scheduled removal of the uploaded files every hour.
+"""
+
 from __future__ import print_function, division, absolute_import
 import logging, atexit
 from apscheduler.schedulers.background import BackgroundScheduler

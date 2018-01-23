@@ -1,1 +1,1 @@
-web: gunicorn esigen.run:app --preload --log-file -
+web: gunicorn esigen.demo:app --preload --log-file -
