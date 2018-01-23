@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#       Supporting Information Generator       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime@insilichem.com> @ 2016   #
-################################################
+"""Functions to launch PyMol with Python interface"""
 
 from xmlrpclib import ServerProxy
 from subprocess import Popen

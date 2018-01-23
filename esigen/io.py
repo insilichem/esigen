@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#       Supporting Information Generator       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime@insilichem.com> @ 2016   #
-################################################
+"""
+This module provides additional fields not present in the cclib parsers as
+of version 1.5.2. It also serves as an example on how to extend the
+functionality of ESIgen to new formats.
+
+Two subclasses are implemented here: `ccDataExtended` (based on
+cclib.parser.data.ccData_optdone_bool) and `GaussianParser` (based on
+cclib.parser.Gaussian). `ccDataExtended` is chosen as the default
+`datatype` in all the calls to the cclib parsers. To replace
+the default Gaussian parser in cclib, the list `cclib.io.ccio.triggers`
+is patched upon import of this module (see end of file).
+"""
 
 # Stdlib
 from __future__ import division, print_function, absolute_import

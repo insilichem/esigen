@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#       Supporting Information Generator       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime@insilichem.com> @ 2016   #
-################################################
+"""
+Web interface for ESIgen
+
+Requires:
+
+- flask
+- flask_sslify
+"""
 
 from __future__ import unicode_literals, print_function, division, absolute_import
 import os

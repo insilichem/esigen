@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#       Supporting Information Generator       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime@insilichem.com> @ 2016   #
-################################################
+"""
+Functions to represent molecular files in 3D depictions
+"""
 
 # Stdlib
 from __future__ import division, print_function, absolute_import

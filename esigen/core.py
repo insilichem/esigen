@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#       Supporting Information Generator       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime@insilichem.com> @ 2016   #
-################################################
-
 """
-Generate supporting information for computational chemistry publications
-
+Core logic of the package is contained in the `ESIgenReport` class,
+which handles the parsing through `cclib` and provide convenience
+wrappers for Jinja2 templating and 3D image renderization.
 """
 
 # Stdlib
