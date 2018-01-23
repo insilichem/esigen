@@ -1,19 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-################################################
-#        QMVIEW: Preview QM calculations       #
-# -------------------------------------------- #
-# By Jaime RGP <jaime.rogue@gmail.com> @ 2016  #
-################################################
-
 """
-Preview a Gaussian output file in terminal
+Command-line interface for ESIgen. Run `esigen -h` in terminal for help.
 
 Requires:
     - python 2.7
     - pymol 1.7.4.0
-    - cclib 1.4.1
+    - cclib 1.5.2
     - libcaca 0.99 (other versions might work too)
 """
 
@@ -35,11 +29,10 @@ def run(path, template='default.md', missing=None, preview=True, reporter=ESIgen
 
 def parse_args():
     parser = argparse.ArgumentParser(prog="esigen",
-        description='Generate Supporting Information reports for Comp Chem studies.')
+        description='Generate Supporting Information reports for Comp Chem studies.\n'
+                    'By InsiliChem, UAB.')
     parser.add_argument('paths', metavar='PATH', type=str, nargs='+',
                         help='One or more paths to *.out, *.qfi files')
-    parser.add_argument('--nopreview', action='store_true', default=False,
-                        help='Disable image preview (requires PyMol and libcaca)')
     parser.add_argument('--template', type=str, default='default.md',
                         help='Jinja template to render report (builtin: {}). '
                              'Check the documentation to learn more on how to '
@@ -51,20 +44,15 @@ def parse_args():
 
 
 def main():
-    args = parse_args()
     try:
         import pymol
         pymol.finish_launching(['pymol', '-qc'])
         HAS_PYMOL = True
     except ImportError:
         HAS_PYMOL = False
-        if not args.nopreview:
-            print('Install PyMOL to render images! With conda, use:\n'
-                  '  conda install -c omnia -c egilliesix pymol libglu python=2.7',
-                  file=sys.stderr)
+    args = parse_args()
     for path in args.paths:
-        print(run(path, args.template, preview=HAS_PYMOL and not args.nopreview,
-                  missing=args.missing))
+        print(run(path, args.template, preview=HAS_PYMOL, missing=args.missing))
 
 
 if __name__ == '__main__':
