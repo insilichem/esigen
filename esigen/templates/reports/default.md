@@ -62,6 +62,6 @@ __Frequencies__
 {{'{:>3d}'.format(loop.index)}}. {{ '{: 12.4f}'.format(freq) }} cm-1 (Symmetry: {{vibsyms[loop.index-1]}}) {% if freq < 0 %} * {% endif %}
 
 {% endfor %}
-{% endif %}
 ```
+{% endif %}
 ***
