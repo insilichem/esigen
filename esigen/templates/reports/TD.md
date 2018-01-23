@@ -66,7 +66,7 @@ __Excited states__
 E={{energy}}eV, f={{ strength }}
 
 {% for transition in state %}
-- {{ transition[0][0] }}->{{ transition[1][0] }} = {{ '% .9f' | format(transition[2]) }}
+- {{ transition[0][0] + 1 }}->{{ transition[1][0] + 1 }} = {{ '{: 5.2%}'.format(transition[2]**2) }}
 
 {% endfor %}
 {% endfor %}
