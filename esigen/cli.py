@@ -33,11 +33,11 @@ def parse_args():
                     'By InsiliChem, UAB.')
     parser.add_argument('paths', metavar='PATH', type=str, nargs='+',
                         help='One or more paths to *.out, *.qfi files')
-    parser.add_argument('--template', type=str, default='default.md',
+    parser.add_argument('-t', '--template', type=str, default='default.md',
                         help='Jinja template to render report (builtin: {}). '
                              'Check the documentation to learn more on how to '
                              'build your own templates.'.format(', '.join(BUILTIN_TEMPLATES)))
-    parser.add_argument('--missing', type=str, default='N/A',
+    parser.add_argument('-m', '--missing', type=str, default='N/A',
                         help='Value to show if a requested field was not found in the '
                              'provided file(s). By default, do not show them.')
     return parser.parse_args()
