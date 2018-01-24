@@ -32,14 +32,15 @@ def parse_args():
         description='Generate Supporting Information reports for Comp Chem studies.\n'
                     'By InsiliChem, UAB.')
     parser.add_argument('paths', metavar='PATH', type=str, nargs='+',
-                        help='One or more paths to *.out, *.qfi files')
+                        help='One or more paths to comp chem logfiles.')
     parser.add_argument('-t', '--template', type=str, default='default.md',
                         help='Jinja template to render report (builtin: {}). '
                              'Check the documentation to learn more on how to '
                              'build your own templates.'.format(', '.join(BUILTIN_TEMPLATES)))
     parser.add_argument('-m', '--missing', type=str, default='N/A',
                         help='Value to show if a requested field was not found in the '
-                             'provided file(s). By default, do not show them.')
+                             'provided file(s). By default, "N/A". Use empty value "" '
+                             'to disable.')
     return parser.parse_args()
 
 
