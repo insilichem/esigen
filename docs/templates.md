@@ -62,15 +62,46 @@ In the `default.md` template, `missing` is checked in every row to control if th
 
 For example, if `stoichiometry` is not available in the file:
 
-__Case A__ (`missing = ''`, default)
+__Case A__ (`missing = ''`)
 
-    # dvb_gopt
+    # TDNI_GGCMPW
 
-    - Electronic Energy (eV): -5.16295044221
+    __Requested operations__
 
-__Case B__: (`missing = 'N/A'`)
+    `p td=(nstates=30) MPW1PW91 scrf=(solvent=water) geom=connectivity def2tzvp`
 
-    # dvb_gopt
+    __Relevant magnitudes__
 
-    - Stoichiometry: N/A
-    - Electronic Energy (eV): -5.16295044221
+    | Datum                                            | Value                     |
+    |:-------------------------------------------------|--------------------------:|
+    | Charge                                           |             -2            |
+    | Multiplicity                                     |             1             |
+    | Stoichiometry                                    |      C7H9N3NiO4S(2-)      |
+    | Number of Basis Functions                        |            570            |
+    | Electronic Energy (eV)                           |    -2644.5302088499993    |
+    | Mean of alpha and beta Electrons                 |             75            |
+
+
+__Case B__: (`missing = 'N/A'`, default)
+
+    # TDNI_GGCMPW
+
+    __Requested operations__
+
+    `p td=(nstates=30) MPW1PW91 scrf=(solvent=water) geom=connectivity def2tzvp`
+
+    __Relevant magnitudes__
+
+    | Datum                                            | Value                     |
+    |:-------------------------------------------------|--------------------------:|
+    | Charge                                           |             -2            |
+    | Multiplicity                                     |             1             |
+    | Stoichiometry                                    |      C7H9N3NiO4S(2-)      |
+    | Number of Basis Functions                        |            570            |
+    | Electronic Energy (eV)                           |    -2644.5302088499993    |
+    | Sum of electronic and zero-point Energies (eV)   |            N/A            |
+    | Sum of electronic and thermal Energies (eV)      |            N/A            |
+    | Sum of electronic and thermal Enthalpies (eV)    |            N/A            |
+    | Sum of electronic and thermal Free Energies (eV) |            N/A            |
+    | Number of Imaginary Frequencies                  |            N/A            |
+    | Mean of alpha and beta Electrons                 |             75            |

@@ -28,7 +28,7 @@ from .utils import new_filename, PERIODIC_TABLE
 from .io import ccDataExtended
 
 __here__ = os.path.abspath(os.path.dirname(__file__))
-BUILTIN_TEMPLATES = os.listdir(os.path.join(__here__, 'templates', 'reports'))
+BUILTIN_TEMPLATES = os.listdir(os.path.join(__here__, 'templates'))
 
 
 class ESIgenReport(object):
@@ -76,15 +76,19 @@ class ESIgenReport(object):
                 guessed = guess_filetype(f)
             if guessed is None:
                 raise ValueError('File {} is not parsable!'.format(self.path))
-            fh = open(self.path) if sys.version_info.major == 2 else self.path
-            self.parser = guessed(fh, datatype=datatype)
+            # in Flask + Py27 str are unicode, which confuses cclib
+            if sys.version_info.major == 2:
+                logfile = open(self.path)
+            else:
+                logfile = self.path
+            self.parser = guessed(logfile, datatype=datatype)
             self.parser.datatype = datatype  # workaround
             self.parser = self.parser.parse
         self.name = os.path.splitext(os.path.basename(path))[0]
         self.basename = os.path.basename(path)
         self.data = self.parse(*args, **kwargs)
         self.jinja_env = Environment(trim_blocks=True, lstrip_blocks=True,
-                                     loader=PackageLoader('esigen', 'templates/reports'))
+                                     loader=PackageLoader('esigen', 'templates'))
         # Make sure we get a consistent spacing for later replacing
         self.jinja_env.globals['viewer3d'] = '{{ viewer3d }}'
         self.jinja_env.globals['missing'] = missing
@@ -156,7 +160,7 @@ class ESIgenReport(object):
 
         rendered = t.render(name=self.name, image=image, preview=preview,
                             **self.data_as_dict())
-        if process_markdown or os.environ.get('IN_PRODUCTION'):
+        if process_markdown:
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code'])
         return rendered

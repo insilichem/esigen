@@ -2,7 +2,7 @@
     <div id="viewport{{ loop.index }}" class="ngl-viewport"></div>
     <script>
         document.addEventListener("DOMContentLoaded", AddNGLWidget(
-            "{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.basename)) }}").autoView());
+            "{{ loop.index }}", "{{ url_for('get_image', filename='{}/{}.pdb'.format(uuid, molecule.name)) }}", "{{molecule.name}}").autoView());
     </script>
 {% endmacro %}
 <!DOCTYPE html>
@@ -16,15 +16,18 @@
 <script src="{{ url_for('static', filename='js/jquery-2.1.4.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/xepOnline.jqPlugin.js') }}"></script>
 <script src="{{ url_for('static', filename='js/clipboard.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jszip.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/FileSaver.min.js') }}"></script>
 {% if ngl %}
 <script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
 <script>
 document.NGLStages = {};
-function AddNGLWidget(index, moleculeUrl) {
+function AddNGLWidget(index, moleculeUrl, basename) {
     if (index in document.NGLStages) return document.NGLStages[index];
     var stage = new NGL.Stage("viewport"+index,
         {fogNear: 100, fogFar: 100, backgroundColor: 'white'});
     document.NGLStages[index] = stage;
+    stage.moleculeName = basename;
     stage.loadFile(moleculeUrl, {ext: 'pdb'}).then(function (component) {
         var sele = 'not (_C or _H or _N or _O)';
         component.addRepresentation("cartoon");  // for proteins
@@ -70,9 +73,9 @@ function AddNGLWidget(index, moleculeUrl) {
         <div id="footer">
             <div id="loader" class="loader" style="display:none;"></div>
             <p class="do-not-print">
-                <a href="" onclick="return generatePDF();">Download PDF</a> &middot;
-                <a href="zip">ZIP</a> &middot;
-                <a href="javascript:return" id='copy-btn' data-clipboard-target="#markup">Copy to clipboard</a> &middot;
+                <a href="javascript:;" onclick="return generatePDF();">Download PDF</a> &middot;
+                <a href="zip">ZIP</a> + <a href="javascript:;" onclick="return renderCanvasZip();">Images</a> &middot;
+                <a href="javascript:;" id='copy-btn' data-clipboard-target="#markup" onclick="return copyToClipboard();">Copy to clipboard</a> &middot;
                 <a href="javascript:window.print()" target="_blank">Print</a> &middot;
                 <a href="{{ url_for('index') }}">Back to front page</a> &middot;
                 <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
@@ -87,13 +90,13 @@ function AddNGLWidget(index, moleculeUrl) {
     function generatePDF() {
         var response = xepOnline.Formatter.Format('main',  {
             //render: 'download',
-            filename: 'esigen-report',
+            filename: '{{ "esigen-report-{}".format(uuid) }}',
             embedLocalImages: true,
             resolution: 300,
             pageWidth: '216mm',
             pageHeight: '279mm'
         });
-        return response;
+        return false;
     };
     document.addEventListener('DOMContentLoaded', function () {
         jQuery(document).on("xepOnlineStatus", function (event, state) {
@@ -108,12 +111,32 @@ function AddNGLWidget(index, moleculeUrl) {
             }
         });
     });
-    var clipboard = new Clipboard('#copy-btn');
-    clipboard.on('success', function (e) {
-        e.clearSelection();
+    function renderCanvasZip(){
         jQuery('#loader').toggle('show');
-        setTimeout(function() { jQuery('#loader').toggle('hide');}, 1000);
-    });
+        var zip = new JSZip();
+        for (var stageId in document.NGLStages) {
+            var stage = document.NGLStages[stageId];
+            var viewer = stage.viewer;
+            var canvas = viewer.renderer.domElement;
+            var container = canvas.parentElement;
+            var fr = new FileReader();
+            params = {trim: false, antialias: true, transparent: false}
+            zip.file(stage.moleculeName + '.png', stage.makeImage(params));
+        }
+        zip.generateAsync({ type: "blob" }).then(function(data) {
+            saveAs(data, "{{uuid}}-images.zip");
+            setTimeout(function () { jQuery('#loader').toggle('hide'); }, 1000);
+        });
+    }
+    function copyToClipboard() {
+        jQuery('#loader').toggle('show');
+        var clipboard = new Clipboard('#copy-btn');
+        document.clipboard = clipboard;
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            setTimeout(function () { jQuery('#loader').toggle('hide'); }, 1000);
+        });
+    }
 </script>
 </body>
 </html>

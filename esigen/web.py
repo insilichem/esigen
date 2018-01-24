@@ -26,9 +26,10 @@ except ImportError:
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
-from esigen import ESIgenReport
+from .core import ESIgenReport, BUILTIN_TEMPLATES
 
-app = Flask(__name__)
+
+app = Flask(__name__, static_folder='html/static', template_folder='html')
 
 PRODUCTION = False
 if os.environ.get('IN_PRODUCTION'):
@@ -37,7 +38,6 @@ if os.environ.get('IN_PRODUCTION'):
     sslify = SSLify(app)
 
 UPLOADS = "/tmp"
-
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.jinja_env.globals['MAX_CONTENT_LENGTH'] = 50
 app.config['PRODUCTION'] = PRODUCTION
@@ -91,7 +91,7 @@ def configure_report():
     if request.method == 'POST':
         form = request.form
         upload_key = form['upload_key']
-        templates = ['default', 'simple']
+        templates = BUILTIN_TEMPLATES
         styles = ['github']
         return render_template("config.html", templates=templates,
                                styles=styles, uuid=upload_key)
