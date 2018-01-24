@@ -144,7 +144,7 @@ def report(uuid, template='default', css='github', missing='N/A',
     html = engine == 'html'
     if html:
         preview = 'web'
-    elif HAS_PYMOL and engine =='zip':
+    elif engine == 'zip':
         preview = 'static_server'
     else:
         preview = None
