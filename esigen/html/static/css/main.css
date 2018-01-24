@@ -863,3 +863,17 @@ textarea#template-custom {
 			}
 
 		}
+
+a > p#uab-logo {
+	background: url('../uab.png') no-repeat;
+	background-size: 200px 68px;
+	width: 200px;
+	height: 68px;
+	display: block;
+	margin: 2em auto 0 auto;
+	opacity: 0.2;
+	transition: opacity .3s ease-out;
+}
+a:hover > p#uab-logo{
+	opacity: 0.5;
+}
