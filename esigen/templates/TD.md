@@ -12,41 +12,26 @@ __Requested operations__
 
 __Relevant magnitudes__
 
+{% set label_value = (('Charge' , charge),
+                      ('Multiplicity', mult),
+                      ('Stoichiometry', stoichiometry),
+                      ('Number of Basis Functions', nbasis),
+                      ('Electronic Energy (eV)', electronic_energy),
+                      ('Sum of electronic and zero-point Energies (eV)', zeropointenergies),
+                      ('Sum of electronic and thermal Energies (eV)', thermalenergies),
+                      ('Sum of electronic and thermal Free Energies (eV)', freeenergy),
+                      ('Number of Imaginary Frequencies', imaginary_freqs),
+                      ('Mean of alpha and beta Electrons', mean_of_electrons),
+                     )
+%}
+
 | Datum                                            | Value                     |
 |:-------------------------------------------------|--------------------------:|
-{% if missing or charge != missing %}
-| Charge                                           | {{charge|center(25)}} |
+{% for label, value in label_value %}
+{% if missing or value != missing %}
+| {{label.ljust(48)}} | {{value|center(25)}} |
 {% endif %}
-{% if missing or mult != missing %}
-| Multiplicity                                     | {{mult|center(25)}} |
-{% endif %}
-{% if missing or stoichiometry != missing %}
-| Stoichiometry                                    | {{stoichiometry|center(25)}} |
-{% endif %}
-{% if missing or nbasis != missing %}
-| Number of Basis Functions                        | {{nbasis|center(25)}} |
-{% endif %}
-{% if missing or electronic_energy != missing %}
-| Electronic Energy (eV)                           | {{electronic_energy|center(25)}} |
-{% endif %}
-{% if missing or zeropointenergies != missing %}
-| Sum of electronic and zero-point Energies (eV)   | {{zeropointenergies|center(25)}} |
-{% endif %}
-{% if missing or thermalenergies != missing %}
-| Sum of electronic and thermal Energies (eV)      | {{thermalenergies|center(25)}} |
-{% endif %}
-{% if missing or enthalpy != missing %}
-| Sum of electronic and thermal Enthalpies (eV)    | {{enthalpy|center(25)}} |
-{% endif %}
-{% if missing or freeenergy != missing %}
-| Sum of electronic and thermal Free Energies (eV) | {{freeenergy|center(25)}} |
-{% endif %}
-{% if missing or imaginaryfreqs != missing %}
-| Number of Imaginary Frequencies                  | {{imaginaryfreqs|center(25)}} |
-{% endif %}
-{% if missing or mean_of_electrons != missing %}
-| Mean of alpha and beta Electrons                 | {{mean_of_electrons|center(25)}} |
-{% endif %}
+{% endfor %}
 
 __Molecular Geometry in Cartesian Coordinates__
 
