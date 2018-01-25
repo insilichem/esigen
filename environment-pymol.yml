@@ -15,3 +15,4 @@ dependencies:
     - flask-sslify
     - markdown
     - gunicorn
+    - requests

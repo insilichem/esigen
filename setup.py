@@ -38,7 +38,7 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    install_requires=['cclib', 'flask', 'flask-sslify', 'markdown'],
+    install_requires=['cclib', 'flask', 'flask-sslify', 'markdown', 'requests'],
     entry_points='''
         [console_scripts]
         esigen=esigen.cli:main
