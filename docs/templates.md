@@ -14,10 +14,10 @@ ESIgen templates are written using [**Markdown**](https://daringfireball.net/pro
 
 ***
 
-# dvb_gopt
+# heme_fe2singlet_fe3doublet
 
-- Stoichiometry: N/A
-- Electronic Energy (eV): -5.16295044221
+- Stoichiometry: C34H30FeN4O4(1-,2)
+- Electronic Energy (eV): -1957.86428957
 
 ***
 
@@ -31,7 +31,7 @@ Some [templates are included with ESIgen](https://github.com/insilichem/esigen/t
 
 ## Data Fields
 
-All fields provided by `[cclib](http://cclib.github.io/index.html)` parsers are available. Simply refer to the official documentation on [Parsed Data](http://cclib.github.io/data.html) and [Parsed Data Notes](http://cclib.github.io/data_notes.html) to check the full list and the compatibility matrix across different programs.
+All fields provided by [`cclib`](http://cclib.github.io/index.html) parsers are available. Simply refer to the official documentation on [Parsed Data](http://cclib.github.io/data.html) and [Parsed Data Notes](http://cclib.github.io/data_notes.html) to check the full list and the compatibility matrix across different programs.
 
 Additionally, ESIgen provides some more fields and methods you can use during the templating:
 
@@ -53,6 +53,8 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ cartesians }}`: Molecule structure exported in XYZ format.
 - Functions
     - `{{ convertor(value, from_unit, to_unit) }}` can be used to change units in most cases. If not, you can always use normal math inside the curly braces (`{{ (10+value)**2 }}`).
+
+Depending on the software used to create the output file, some fields might not be available. When in doubt, you can check the JSON dump of the files by appending `/json` to the report URL (a link is also available in the bottom of the page). This will list all the attributes available for each file.
 
 ## Missing Values
 

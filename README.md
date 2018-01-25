@@ -9,7 +9,7 @@ Automatically generate supporting information documents for your Chemistry publi
 ## Online server
 
 1. Visit http://esi.insilichem.com and upload your Computational Chemistry outputs there. Any of the examples in [cclib data](https://github.com/cclib/cclib/tree/master/data) should work.
-2. Choose a template or [create your own](docs/templates.md).
+2. Choose one of the [builtin templates](esigen/templates) or [create your own](docs/templates.md).
 3. Profit! You can generate a PDF, print it with your browser, download a zip file with all the contents or even publish it to a [Gist](https://gist.github.com/anonymous/8a5890c9e18de78ba90e67c3109b074f). All export options are listed at the bottom of the file.
 
 This is only a demo server, so performance won't be stellar... All files will be deleted within 1h and we won't collect any data from you. Refer to the [local installation docs](docs/install.md) if you want to setup your own (local) server.
