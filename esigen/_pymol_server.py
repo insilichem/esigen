@@ -3,8 +3,11 @@
 
 """Functions to launch PyMol with Python interface"""
 
+from distutils.spawn import find_executable
 from xmlrpclib import ServerProxy
 from subprocess import Popen
+import os
+import sys
 
 
 def pymol_start():
@@ -13,7 +16,9 @@ def pymol_start():
 
 
 def pymol_start_server():
-    process = Popen(['pymol', '-cKRQ'])
+    root = os.path.dirname(sys.executable)
+    pymol_exe = find_executable('pymol') or os.path.join(root, 'pymol')
+    process = Popen([pymol_exe, '-cKRQ'])
 
 
 def pymol_client(address="localhost", port=9123):

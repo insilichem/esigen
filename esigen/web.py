@@ -111,9 +111,8 @@ def configure_report():
     if request.method == 'POST':
         form = request.form
         upload_key = form['upload_key']
-        templates = BUILTIN_TEMPLATES
         styles = ['github']
-        return render_template("config.html", templates=templates,
+        return render_template("config.html", templates=BUILTIN_TEMPLATES,
                                styles=styles, uuid=upload_key)
     return redirect(url_for("index", **URL_KWARGS))
 
@@ -254,7 +253,6 @@ def allowed_filename(*filenames):
 
 
 HAS_PYMOL = None
-print("Running local server...")
 if HAS_PYMOL is None:
     try:
         from ._pymol_server import pymol_start_server
@@ -262,9 +260,7 @@ if HAS_PYMOL is None:
         HAS_PYMOL = True
     except ImportError as e:
         HAS_PYMOL = False
-        print('Install PyMOL to render images! With conda, use:\n'
-              '  conda install -c omnia -c egilliesix pymol libglu python=2.7.\n'
-              'More details:\n', e, file=sys.stderr)
 
 def main():
+    print("Running local server...")
     app.run(debug=True, threaded=True)

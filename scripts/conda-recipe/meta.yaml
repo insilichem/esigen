@@ -1,0 +1,26 @@
+package:
+  name: esigen
+  version: 0.0.1
+
+about:
+  home: https://github.com/insilichem/esigen
+  summary: Generate Supporting Information reports for Comp Chem studies.
+
+source:
+  path: ../../
+
+requirements:
+  build:
+    - python 2.7*
+
+  run:
+    - python 2.7*
+    - nomkl
+    - numpy
+
+test:
+  imports:
+    - esigen
+
+
+

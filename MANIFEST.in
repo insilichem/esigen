@@ -1,3 +1,9 @@
 include MANIFEST.in README.md LICENSE
-recursive-include esigen/static *.css *.png *.eot *.svg *.ttf *.woff *.woff2 *.otf *.js *.htc *.scss
-recursive-include esigen/templates *.md *.html
+include esigen/templates/*.md
+include esigen/html/*.html
+include esigen/html/static/*.png
+include esigen/html/static/css/*.css
+include esigen/html/static/css/images/*.png
+include esigen/html/static/fonts/*.eot esigen/html/static/fonts/*.svg esigen/html/static/fonts/*.ttf esigen/html/static/fonts/*.woff esigen/html/static/fonts/*.woff2 esigen/html/static/fonts/*.otf
+include esigen/html/static/js/*.js esigen/html/static/js/*.htc
+include esigen/html/static/sass/*.scss esigen/html/static/sass/*/*.scss
