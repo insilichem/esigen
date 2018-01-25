@@ -42,7 +42,6 @@ Additionally, ESIgen provides some more fields and methods you can use during th
 - Features
     - `{{ name }}`: Extracted from the filename, without the extension.
     - `{{ stoichiometry }}`.
-    - `{{ nbasis }}`: Number of basis functions.
     - `{{ imaginary_freqs }}`: Number of negative frequencies.
     - `{{ mean_of_electrons }}`: Mean of alpha and beta electrons.
 - Magnitudes
