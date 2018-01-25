@@ -1,5 +1,15 @@
 # Templating in ESIgen
 
+## Builtin templates
+
+Some [templates are included with ESIgen](https://github.com/insilichem/esigen/tree/master/esigen/templates/reports) for your convenience:
+
+- `default.md`. Uses an interactive 3D viewer in the web interface and static images on the command line. A table of magnitudes is provided, together with the coordinates and, if available, first 10 frequencies.
+- `TD.md`. Same as default, but listing the excitation energies of TD calculations.
+- `simple.md`. Dummy example to help illustrate easy templating.
+
+However, you might want to modify them or create your own from scratch. Keep reading for further details.
+
 ## Syntax
 
 ESIgen templates are written using [**Markdown**](https://daringfireball.net/projects/markdown/syntax) (a subset of HTML designed to be highly readable) syntax on top of the wonderful [**Jinja2**](http://jinja.pocoo.org/) engine, which allows easy keyword replacing. For example:
@@ -22,12 +32,6 @@ ESIgen templates are written using [**Markdown**](https://daringfireball.net/pro
 ***
 
 As you see, you just write normal Markdown (syntax is described [here](https://github.com/tchapi/markdown-cheatsheet)) and then insert the desired variables between double curly braces, like this `{{ energy }}`. Jinja2 also supports `for` loops, `if` conditionals and so on, but you won't probably need it. However, one of the advanced features might be helpful: [filters](http://jinja.pocoo.org/docs/2.10/templates/#filters), which allow you to post-process some values (ie, centering with respect to a fixed width with `{{ value|center(20) }}`).
-
-Some [templates are included with ESIgen](https://github.com/insilichem/esigen/tree/master/esigen/templates/reports) for your convenience:
-
-- `default.md`. Uses an interactive 3D viewer in the web interface and static images on the command line. A table of magnitudes is provided, together with the coordinates and, if available, first 10 frequencies.
-- `TD.md`. Same as default, but listing the excitation energies of TD calculations.
-- `simple.md`. Dummy example to help illustrate easy templating.
 
 ## Data Fields
 
