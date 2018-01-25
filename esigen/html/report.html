@@ -73,8 +73,10 @@ function AddNGLWidget(index, moleculeUrl, basename) {
         <div id="footer">
             <div id="loader" class="loader" style="display:none;"></div>
             <p class="do-not-print">
-                <a href="javascript:;" onclick="return generatePDF();">Download PDF</a> &middot;
+                Export as <a href="javascript:;" onclick="return generatePDF();">PDF</a> &middot;
                 <a href="zip">ZIP</a> + <a href="javascript:;" onclick="return renderCanvasZip();">Images</a> &middot;
+                <a href="json" target="_blank">JSON</a> &middot;
+                <a href="gist" target="_blank">Gist</a> |
                 <a href="javascript:;" id='copy-btn' data-clipboard-target="#markup" onclick="return copyToClipboard();">Copy to clipboard</a> &middot;
                 <a href="javascript:window.print()" target="_blank">Print</a> &middot;
                 <a href="{{ url_for('index') }}">Back to front page</a> &middot;

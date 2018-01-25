@@ -23,7 +23,11 @@ try:
     from StringIO import BytesIO
 except ImportError:
     from io import BytesIO
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
+import numpy as np
+import requests
+from flask import (Flask, request, redirect, url_for, render_template,
+                   send_from_directory, send_file, jsonify)
+from flask.json import JSONEncoder
 from werkzeug.utils import secure_filename
 from flask_sslify import SSLify
 from .core import ESIgenReport, BUILTIN_TEMPLATES
@@ -47,6 +51,21 @@ app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE
 ALLOWED_EXTENSIONS = set(('.out', '.log', '.adfout', '.qfi'))
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
 
+
+class NumpyJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            return {k: self.default(v) for (k, v) in obj.items()}
+        else:
+            return super(NumpyJSONEncoder, self).default(obj)
+
+app.json_encoder = NumpyJSONEncoder
 
 @app.route("/")
 def index():
@@ -105,7 +124,7 @@ def report(uuid, template='default', css='github', missing='N/A',
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
-    if engine not in ('html', 'zip'):
+    if engine not in ('html', 'zip', 'json', 'gist'):
         engine = 'html'
     # POST / GET handling
     custom_template = False
@@ -176,6 +195,24 @@ def report(uuid, template='default', css='github', missing='N/A',
                     zf.write(os.path.join(base, filename), arcname=filename)
         memfile.seek(0)
         return send_file(memfile, attachment_filename='{}.zip'.format(uuid), as_attachment=True)
+    elif engine == 'json':
+        d = {}
+        for molecule, report in reports:
+            d[molecule.basename] = {'report': report, 'data': molecule.data_as_dict()}
+        return jsonify(d)
+    elif engine == 'gist':
+        gist_data = {'description': "ESIgen report #{}".format(uuid),
+                     'public': True,
+                     'files': {'ESIgen.md': {'content':
+                                "Created with [ESIgen](https://github.com/insilichem/esigen)"}}
+                    }
+        for molecule, report in reports:
+            gist_data['files'][molecule.name + '.md'] = {'content': report}
+            gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
+            gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
+        response = requests.post('https://api.github.com/gists', json=gist_data)
+        response.raise_for_status()
+        return redirect(response.json()['html_url'])
 
 
 @app.route("/privacy_policy.html")
