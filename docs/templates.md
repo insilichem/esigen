@@ -68,7 +68,7 @@ In the `default.md` template, `missing` is checked in every row to control if th
 
 For example, if `stoichiometry` is not available in the file:
 
-__Case A__ (`missing = ''`)
+__Case A__: `missing = ''`
 
     # TDNI_GGCMPW
 
@@ -88,7 +88,7 @@ __Case A__ (`missing = ''`)
     | Mean of alpha and beta Electrons                 |             75            |
 
 
-__Case B__: (`missing = 'N/A'`, default)
+__Case B__: `missing = 'N/A'`, default
 
     # TDNI_GGCMPW
 
