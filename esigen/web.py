@@ -25,7 +25,7 @@ except ImportError:
     from io import BytesIO
 import numpy as np
 import requests
-from flask import (Flask, request, redirect, url_for, render_template,
+from flask import (Flask, Response, request, redirect, url_for, render_template,
                    send_from_directory, send_file, jsonify)
 from flask.json import JSONEncoder
 from werkzeug.utils import secure_filename
@@ -125,7 +125,7 @@ def report(uuid, template='default', css='github', missing='N/A',
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
-    if engine not in ('html', 'zip', 'json', 'gist'):
+    if engine not in ('html', 'zip', 'json', 'gist', 'md'):
         engine = 'html'
     # POST / GET handling
     custom_template = False
@@ -214,6 +214,8 @@ def report(uuid, template='default', css='github', missing='N/A',
         response = requests.post('https://api.github.com/gists', json=gist_data)
         response.raise_for_status()
         return redirect(response.json()['html_url'])
+    elif engine == 'md':
+        return Response('\n'.join([r for (m,r) in reports]), content_type='text/plain')
 
 
 @app.route("/privacy_policy.html")
