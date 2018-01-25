@@ -24,7 +24,7 @@ if(performance.navigation.type == 2){
 <form class="dropzone" id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
     <input name="upload_key" type="hidden" value="{{ uuid }}" />
 <div class="fallback">
-    <h3>Choose your Gaussian* output files (.qfi, .out)</h3>
+    <h3>Choose your comp chem (Gaussian, ORCA, etc)* output files</h3>
     <p><input name="file" type="file" multiple /></p>
     <p><input class="btn" type="submit" value="Upload!" id="upload-button"></p>
 </div>
@@ -39,7 +39,7 @@ if(performance.navigation.type == 2){
 </form>
 {% endblock %}
 {% block content_footer %}
-<p class="small">* More formats to come</p>
+<p class="small">* <a href="http://cclib.github.io/#summary" target="_blank">Check supported software list</a></p>
 {% endblock %}
 {% block morejs %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/dropzone.min.js') }}"></script>
@@ -51,11 +51,11 @@ Dropzone.options.uploadForm = {
   maxFilesize: {{ MAX_CONTENT_LENGTH }}, // MB
   maxFiles: 5,
   parallelUploads: 5,
-  acceptedFiles: ".qfi,.out,.log",
+  acceptedFiles: "{{ ','.join(allowed_extensions) }}",
   createImageThumbnails: false,
   dictCancelUpload: 'Cancel',
   dictFileTooBig: 'File too big!',
-  dictDefaultMessage: "Drop your Gaussian* output files here",
+  dictDefaultMessage: "Drop your comp chem* output files here",
     init: function() {
     var submitButton = document.querySelector("button#upload-btn")
     myDropzone = this; // closure

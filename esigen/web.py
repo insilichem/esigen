@@ -73,7 +73,8 @@ def index():
     uuid = str(uuid4())
     while os.path.exists(os.path.join(UPLOADS, uuid)):
         uuid = str(uuid4())
-    return render_template("index.html", uuid=uuid, message=message)
+    return render_template("index.html", uuid=uuid, message=message,
+                           allowed_extensions=ALLOWED_EXTENSIONS)
 
 
 @app.route("/upload", methods=["POST"])
