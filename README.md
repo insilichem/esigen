@@ -1,39 +1,35 @@
 # ESIgen: Supporting information generator
 
-Automatically generate supporting information documents for your Chemistry publications.
+Automatically generate supporting information documents for your Chemistry publications online.
+
+![Example](docs/img/example.png)
 
 # Usage
 
-Visit http://esi.insilichem.com and submit your Gaussian outputs there. This is only a demo server, so performance won't be stellar... All files will be deleted within 1h and we won't collect any data from you.
+## Online server
 
-# Local installation
+1. Visit http://esi.insilichem.com and upload your Computational Chemistry outputs there. Any of the examples in [cclib data](https://github.com/cclib/cclib/tree/master/data) should work.
+2. Choose a template or [create your own](docs/templates.md).
+3. Profit! You can generate a PDF, print it with your browser, download a zip file with all the contents or even publish it to a [Gist](https://gist.github.com/anonymous/8a5890c9e18de78ba90e67c3109b074f). All export options are listed at the bottom of the file.
 
-If you need to process a lot of files or are worried about your privacy, we recommend using it locally.
+This is only a demo server, so performance won't be stellar... All files will be deleted within 1h and we won't collect any data from you. Refer to the [local installation docs](docs/install.md) if you want to setup your own (local) server.
 
-1. Download and unzip [this repository](https://github.com/insilichem/esigen)
-2. Download [Miniconda](https://conda.io/miniconda.html)
-3. Create a new conda environment and activate it
-4. Enter the repo directory and run `python runserver.py`
+## Command-line (batch processing)
 
-For Linux, this roughly translates to:
+1. [Install](docs/install.md) in your computer.
+2. Run `esigen filename.log`. That's it!
 
-```
-wget https://github.com/insilichem/esigen/archive/master.zip && unzip master.zip
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda*.sh
-conda env create -f esigen-master/environment.yml # or environment-pymol.yml if you need CLI image rendering (not web)
-source activate esigen
-cd esigen-master
-python runserver.py
-```
+# Documentation
 
-You can also install it as a Python CLI program with `python setup.py install`, which will provide an executable called `esigen` with the same purpose. Run `esigen -h` to print usage guidelines.
-
+- [Local installation](docs/install.md)
+- [How to write your own ESIgen templates](docs/templates.md)
+- [Use ESIgen Python API programmatically](docs/developer.md)
 
 # Acknowledgments
 
-Inspired by [Chauncey Garrett's collection of scripts](https://github.com/chauncey-garrett/gaussian-tools), this project was conceived as a Python-only CLI attempt at solving the same problem. Then I ([@jaimergp](https://github.com/jaimergp/)) started adding more features (like markdown reports or image rendering), and finally turned it into a online service.
+Inspired by [Chauncey Garrett's collection of scripts](https://github.com/chauncey-garrett/gaussian-tools), this project was conceived as a Python-only CLI attempt at solving the same problem. Then more features were added (like markdown reports or image rendering), and finally was turned into a online service.
 
-Insilichem ESI is possible thanks to great open-source projects:
+ESIgen is possible thanks to great open-source projects:
 
 - [CCLib](https://github.com/cclib/cclib). Gaussian output file parsing.
 - [NGL](https://github.com/arose/ngl). Interactive 3D preview in the browser.
