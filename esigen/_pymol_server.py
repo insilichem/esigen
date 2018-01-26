@@ -3,9 +3,7 @@
 
 """Functions to launch PyMol with Python interface"""
 
-from distutils.spawn import find_executable
-from xmlrpclib import ServerProxy
-from subprocess import Popen
+
 import os
 import sys
 
@@ -16,11 +14,20 @@ def pymol_start():
 
 
 def pymol_start_server():
+    from distutils.spawn import find_executable
+    from subprocess import Popen
     root = os.path.dirname(sys.executable)
     pymol_exe = find_executable('pymol') or os.path.join(root, 'pymol')
-    process = Popen([pymol_exe, '-cKRQ'])
+    try:
+        process = Popen([pymol_exe, '-cKRQ'])
+    except (IOError, FileNotFoundError):
+        raise ImportError("PyMol could not be found. Install it for offline images.")
 
 
 def pymol_client(address="localhost", port=9123):
+    try:
+        from xmlrpclib import ServerProxy
+    except ImportError:
+        from xmlrpc.client import ServerProxy
     return ServerProxy(uri="http://{}:{}/RPC2".format(address, port))
 

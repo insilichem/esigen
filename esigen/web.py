@@ -33,6 +33,15 @@ from flask_sslify import SSLify
 from .core import ESIgenReport, BUILTIN_TEMPLATES
 
 
+HAS_PYMOL = None
+if HAS_PYMOL is None:
+    try:
+        from ._pymol_server import pymol_start_server
+        pymol_start_server()
+        HAS_PYMOL = True
+    except ImportError as e:
+        HAS_PYMOL = False
+
 app = Flask(__name__, static_folder='html/static', template_folder='html')
 
 PRODUCTION = False
@@ -163,7 +172,7 @@ def report(uuid, template='default', css='github', missing='N/A',
     html = engine == 'html'
     if html:
         preview = 'web'
-    elif engine == 'zip':
+    elif HAS_PYMOL and engine == 'zip':
         preview = 'static_server'
     else:
         preview = None
@@ -250,16 +259,6 @@ def allowed_filename(*filenames):
         fn = filename.filename
         if '.' in fn and os.path.splitext(fn)[1].lower() in ALLOWED_EXTENSIONS:
             yield filename
-
-
-HAS_PYMOL = None
-if HAS_PYMOL is None:
-    try:
-        from ._pymol_server import pymol_start_server
-        pymol_start_server()
-        HAS_PYMOL = True
-    except ImportError as e:
-        HAS_PYMOL = False
 
 def main():
     print("Running local server...")
