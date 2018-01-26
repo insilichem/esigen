@@ -1,20 +1,56 @@
 # Local installation
 
-If you need to process a lot of files or are worried about your privacy, we recommend using it locally.
+If you need to process a lot of files or are worried about your privacy, we recommend to install ESIgen locally. It also makes for a good day-to-day tool if you have to check a lot of output files routinely!
 
-1. Download and unzip [this repository](https://github.com/insilichem/esigen)
-2. Download [Miniconda](https://conda.io/miniconda.html)
-3. Create a new conda environment with one of the provided `environment*.yml` files and activate it
-4. Run `esigenweb`
+## Recommended steps
 
-For Linux, this roughly translates to:
+Download the [latest release](https://github.com/insilichem/esigen/releases) and execute the installer. The binaries `esigen` and `esigenweb` will be available under `$INSTALL_PATH/bin`.
+
+If the installer is not available for your platform, use one of the methods below.
+
+## With conda
+
+Conda is package manager for Python that greatly simplifies the installation of Python libraries.
+
+1. Download [Miniconda 3](https://conda.io/miniconda.html) for your platform.
+2a. Install `esigen` in a Python 3.6 environment (default for Miniconda 3).
+2b. Install `esigen` in a Python 2.7 environment if you don't have PyMol already.
+3. Run `esigenweb` to launch the web server, or `esigen` for the CLI tool.
+
+For Linux & Mac, this roughly translates to:
 
 ```
-wget https://github.com/insilichem/esigen/archive/master.zip && unzip master.zip
+## Install Conda
 wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh && bash Miniconda*.sh
-conda env create -f esigen-master/environment.yml # or environment-pymol.yml if you need CLI image rendering (not web)
-conda activate esigen
-esigenweb
+
+## Install esigen
+conda install -c insilichem esigen
+
+## Or, if you also need PyMol
+# conda create -n esigen -c omnia -c egilliesix -c insilichem python=2.7 esigen
+# conda activate esigen
+
+## Run!
+esigen -h  # CLI
+esigenweb  # WEB
 ```
 
-The installation also provides an executable called `esigen` with the same purpose. Run `esigen -h` to print usage guidelines.
+For Windows, it's almost the same. Just install Miniconda with the [`*.exe`](https://repo.continuum.io/miniconda/Miniconda3-latest-Windows-x86_64.exe), and use the Anaconda Prompt (in Start Menu) to install Numpy. Then, use `pip` for `esigen`. The commands are:
+
+```
+conda install numpy
+pip install esigen
+esigen -h  # CLI
+esigenweb  # WEB
+```
+
+## With pip
+
+If you don't want to install Conda, or the package is not available in your platform, you will need to provide the additional dependencies yourself. Assuming you already have Python installed, run:
+
+```
+pip install numpy
+pip install esigen
+# or, for latest dev version
+pip install https://github.com/insilichem/esigen/archive/master.zip
+```
