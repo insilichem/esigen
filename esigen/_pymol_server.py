@@ -17,7 +17,10 @@ def pymol_start_server():
     from distutils.spawn import find_executable
     from subprocess import Popen
     root = os.path.dirname(sys.executable)
-    pymol_exe = find_executable('pymol') or os.path.join(root, 'pymol')
+    try:
+        pymol_exe = os.environ['PYMOL_EXE']
+    except KeyError:
+        pymol_exe = find_executable('pymol') or os.path.join(root, 'pymol')
     try:
         process = Popen([pymol_exe, '-cKRQ'])
     except (IOError, FileNotFoundError):
