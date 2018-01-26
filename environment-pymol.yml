@@ -1,4 +1,4 @@
-name: esigen-min
+name: esigen-pymol
 channels:
   - omnia
   - egilliesix
