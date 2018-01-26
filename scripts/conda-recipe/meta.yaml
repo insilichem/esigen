@@ -11,12 +11,15 @@ source:
 
 requirements:
   build:
-    - python 2.7*
+    - python
 
   run:
-    - python 2.7*
+    - python
     - nomkl
     - numpy
+    - pymol     # [py27 and linux]
+    - libglu    # [py27 and linux]
+    - glew      # [py27 and linux]
 
 test:
   imports:

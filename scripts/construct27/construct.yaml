@@ -1,9 +1,9 @@
 name: esigen
 version: 0.0.1
-license_file: LICENSE
+license_file: ../../LICENSE
 
 # Welcome image for Windows installer
-welcome_image: docs/img/graphictoc.png                  [win]
+welcome_image: ../../docs/img/graphictoc.png                  [win]
 
 channels:
   - http://repo.continuum.io/pkgs/free/
@@ -12,15 +12,10 @@ channels:
   - https://conda.anaconda.org/auto
   - https://conda.anaconda.org/omnia
   - https://conda.anaconda.org/egilliesix
-  - file:///home/jrodriguez/.local/anaconda/conda-bld
 
 specs:
   - python 2.7*
-  - nomkl              [not win]
-  - numpy
-  - pymol
-  - libglu
-  - glew
   - esigen
+  - nomkl              [not win]
 
-post_install: scripts/post-construct.sh
+post_install: post-construct.sh
