@@ -128,6 +128,7 @@ class ccDataExtended(ccData_optdone_bool):
         pdb.append('ENDMDL\nEND\n')
         return '\n'.join(pdb)
 
+
 class GaussianParser(_cclib_Gaussian):
 
     """
@@ -155,11 +156,11 @@ class GaussianParser(_cclib_Gaussian):
                 beta_index = fields.index('beta')
                 self.set_attribute('alphaelectrons', int(fields[alpha_index-1]))
                 self.set_attribute('betaelectrons', int(fields[beta_index-1]))
-            if line.strip().startswith('#'):
-                route_lines = [line.strip().split('#', 1)[1]]
+            if line.strip().startswith('#') and not hasattr(self, 'route'):
+                route_lines = line.strip().split('#', 1)[1:2]
                 line = inputfile.next()
                 while '-----' not in line:
-                    route_lines.append(line.lstrip())
+                    route_lines.append(line[1:].rstrip())
                     line = inputfile.next()
                 self.set_attribute('route', ''.join(route_lines).strip())
         except Exception as e:
