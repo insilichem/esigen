@@ -77,7 +77,10 @@ class ccDataExtended(ccData_optdone_bool):
     @property
     def mean_of_electrons(self):
         if hasattr(self, 'alphaelectrons') and hasattr(self, 'betaelectrons'):
-            return (self.alphaelectrons + self.betaelectrons) // 2
+            mean = (self.alphaelectrons + self.betaelectrons) / 2
+            if mean.is_integer():
+                return int(mean)
+            return round(mean, 1)
 
     @property
     def atoms(self):

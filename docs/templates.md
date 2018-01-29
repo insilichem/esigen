@@ -43,7 +43,7 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ name }}`: Extracted from the filename, without the extension.
     - `{{ stoichiometry }}`.
     - `{{ imaginary_freqs }}`: Number of negative frequencies.
-    - `{{ mean_of_electrons }}`: Integer mean of alpha and beta electrons.
+    - `{{ mean_of_electrons }}`: Mean of `alphaelectrons` and `betaelectrons`.
 - Magnitudes
     - `{{ electronic_energy }}`. Last of `scfenergies`, Eh.
     - `{{ thermalenergy }}`: Sum of electronic and thermal energies, Eh.
