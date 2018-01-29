@@ -43,19 +43,17 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ name }}`: Extracted from the filename, without the extension.
     - `{{ stoichiometry }}`.
     - `{{ imaginary_freqs }}`: Number of negative frequencies.
-    - `{{ mean_of_electrons }}`: Mean of alpha and beta electrons.
+    - `{{ mean_of_electrons }}`: Integer mean of alpha and beta electrons.
 - Magnitudes
-    - `{{ electronic_energy }}`.
-    - `{{ enthalpy }}`: Sum of electronic and thermal enthalpies, eV
-    - `{{ freeenergy }}`: Sum of electronic and free energies, eV.
-    - `{{ thermalenergies }}`: Sum of electronic and thermal energies, eV.
-    - `{{ zeropointenergies }}`: Sum of electronic and zero-point energies, eV.
+    - `{{ electronic_energy }}`. Last of `scfenergies`, Eh.
+    - `{{ thermalenergy }}`: Sum of electronic and thermal energies, Eh.
+    - `{{ zeropointenergy }}`: Sum of electronic and zero-point energies, Eh.
 - Structural info
     - `{{ viewer3d }}`: Insert interactive 3D depiction of the structure. Only available in web UI.
     - `{{ image }}`: Static depiction of the structure. Requires PyMol (not available on public demo!)
     - `{{ cartesians }}`: Molecule structure exported in XYZ format.
 - Functions
-    - `{{ convertor(value, from_unit, to_unit) }}` can be used to change units in most cases. If not, you can always use normal math inside the curly braces (`{{ (10+value)**2 }}`).
+    - `{{ convertor(value, from_unit, to_unit) }}` can be used to change units in most cases. Check [here](https://github.com/cclib/cclib/blob/master/src/cclib/parser/utils.py#L62) for supported constants. If not, you can always use normal math inside the curly braces (`{{ (10+value)**2 }}`).
 
 Depending on the software used to create the output file, some fields might not be available. When in doubt, you can check the JSON dump of the files by appending `/json` to the report URL (a link is also available in the bottom of the page). This will list all the attributes available for each file.
 
@@ -103,10 +101,10 @@ __Case B__: `missing = 'N/A'`, default
     | Multiplicity                                     |             1             |
     | Stoichiometry                                    |      C7H9N3NiO4S(2-)      |
     | Number of Basis Functions                        |            570            |
-    | Electronic Energy (eV)                           |    -2644.5302088499993    |
-    | Sum of electronic and zero-point Energies (eV)   |            N/A            |
-    | Sum of electronic and thermal Energies (eV)      |            N/A            |
-    | Sum of electronic and thermal Enthalpies (eV)    |            N/A            |
-    | Sum of electronic and thermal Free Energies (eV) |            N/A            |
+    | Electronic Energy (Eh)                           |    -2644.5302088499993    |
+    | Sum of electronic and zero-point Energies (Eh)   |            N/A            |
+    | Sum of electronic and thermal Energies (Eh)      |            N/A            |
+    | Sum of electronic and thermal Enthalpies (Eh)    |            N/A            |
+    | Sum of electronic and thermal Free Energies (Eh) |            N/A            |
     | Number of Imaginary Frequencies                  |            N/A            |
     | Mean of alpha and beta Electrons                 |             75            |

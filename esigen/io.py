@@ -53,12 +53,12 @@ class ccDataExtended(ccData_optdone_bool):
 
     _attributes = ccData_optdone_bool._attributes.copy()
     _attributes.update(
-        {'stoichiometry':     Attribute(str,   'stoichiometry',         'N/A'),
-         'thermalenergies':   Attribute(float, 'thermal energies',      'N/A'),
-         'zeropointenergies': Attribute(float, 'zero-point energies',   'N/A'),
-         'alphaelectrons':    Attribute(int,   'alpha electrons',       'N/A'),
-         'betaelectrons':     Attribute(int,   'beta electrons',        'N/A'),
-         'route':             Attribute(str,   'route section',         'N/A'),
+        {'stoichiometry':     Attribute(str,   'stoichiometry',                    'N/A'),
+         'thermalenergy':     Attribute(float, 'electronic + thermal energies',    'N/A'),
+         'zeropointenergy':   Attribute(float, 'electronic + zero-point energies', 'N/A'),
+         'alphaelectrons':    Attribute(int,   'alpha electrons',                  'N/A'),
+         'betaelectrons':     Attribute(int,   'beta electrons',                   'N/A'),
+         'route':             Attribute(str,   'route section',                    'N/A'),
          })
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
@@ -143,13 +143,9 @@ class GaussianParser(_cclib_Gaussian):
             if "Stoichiometry" in line:
                 self.set_attribute('stoichiometry', line.split()[-1])
             if "Sum of electronic and zero-point Energies=" in line:
-                self.set_attribute('zeropointenergies', convertor(float(line.split()[6]), 'hartree', 'eV'))
+                self.set_attribute('zeropointenergy', float(line.split()[6]))
             if "Sum of electronic and thermal Energies" in line:
-                self.set_attribute('thermalenergies', convertor(float(line.split()[6]), 'hartree', 'eV'))
-            if "Sum of electronic and thermal Enthalpies" in line:
-                self.set_attribute('enthalpy', convertor(float(line.split()[6]), 'hartree', 'eV'))
-            if "Sum of electronic and thermal Free Energies=" in line:
-                self.set_attribute('freeenergy', convertor(float(line.split()[7]), 'hartree', 'eV'))
+                self.set_attribute('thermalenergy', float(line.split()[6]))
             if "alpha electrons" in line:
                 fields = line.split()
                 alpha_index = fields.index('alpha')
