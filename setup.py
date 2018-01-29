@@ -21,7 +21,7 @@ long_description = read('README.md')
 
 setup(
     name='esigen',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/insilichem/esigen',
     author='Jaime Rodríguez-Guerra',
     author_email='jaime.rogue@gmail.com',
