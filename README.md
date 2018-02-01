@@ -2,7 +2,7 @@
 
 Automatically generate supporting information documents for your Chemistry publications online.
 
-![Example](docs/img/example.png)
+![Example](docs/img/esigen.gif)
 
 # Usage
 
@@ -18,6 +18,7 @@ This is only a demo server, so performance won't be stellar... All files will be
 
 1. [Install](docs/install.md) in your computer.
 2. Run `esigen filename.log`. That's it!
+3. If you want to use [another builtin template](docs/templates.md#builtin-templates) or [create your own](docs/templates.md#syntax), specify it with `esigen -t mytemplate.md filename.log`.
 
 # Documentation
 
@@ -31,9 +32,7 @@ Inspired by [Chauncey Garrett's collection of scripts](https://github.com/chaunc
 
 ESIgen is possible thanks to great open-source projects:
 
-- [CCLib](https://github.com/cclib/cclib). Gaussian output file parsing.
-- [NGL](https://github.com/arose/ngl). Interactive 3D preview in the browser.
-- [Flask](https://github.com/pallets/flask). Web backend.
-- [PyMol](https://sourceforge.net/projects/pymol/). Unattended 3D image rendering.
-- [HTML5 UP](https://html5up.net/). Base web design.
-- [Dropzone](https://github.com/enyo/dropzone). Drag & drop uploads.
+- Backend: [CCLib](https://github.com/cclib/cclib), [Jinja](http://jinja.pocoo.org/).
+- Web UI: [NGL](https://github.com/arose/ngl), [Flask](https://github.com/pallets/flask), [requests](http://docs.python-requests.org), [HTML5 UP](https://html5up.net/), [Dropzone](https://github.com/enyo/dropzone), [clipboard.js](https://clipboardjs.com/), [FileSaver.js](https://github.com/eligrey/FileSaver.js/), [JSZip](https://stuk.github.io/jszip/), [CloudFormatter](http://www.cloudformatter.com/CSS2Pdf).
+- CLI: [PyMol](https://sourceforge.net/projects/pymol/).
+- Installer: [Conda Constructor](https://github.com/conda/constructor).
