@@ -17,8 +17,8 @@ This is only a demo server, so performance won't be stellar... All files will be
 ## Command-line (batch processing)
 
 1. [Install](docs/install.md) in your computer.
-2. Run `esigen filename.log`. That's it!
-3. If you want to use [another builtin template](docs/templates.md#builtin-templates) or [create your own](docs/templates.md#syntax), specify it with `esigen -t mytemplate.md filename.log`.
+2. Run `esigen filename.log`. That's it! You can even provide several files at once with `esigen file1.log file2.log` or `esigen my_files_*.log`.
+3. If you want to use [another builtin template](docs/templates.md#builtin-templates) or [create your own](docs/templates.md#syntax), specify it with `esigen -t mytemplate.md filename.log`. Ideal for quick reports on your daily routine.
 
 # Documentation
 
