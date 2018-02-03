@@ -49,7 +49,6 @@ coverage.xml
 .ropeproject
 
 # Django stuff:
-*.log
 *.pot
 
 # Sphinx documentation
@@ -65,4 +64,6 @@ docs/_build/
 .idea/*
 
 # PyTest Benchmarks
-/.benchmarks
+tests/.benchmarks
+tests/.pytest*
+.pytest*
