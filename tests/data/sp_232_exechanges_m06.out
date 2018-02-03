@@ -1,0 +1,3304 @@
+Initialising ChemShell 3.4.2 on linux
+load_amber_coords/=============================== Tstep:    0.1 Ttot:    0.1 ==
+load_amber_coords/pdb_to_res/==================== Tstep:    9.4 Ttot:    9.5 ==
+load_amber_coords/energy/======================== Tstep:    0.4 Ttot:    9.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:    9.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_1.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:   10.7 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.8333333333333334
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:   18.5 ==
+...get_number_of_atoms/========================== Tstep:    0.1 Ttot:   18.7 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:   18.7 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   13.0 Ttot:   31.7 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:   31.7 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:   32.2 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  349.1 Ttot:  381.4 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:  381.4 ==
+
+ MM Energies (kcal/mol)   total      : -2.39134909E+04
+   short range: -6.74213601E+02 coulombic  : -3.19657909E+04 3body      :  0.00000000E+00
+   bond       :  1.05067922E+03 angle      :  2.68404242E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99179200E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.745926 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107654 (a.u.)
+Contribution to energy from additional MM energy terms:           835.361495 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135503 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.356583 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot:  406.3 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:  406.3 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.356583 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:  406.5 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:  406.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_2.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:  407.3 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:  415.2 ==
+...get_number_of_atoms/========================== Tstep:    0.1 Ttot:  415.3 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:  415.4 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   17.8 Ttot:  433.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:  433.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:  433.6 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  343.1 Ttot:  776.7 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:  776.8 ==
+
+ MM Energies (kcal/mol)   total      : -2.39137966E+04
+   short range: -6.74651576E+02 coulombic  : -3.19657330E+04 3body      :  0.00000000E+00
+   bond       :  1.05069501E+03 angle      :  2.68410402E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99178887E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.745163 (a.u.)
+Contribution to energy from                    dl_poly:           -38.108142 (a.u.)
+Contribution to energy from additional MM energy terms:           835.361270 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135507 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.356527 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot:  801.6 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:  801.6 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.356527 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:  801.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:  801.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_3.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:  802.7 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:  810.6 ==
+...get_number_of_atoms/========================== Tstep:    0.1 Ttot:  810.7 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:  810.7 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   18.8 Ttot:  829.5 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:  829.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:  830.0 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  430.6 Ttot: 1260.6 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 1260.7 ==
+
+ MM Energies (kcal/mol)   total      : -2.39140302E+04
+   short range: -6.74942962E+02 coulombic  : -3.19655898E+04 3body      :  0.00000000E+00
+   bond       :  1.05065890E+03 angle      :  2.68404831E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99179537E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.743998 (a.u.)
+Contribution to energy from                    dl_poly:           -38.108514 (a.u.)
+Contribution to energy from additional MM energy terms:           835.360900 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135531 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.356082 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 1285.6 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 1285.6 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.356082 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 1285.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 1285.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_4.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 1286.7 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 1294.6 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 1294.7 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 1294.7 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   19.8 Ttot: 1314.6 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 1314.6 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 1315.1 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  426.1 Ttot: 1741.2 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 1741.3 ==
+
+ MM Energies (kcal/mol)   total      : -2.39141216E+04
+   short range: -6.75107293E+02 coulombic  : -3.19654144E+04 3body      :  0.00000000E+00
+   bond       :  1.05065300E+03 angle      :  2.68402007E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99172703E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.742901 (a.u.)
+Contribution to energy from                    dl_poly:           -38.108660 (a.u.)
+Contribution to energy from additional MM energy terms:           835.360534 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135552 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.355474 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 1766.2 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 1766.2 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.355474 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 1766.5 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 1766.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_5.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 1767.3 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 1775.2 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 1775.4 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 1775.4 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.5 Ttot: 1795.9 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 1795.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 1796.4 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  517.4 Ttot: 2313.8 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 2313.9 ==
+
+ MM Energies (kcal/mol)   total      : -2.39135824E+04
+   short range: -6.74906648E+02 coulombic  : -3.19647240E+04 3body      :  0.00000000E+00
+   bond       :  1.05069456E+03 angle      :  2.68394051E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99141312E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.742892 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107800 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359090 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135478 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.356124 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 2338.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 2338.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.356124 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 2339.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 2339.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_6.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 2339.9 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 2347.8 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 2348.0 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 2348.0 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 2368.7 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 2368.7 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 2369.3 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  436.8 Ttot: 2806.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 2806.2 ==
+
+ MM Energies (kcal/mol)   total      : -2.39132869E+04
+   short range: -6.74957387E+02 coulombic  : -3.19643454E+04 3body      :  0.00000000E+00
+   bond       :  1.05064713E+03 angle      :  2.68395527E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99141353E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.742467 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107329 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358452 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135565 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.355780 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 2831.1 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 2831.1 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.355780 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 2831.4 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 2831.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_7.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 2832.2 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 2840.1 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 2840.2 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 2840.3 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 2861.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 2861.2 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 2861.7 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  433.7 Ttot: 3295.4 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 3295.5 ==
+
+ MM Energies (kcal/mol)   total      : -2.39133681E+04
+   short range: -6.75296331E+02 coulombic  : -3.19642865E+04 3body      :  0.00000000E+00
+   bond       :  1.05072360E+03 angle      :  2.68401440E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99147672E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.740437 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107459 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358056 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135495 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.354345 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 3320.3 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 3320.3 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.354345 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 3320.6 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 3320.6 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_8.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 3321.4 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 3329.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 3329.5 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 3329.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 3350.2 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 3350.2 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 3350.8 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  381.1 Ttot: 3731.9 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 3731.9 ==
+
+ MM Energies (kcal/mol)   total      : -2.39131719E+04
+   short range: -6.75235635E+02 coulombic  : -3.19642946E+04 3body      :  0.00000000E+00
+   bond       :  1.05073859E+03 angle      :  2.68406814E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99155163E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.737902 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107146 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357803 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135547 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.351698 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 3756.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 3756.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.351698 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 3757.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 3757.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_9.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 3757.9 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 3765.8 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 3766.0 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 3766.0 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 3786.9 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 3787.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 3787.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  435.6 Ttot: 4223.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 4223.2 ==
+
+ MM Energies (kcal/mol)   total      : -2.39130892E+04
+   short range: -6.74885802E+02 coulombic  : -3.19644657E+04 3body      :  0.00000000E+00
+   bond       :  1.05079593E+03 angle      :  2.68399134E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99147502E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.733654 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107014 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357537 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135515 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.347616 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 4248.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 4248.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.347616 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 4248.3 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 4248.3 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_10.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 4249.1 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 4257.0 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 4257.2 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 4257.3 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 4278.0 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 4278.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 4278.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  489.5 Ttot: 4768.0 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 4768.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39131808E+04
+   short range: -6.75121719E+02 coulombic  : -3.19644353E+04 3body      :  0.00000000E+00
+   bond       :  1.05084382E+03 angle      :  2.68405106E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99148135E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.726748 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107160 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357486 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135485 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.340938 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 4792.9 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 4792.9 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.340938 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 4793.2 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 4793.2 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_11.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 4794.1 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 4802.0 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 4802.1 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 4802.2 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 4823.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 4823.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 4823.6 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  320.2 Ttot: 5143.8 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 5143.9 ==
+
+ MM Energies (kcal/mol)   total      : -2.39134610E+04
+   short range: -6.75049048E+02 coulombic  : -3.19650464E+04 3body      :  0.00000000E+00
+   bond       :  1.05096668E+03 angle      :  2.68422020E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99144761E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.718717 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107607 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357562 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135496 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.333266 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 5168.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 5168.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.333266 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 5169.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 5169.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_12.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 5169.9 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 5177.8 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 5177.9 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 5178.0 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 5198.6 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 5198.6 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 5199.2 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  487.9 Ttot: 5687.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 5687.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39138049E+04
+   short range: -6.75269518E+02 coulombic  : -3.19654145E+04 3body      :  0.00000000E+00
+   bond       :  1.05100776E+03 angle      :  2.68423492E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99163650E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.706457 (a.u.)
+Contribution to energy from                    dl_poly:           -38.108155 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357519 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135463 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.321630 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 5712.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 5712.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.321630 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 5712.3 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 5712.3 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_13.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 5713.1 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 5721.0 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 5721.2 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 5721.2 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.6 Ttot: 5741.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 5741.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 5742.4 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  342.3 Ttot: 6084.7 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 6084.8 ==
+
+ MM Energies (kcal/mol)   total      : -2.39130809E+04
+   short range: -6.73922133E+02 coulombic  : -3.19656579E+04 3body      :  0.00000000E+00
+   bond       :  1.05092533E+03 angle      :  2.68404821E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99152551E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.696280 (a.u.)
+Contribution to energy from                    dl_poly:           -38.107001 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357922 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135524 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.309834 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 6109.7 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 6109.7 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.309834 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 6110.0 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 6110.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_14.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 6110.8 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 6118.7 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 6118.8 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 6118.9 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 6139.7 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 6139.7 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 6140.3 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  309.7 Ttot: 6450.0 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 6450.0 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127439E+04
+   short range: -6.73152213E+02 coulombic  : -3.19659625E+04 3body      :  0.00000000E+00
+   bond       :  1.05089102E+03 angle      :  2.68404941E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99143035E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.692893 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106464 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358206 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135502 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.305649 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 6474.9 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 6474.9 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.305649 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 6475.2 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 6475.2 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_15.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 6476.0 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 6483.9 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 6484.1 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 6484.1 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 6504.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 6504.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 6505.3 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  502.7 Ttot: 7008.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 7008.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39125710E+04
+   short range: -6.73150771E+02 coulombic  : -3.19659086E+04 3body      :  0.00000000E+00
+   bond       :  1.05093942E+03 angle      :  2.68408557E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99146335E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.693179 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106189 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357965 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135478 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.305924 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 7033.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 7033.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.305924 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 7033.3 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 7033.3 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_16.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 7034.1 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 7042.0 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 7042.2 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 7042.2 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 7063.0 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 7063.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 7063.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  321.5 Ttot: 7385.0 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 7385.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127808E+04
+   short range: -6.73572207E+02 coulombic  : -3.19655666E+04 3body      :  0.00000000E+00
+   bond       :  1.05086952E+03 angle      :  2.68431779E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99117072E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.694357 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106523 (a.u.)
+Contribution to energy from additional MM energy terms:           835.356051 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135490 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.309338 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   25.2 Ttot: 7410.3 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 7410.3 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.309338 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 7410.6 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 7410.6 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_17.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 7411.4 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 7419.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 7419.5 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 7419.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 7440.4 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 7440.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 7440.9 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  269.9 Ttot: 7710.8 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 7710.9 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127372E+04
+   short range: -6.73623995E+02 coulombic  : -3.19656378E+04 3body      :  0.00000000E+00
+   bond       :  1.05090870E+03 angle      :  2.68438895E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99122690E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.695821 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106453 (a.u.)
+Contribution to energy from additional MM energy terms:           835.356275 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135458 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.310541 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 7735.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 7735.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.310541 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 7736.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 7736.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_18.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 7737.0 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 7744.9 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 7745.0 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 7745.1 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 7766.0 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 7766.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 7766.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  269.2 Ttot: 8035.7 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 8035.8 ==
+
+ MM Energies (kcal/mol)   total      : -2.39124350E+04
+   short range: -6.73213606E+02 coulombic  : -3.19657874E+04 3body      :  0.00000000E+00
+   bond       :  1.05088043E+03 angle      :  2.68436964E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99131599E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.697853 (a.u.)
+Contribution to energy from                    dl_poly:           -38.105972 (a.u.)
+Contribution to energy from additional MM energy terms:           835.356522 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135445 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.311857 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 8060.7 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 8060.7 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.311857 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 8061.0 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 8061.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_19.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 8061.8 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 8069.7 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 8069.9 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 8069.9 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot: 8090.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 8090.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 8091.4 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  395.6 Ttot: 8486.9 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 8487.0 ==
+
+ MM Energies (kcal/mol)   total      : -2.39122745E+04
+   short range: -6.72619681E+02 coulombic  : -3.19662406E+04 3body      :  0.00000000E+00
+   bond       :  1.05083746E+03 angle      :  2.68432693E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99142139E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.700636 (a.u.)
+Contribution to energy from                    dl_poly:           -38.105716 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357233 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135460 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.313660 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 8511.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 8511.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.313660 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 8512.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 8512.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_20.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 8513.0 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 8520.9 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 8521.1 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 8521.1 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot: 8541.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 8541.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 8542.4 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  319.9 Ttot: 8862.3 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 8862.3 ==
+
+ MM Energies (kcal/mol)   total      : -2.39122883E+04
+   short range: -6.72682676E+02 coulombic  : -3.19663513E+04 3body      :  0.00000000E+00
+   bond       :  1.05088211E+03 angle      :  2.68440740E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99145622E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.702605 (a.u.)
+Contribution to energy from                    dl_poly:           -38.105738 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357404 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135463 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.315475 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 8887.2 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 8887.2 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.315475 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 8887.5 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 8887.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_21.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 8888.3 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 8896.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 8896.4 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 8896.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   21.0 Ttot: 8917.4 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 8917.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 8918.0 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  343.5 Ttot: 9261.5 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 9261.6 ==
+
+ MM Energies (kcal/mol)   total      : -2.39128113E+04
+   short range: -6.72645143E+02 coulombic  : -3.19671432E+04 3body      :  0.00000000E+00
+   bond       :  1.05079798E+03 angle      :  2.68442581E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99175331E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.705812 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106571 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358762 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135455 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.318167 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot: 9286.5 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 9286.5 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.318167 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 9286.8 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 9286.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_22.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 9287.6 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 9295.5 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 9295.7 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 9295.7 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   21.0 Ttot: 9316.7 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 9316.7 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 9317.2 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  337.9 Ttot: 9655.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot: 9655.2 ==
+
+ MM Energies (kcal/mol)   total      : -2.39128073E+04
+   short range: -6.72689737E+02 coulombic  : -3.19672149E+04 3body      :  0.00000000E+00
+   bond       :  1.05081282E+03 angle      :  2.68447286E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99181170E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.708355 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106565 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358960 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135453 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.320507 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot: 9680.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot: 9680.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.320507 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot: 9680.4 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot: 9680.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_23.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot: 9681.2 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot: 9689.1 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot: 9689.3 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot: 9689.3 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.8 Ttot: 9710.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot: 9710.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot: 9710.6 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  396.2 Ttot:10106.8 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:10106.9 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127700E+04
+   short range: -6.72629239E+02 coulombic  : -3.19673281E+04 3body      :  0.00000000E+00
+   bond       :  1.05081263E+03 angle      :  2.68450997E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99186470E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.711087 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106506 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359238 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135444 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.322911 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:10131.8 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:10131.8 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.322911 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:10132.1 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:10132.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_24.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:10132.9 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:10140.8 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:10141.0 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:10141.0 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:10162.0 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:10162.0 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:10162.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  268.9 Ttot:10431.4 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:10431.4 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127259E+04
+   short range: -6.72366764E+02 coulombic  : -3.19675664E+04 3body      :  0.00000000E+00
+   bond       :  1.05080971E+03 angle      :  2.68447809E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99191952E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.713896 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106435 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359712 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135459 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.325161 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot:10456.3 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:10456.3 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.325161 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:10456.6 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:10456.6 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_25.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:10457.4 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:10465.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:10465.5 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:10465.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot:10486.2 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:10486.3 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:10486.8 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep: 7559.4 Ttot:18046.2 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:18046.3 ==
+
+ MM Energies (kcal/mol)   total      : -2.39127881E+04
+   short range: -6.72719954E+02 coulombic  : -3.19671911E+04 3body      :  0.00000000E+00
+   bond       :  1.05063895E+03 angle      :  2.68443640E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99204760E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2673.740249 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106535 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359591 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135423 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1876.351770 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:18071.2 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:18071.2 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1876.351770 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:18071.5 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:18071.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_26.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:18072.4 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:18080.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:18080.4 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:18080.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:18101.4 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:18101.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:18101.9 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  340.8 Ttot:18442.7 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:18442.7 ==
+
+ MM Energies (kcal/mol)   total      : -2.39129411E+04
+   short range: -6.72673801E+02 coulombic  : -3.19673360E+04 3body      :  0.00000000E+00
+   bond       :  1.05062953E+03 angle      :  2.68434138E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99209776E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.718397 (a.u.)
+Contribution to energy from                    dl_poly:           -38.106778 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359936 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135442 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.329798 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:18467.6 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:18467.6 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.329798 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:18467.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:18467.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_27.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:18468.8 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:18476.7 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:18476.9 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:18476.9 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:18497.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:18497.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:18498.4 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  433.6 Ttot:18932.0 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:18932.0 ==
+
+ MM Energies (kcal/mol)   total      : -2.39123530E+04
+   short range: -6.73066246E+02 coulombic  : -3.19661323E+04 3body      :  0.00000000E+00
+   bond       :  1.05052402E+03 angle      :  2.68413426E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99218733E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.717053 (a.u.)
+Contribution to energy from                    dl_poly:           -38.105841 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358573 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135421 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.328900 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:18956.9 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:18956.9 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.328900 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:18957.2 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:18957.2 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_28.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:18958.1 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:18966.0 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:18966.1 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:18966.2 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot:18986.9 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:18986.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:18987.5 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  389.1 Ttot:19376.6 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:19376.7 ==
+
+ MM Energies (kcal/mol)   total      : -2.39122323E+04
+   short range: -6.72591065E+02 coulombic  : -3.19664341E+04 3body      :  0.00000000E+00
+   bond       :  1.05051310E+03 angle      :  2.68410090E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99217883E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.717967 (a.u.)
+Contribution to energy from                    dl_poly:           -38.105649 (a.u.)
+Contribution to energy from additional MM energy terms:           835.359030 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135443 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.329143 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:19401.5 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:19401.5 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.329143 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:19401.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:19401.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_29.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:19402.7 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:19410.6 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:19410.8 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:19410.8 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:19431.7 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:19431.7 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:19432.2 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  333.8 Ttot:19766.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:19766.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39117560E+04
+   short range: -6.72265955E+02 coulombic  : -3.19662900E+04 3body      :  0.00000000E+00
+   bond       :  1.05051760E+03 angle      :  2.68406541E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99221701E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.717117 (a.u.)
+Contribution to energy from                    dl_poly:           -38.104890 (a.u.)
+Contribution to energy from additional MM energy terms:           835.358833 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135400 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.327774 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:19791.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:19791.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.327774 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:19791.4 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:19791.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_30.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:19792.2 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:19800.1 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:19800.3 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:19800.3 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   21.0 Ttot:19821.3 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:19821.3 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:19821.8 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  328.2 Ttot:20150.0 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:20150.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39110406E+04
+   short range: -6.72216566E+02 coulombic  : -3.19654787E+04 3body      :  0.00000000E+00
+   bond       :  1.05037751E+03 angle      :  2.68402677E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99225041E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.715896 (a.u.)
+Contribution to energy from                    dl_poly:           -38.103750 (a.u.)
+Contribution to energy from additional MM energy terms:           835.357964 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135426 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.326256 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   25.1 Ttot:20175.2 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:20175.2 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.326256 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:20175.5 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:20175.5 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_31.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:20176.3 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:20184.3 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:20184.4 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:20184.5 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:20205.4 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:20205.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:20205.9 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  441.3 Ttot:20647.2 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:20647.3 ==
+
+ MM Energies (kcal/mol)   total      : -2.39101654E+04
+   short range: -6.72390409E+02 coulombic  : -3.19642899E+04 3body      :  0.00000000E+00
+   bond       :  1.05026324E+03 angle      :  2.68397513E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99227653E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.713889 (a.u.)
+Contribution to energy from                    dl_poly:           -38.102355 (a.u.)
+Contribution to energy from additional MM energy terms:           835.356301 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135434 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.324509 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot:20672.1 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:20672.1 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.324509 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:20672.4 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:20672.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_32.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:20673.3 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:20681.2 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:20681.3 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:20681.4 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot:20702.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:20702.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:20702.6 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  273.0 Ttot:20975.6 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:20975.7 ==
+
+ MM Energies (kcal/mol)   total      : -2.39101870E+04
+   short range: -6.72194797E+02 coulombic  : -3.19645662E+04 3body      :  0.00000000E+00
+   bond       :  1.05034665E+03 angle      :  2.68391818E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99230920E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.712572 (a.u.)
+Contribution to energy from                    dl_poly:           -38.102390 (a.u.)
+Contribution to energy from additional MM energy terms:           835.356606 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135403 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.322952 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:21000.6 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:21000.6 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.322952 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:21000.9 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:21000.9 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_33.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:21001.7 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:21009.7 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:21009.8 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:21009.9 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.9 Ttot:21030.8 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:21030.8 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:21031.3 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  242.9 Ttot:21274.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:21274.2 ==
+
+ MM Energies (kcal/mol)   total      : -2.39151711E+04
+   short range: -6.77882298E+02 coulombic  : -3.19633432E+04 3body      :  0.00000000E+00
+   bond       :  1.04937386E+03 angle      :  2.68380068E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99287985E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.723830 (a.u.)
+Contribution to energy from                    dl_poly:           -38.110332 (a.u.)
+Contribution to energy from additional MM energy terms:           835.361668 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135431 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.337063 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.8 Ttot:21299.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:21299.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.337063 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/energy/======================== Tstep:    0.3 Ttot:21299.4 ==
+...energy/hybrid.init/=========================== Tstep:    0.0 Ttot:21299.4 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell hybrid module $Revision: 3738 $
+Coupling option "shift" selected
+Charge near the QM junction will be shifted
+QM region  2509 2510 2511 2512 2513 2514 2515 2516 2517 2518 5215 5216 5217 5218 5219 5220 5221 5222 5223 6716 6717 6718 6719 6720 6721 6722 6723 6724 6725 6726 6727 6728 6729 6730 6731 6732 6733 6734 6735 6736 6737 6738 6739 6740 6741 6742 6743 6744 6745 6746 6747 6748 6749 6750 6751 6752 6753 6754 6755 6756 6757 6758 6759 
+Use connectivity provided in input object scanback232_from_optprod_34.c
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+Adding link to c on bond from 2509 to 2507
+Adding link to c on bond from 5215 to 5213
+update_qmmm_interaction_list: 12309 MM charges will be included in QM calculation
+Total charge deleted because of QM embedding: 0.
+...hybrid.init/dl_poly.init/===================== Tstep:    0.8 Ttot:21300.2 ==
+ 
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell DL_POLY MM Module $Revision: 3711 $
+ 
+    forcefield         : AMBER
+    AMBER prmtop file  : closest.top
+    connectivity       : taken from file coord.c
+    pairlist           : not used
+    exact_srf          : 1
+    1-4 scale (elec)   : 0.83333333333333
+    1-4 scale (vdw     : 0.5
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+...get_number_of_atoms/========================== Tstep:    7.9 Ttot:21308.1 ==
+...get_number_of_atoms/========================== Tstep:    0.2 Ttot:21308.3 ==
+...get_number_of_atoms/========================== Tstep:    0.0 Ttot:21308.3 ==
+Use list-based excluded atom code
+
+
+ Electrostatics : Coulombic potential all pairs
+
+
+ Short-range : Exact evaluation
+
+
+             **** WARNING - total system charge:     -2.6396 ****
+
+ configuration file name: 
+
+          from inpcrd                                                                     
+
+
+long range correction for: vdw energy     0.000000E+00
+                         : vdw pressure   0.000000E+00
+Computing charge shift boundary corrections
+update_qmmm_interaction_list: number of charges has changed from 12309 to 12307
+...energy/hybrid.calc/=========================== Tstep:   20.7 Ttot:21329.1 ==
+...energy/hybrid.calc/gaussian/================== Tstep:    0.0 Ttot:21329.1 ==
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ChemShell/Gaussian interface  $Revision: 3793 $
+ Basis set       : Internal Library, key TZVP
+ Starting gaussian mode=energy 
+ energy=hybrid.gaussian.ener
+ gradient=g-junk
+ hamiltonian=m062x
+ coords=hybrid.gaussian.coords
+ listing file=gaussian.log
+ memory allocation=8GB
+ SCF convergence= SP
+ Allowed cycles for SCF=5000
+ use initial guess for the wavefunction
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:    0.5 Ttot:21329.6 ==
+...energy/hybrid.calc/gaussian/[/share/data1/hans Tstep:  236.5 Ttot:21566.1 ==
+...hybrid.calc/dl_poly.energy/=================== Tstep:    0.1 Ttot:21566.1 ==
+
+ MM Energies (kcal/mol)   total      : -2.39150549E+04
+   short range: -6.77244077E+02 coulombic  : -3.19639427E+04 3body      :  0.00000000E+00
+   bond       :  1.04945317E+03 angle      :  2.68368838E+03 str-bend   :  0.00000000E+00
+   per dihed  :  4.99299041E+03 harm dihed :  0.00000000E+00 angle-angle:  0.00000000E+00
+   ang-ang-tor:  0.00000000E+00 urey-brdly :  0.00000000E+00 inversion  :  0.00000000E+00
+Contribution to energy from                   gaussian:         -2648.723994 (a.u.)
+Contribution to energy from                    dl_poly:           -38.110147 (a.u.)
+Contribution to energy from additional MM energy terms:           835.362198 (a.u.)
+Contribution to energy from additional charges in gaussian: 0.135456 (a.u.)
+-----------------------------------------------------------------------------------
+QM/MM Energy:                                                   -1851.336486 (a.u.)
+-----------------------------------------------------------------------------------
+...energy/hybrid.kill/=========================== Tstep:   24.9 Ttot:21591.0 ==
+...hybrid.kill/dl_poly.kill/===================== Tstep:    0.0 Ttot:21591.0 ==
+ MM termination code: 0
+ Energy and gradient evaluations: 
+QM energies   1
+QM gradients  0
+MM energies   1
+MM gradients  0
+-----------------------------------------------------------------------------------
+Energy (     hybrid):                                           -1851.336486 (a.u.)
+-----------------------------------------------------------------------------------
+load_amber_coords/read_pdb/====================== Tstep:    0.3 Ttot:21591.4 ==
+...read_pdb/read_xyz/============================ Tstep:    0.6 Ttot:21592.0 ==
+ChemShell exiting code 1

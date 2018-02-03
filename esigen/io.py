@@ -22,6 +22,7 @@ from collections import defaultdict
 import numpy as np
 from cclib.io.ccio import triggers as ccio_triggers
 from cclib.parser import Gaussian as _cclib_Gaussian
+from cclib.parser.logfileparser import Logfile
 from cclib.parser.data import ccData_optdone_bool, Attribute
 from cclib.parser.utils import convertor
 from .utils import  PERIODIC_TABLE
@@ -53,12 +54,16 @@ class ccDataExtended(ccData_optdone_bool):
 
     _attributes = ccData_optdone_bool._attributes.copy()
     _attributes.update(
-        {'stoichiometry':     Attribute(str,   'stoichiometry',                    'N/A'),
-         'thermalenergy':     Attribute(float, 'electronic + thermal energies',    'N/A'),
-         'zeropointenergy':   Attribute(float, 'electronic + zero-point energies', 'N/A'),
-         'alphaelectrons':    Attribute(int,   'alpha electrons',                  'N/A'),
-         'betaelectrons':     Attribute(int,   'beta electrons',                   'N/A'),
-         'route':             Attribute(str,   'route section',                    'N/A'),
+        {# Gaussian only
+         'stoichiometry':       Attribute(str,   'stoichiometry',                    'N/A'),
+         'thermalenergy':       Attribute(float, 'electronic + thermal energies',    'N/A'),
+         'zeropointenergy':     Attribute(float, 'electronic + zero-point energies', 'N/A'),
+         'alphaelectrons':      Attribute(int,   'alpha electrons',                  'N/A'),
+         'betaelectrons':       Attribute(int,   'beta electrons',                   'N/A'),
+         'route':               Attribute(str,   'route section',                    'N/A'),
+         # ChemShell only
+         'mmenergies':          Attribute(list,  'MM energy decomposition',          'N/A'),
+         'energycontributions': Attribute(list,  'QM/MM energy decomposition',       'N/A'),
          })
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
@@ -169,10 +174,69 @@ class GaussianParser(_cclib_Gaussian):
             print('  Line:', line)
 
 
+class ChemShell(Logfile):
+
+    def __init__(self, *args, **kwargs):
+
+        # Call the __init__ method of the superclass
+        super(ChemShell, self).__init__(logname="ChemShell", *args, **kwargs)
+
+    def __str__(self):
+        """Return a string representation of the object."""
+        return "ChemShell log file %s" % (self.filename)
+
+    def __repr__(self):
+        """Return a representation of the object."""
+        return 'ChemShell("%s")' % (self.filename)
+
+    def normalisesym(self, label):
+        return label
+
+    def before_parsing(self):
+        self.energycontributions = []
+        self.mmenergies = []
+        self.scfenergies = []
+
+    def after_parsing(self):
+        if self.energycontributions:
+            self.set_attribute('energycontributions', self.energycontributions)
+        if self.mmenergies:
+            self.set_attribute('mmenergies', self.mmenergies)
+
+    def extract(self, inputfile, line):
+        """Extract information from the file object inputfile."""
+
+        if line[:12] == ' MM Energies':
+            mm_energies = {}
+            mm_energies['total'] = float(line.split()[-1])
+            line = next(inputfile)
+            while line[:12]  != 'Contribution':
+                for group in line[:32], line[32:61], line[61:]:
+                    source, value = group.split(':')
+                    mm_energies[source.strip()] = float(value.strip())
+                line = next(inputfile)
+            self.mmenergies.append(mm_energies)
+        if line[:27] == "Contribution to energy from":
+            contributions = {}
+            while line[:5] != "-----":
+                key, value = line.split(':')
+                contributions[key[27:].strip()] = float(value.split()[0])
+                line = next(inputfile)
+            self.energycontributions.append(contributions)
+        if line[:13] == "QM/MM Energy:":
+            self.scfenergies.append(float(line.split()[2].strip()))
+        if line[:6] == ' cycle' and 'converged!' in line:
+            self.optdone = [True]
+
 # Replace cclib default parser with our own
+chemshell_patched = False
 for i, trigger in enumerate(ccio_triggers):
     parser, triggerlist, do_break = trigger
     for query in triggerlist:
         if "Gaussian" in query:
             ccio_triggers[i] = (GaussianParser, triggerlist, do_break)
             break
+        elif 'ChemShell' in query:
+            chemshell_patched = True
+if not chemshell_patched:
+    ccio_triggers.append((ChemShell, ['ChemShell'], True))
