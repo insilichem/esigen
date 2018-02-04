@@ -17,7 +17,7 @@
         <div class="select-wrapper">
             <select required name='template' id='template' onChange="showTextArea();" id="template-value">
                 {% for template in templates %}
-                <option value="{{ template }}">{{ template.lower() }}</option>
+                <option value="{{ template }}" {% if template.lower() == 'default.md' %}selected="selected"{% endif %}>{{ template.lower() }}</option>
                 {% endfor %}
                 <option value="custom">&lt;custom&gt;</option>
             </select>

@@ -28,7 +28,7 @@ from .utils import new_filename, PERIODIC_TABLE
 from .io import ccDataExtended
 
 __here__ = os.path.abspath(os.path.dirname(__file__))
-BUILTIN_TEMPLATES = os.listdir(os.path.join(__here__, 'templates'))
+BUILTIN_TEMPLATES = sorted(os.listdir(os.path.join(__here__, 'templates')), key=str.lower)
 
 
 class ESIgenReport(object):
