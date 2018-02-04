@@ -45,6 +45,7 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ imaginary_freqs }}`: Number of negative frequencies.
     - `{{ mean_of_electrons }}`: Mean of `alphaelectrons` and `betaelectrons`.
     - `{{ route }}`: First of Gaussian route sections. For other programs, check `metadata`.
+    - `{{ nsteps }}`: Number of optimization steps. Extracted from `scfenergies` size.
 - Magnitudes
     - `{{ electronic_energy }}`. Last of `scfenergies`, Eh.
     - `{{ thermalenergy }}`: Sum of electronic and thermal energies, Eh.
@@ -55,6 +56,11 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ cartesians }}`: Molecule structure exported in XYZ format.
 - Functions
     - `{{ convertor(value, from_unit, to_unit) }}` can be used to change units in most cases. Check [here](https://github.com/cclib/cclib/blob/master/src/cclib/parser/utils.py#L62) for supported constants. If not, you can always use normal math inside the curly braces (`{{ (10+value)**2 }}`).
+- Experimental support for QM/MM jobs in ChemShell (might change anytime; see `chemshell.md` template for an example)
+    - `{{ scfenergies  }}`: Lists "QM/MM energy" entries.
+    - `{{ mmenergies }}`: List of dicts which detail MM energy decomposition for each cycle.
+    - `{{ energycontributions }}`: List of dicts which detail QM/MM energy decomposition for each cycle.
+    - `{{ optdone }}`: `True` if optimization converged (only available with Turbomole backend).
 
 Depending on the software used to create the output file, some fields might not be available. When in doubt, you can check the JSON dump of the files by appending `/json` to the report URL (a link is also available in the bottom of the page). This will list all the attributes available for each file.
 

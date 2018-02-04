@@ -67,7 +67,7 @@ class ccDataExtended(ccData_optdone_bool):
          })
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
-                   'imaginary_freqs', 'cartesians']
+                   'imaginary_freqs', 'cartesians', 'nsteps']
 
     def as_dict(self):
         """
@@ -104,6 +104,11 @@ class ccDataExtended(ccData_optdone_bool):
     def imaginary_freqs(self):
         if hasattr(self, 'vibfreqs'):
             return (self.vibfreqs < 0).sum()
+
+    @property
+    def nsteps(self):
+        if hasattr(self, 'scfenergies'):
+            return self.scfenergies.size
 
     @property
     def xyz_block(self):

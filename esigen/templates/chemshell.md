@@ -1,6 +1,6 @@
 # {{name}}
 
-- Converged: {{ optdone }}
+- Converged after {{ nsteps }} cycles: {{ optdone }}
 
 - {{ 'QM/MM Energy'.ljust(37) }}: {{ scfenergies[-1] }} a.u.
 {% if energycontributions != missing %}
