@@ -135,7 +135,7 @@ class ccDataExtended(ccData_optdone_bool):
 
     @property
     def has_coordinates(self):
-        return getattr(self, 'atomnos', None) and getattr(self, 'atomcoords', None)
+        return hasattr(self, 'atomnos') and hasattr(self, 'atomcoords')
 
 
 class GaussianParser(_cclib_Gaussian):
