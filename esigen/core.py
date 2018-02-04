@@ -162,7 +162,9 @@ class ESIgenReport(object):
                             **self.data_as_dict())
         if process_markdown:
             return markdown(rendered, extensions=['markdown.extensions.tables',
-                                                  'markdown.extensions.fenced_code'])
+                                                  'markdown.extensions.fenced_code',
+                                                  'markdown.extensions.nl2br',
+                                                  'markdown.extensions.sane_lists'])
         return rendered
 
     def data_as_dict(self):
