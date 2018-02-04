@@ -148,7 +148,7 @@ def report(uuid, template='default', css='github', missing='N/A',
     else:
         template = request.args.get('template', template)
         css = request.args.get('css', css)
-        if request.args.get('missing', bool(missing)):
+        if request.args.get('missing', missing):
             missing = request.args.get('missing-value', missing)
         if template == 'custom':
             custom_template = True
@@ -186,16 +186,17 @@ def report(uuid, template='default', css='github', missing='N/A',
         reports.append((molecule, report))
         with open(os.path.join(root, molecule.name + '.md'), 'w') as f:
             f.write(report)
-        with open(os.path.join(root, molecule.name + '.pdb'), 'w') as f:
-            f.write(molecule.data.pdb_block)
-        with open(os.path.join(root, molecule.name + '.xyz'), 'w') as f:
-            f.write(molecule.data.xyz_block)
+        if molecule.data.has_coordinates:
+            with open(os.path.join(root, molecule.name + '.pdb'), 'w') as f:
+                f.write(molecule.data.pdb_block)
+            with open(os.path.join(root, molecule.name + '.xyz'), 'w') as f:
+                f.write(molecule.data.xyz_block)
     if not reports:
         return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
 
     if engine == 'html':
         return render_template('report.html', css=css, uuid=uuid, reports=reports,
-                               ngl='{{ viewer3d }}' in report)
+                               ngl='{{ viewer3d }}' in report, template=template)
     elif engine == 'zip':
         memfile = BytesIO()
         with ZipFile(memfile, 'w', ZIP_DEFLATED) as zf:
@@ -217,8 +218,9 @@ def report(uuid, template='default', css='github', missing='N/A',
                     }
         for molecule, report in reports:
             gist_data['files'][molecule.name + '.md'] = {'content': report}
-            gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
-            gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
+            if molecule.data.has_coordinates:
+                gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
+                gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
         response = requests.post('https://api.github.com/gists', json=gist_data)
         response.raise_for_status()
         return redirect(response.json()['html_url'])

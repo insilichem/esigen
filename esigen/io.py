@@ -133,6 +133,10 @@ class ccDataExtended(ccData_optdone_bool):
         pdb.append('ENDMDL\nEND\n')
         return '\n'.join(pdb)
 
+    @property
+    def has_coordinates(self):
+        return getattr(self, 'atomnos', None) and getattr(self, 'atomcoords', None)
+
 
 class GaussianParser(_cclib_Gaussian):
 

@@ -152,7 +152,7 @@ class ESIgenReport(object):
             if static_preview:
                 ast = self.jinja_env.parse(template)
         image = None
-        if static_preview and 'image' in find_undeclared_variables(ast):
+        if self.data.has_coordinates and static_preview and 'image' in find_undeclared_variables(ast):
             if preview == 'static':
                 image = self.render_with_pymol()
             elif preview == 'static_server':
