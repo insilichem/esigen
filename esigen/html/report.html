@@ -19,9 +19,27 @@
 <script src="{{ url_for('static', filename='js/jszip.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/FileSaver.min.js') }}"></script>
 {% if ngl %}
-<script src="{{ url_for('static', filename='js/ngl.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ngl.ts2.js') }}"></script>
 <script>
 document.NGLStages = {};
+NGL.setMeasurementDefaultParams({
+  color: 'green',
+  labelColor: '#222222',
+  labelAttachment: 'bottom-center',
+  labelSize: 1.0,
+  labelZOffset: 0.5,
+  labelYOffset: 0.1,
+  labelBorder: true,
+  labelBorderColor: 'white',
+  labelBorderWidth: 0.25,
+  lineOpacity: 0.8,
+  linewidth: 5.0,
+  opacity: 0.6,
+
+  labelUnit: 'angstrom',
+  arcVisible: true,
+  planeVisible: false
+})
 function AddNGLWidget(index, moleculeUrl, basename) {
     if (index in document.NGLStages) return document.NGLStages[index];
     var stage = new NGL.Stage("viewport"+index,
