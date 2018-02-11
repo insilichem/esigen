@@ -178,9 +178,10 @@ class GaussianParser(_cclib_Gaussian):
                     line = inputfile.next()
                 self.set_attribute('route', ''.join(route_lines).strip())
         except Exception as e:
-            print('Warning: Line could not be parsed! Job will continue, but errors may arise')
-            print('  Exception:', str(e))
-            print('  Line:', line)
+            self.logger.error('Line could not be parsed! '
+                                'Job will continue, but errors may arise')
+            self.logger.error('  Exception: %s', e)
+            self.logger.error('  Line: %s', line)
 
 
 class ChemShell(Logfile):

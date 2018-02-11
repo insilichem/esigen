@@ -17,14 +17,18 @@ import os
 import shutil
 import subprocess
 import sys
+import logging
 from esigen import ESIgenReport
 from esigen.core import BUILTIN_TEMPLATES
 
 
-def run(path, template='default.md', missing=None, preview=True, reporter=ESIgenReport):
+def run(path, template='default.md', missing=None, preview=True, reporter=ESIgenReport,
+        verbose=False):
     if preview is True:
         preview = 'static'
-    return reporter(path, missing=missing).report(template=template, preview=preview)
+    loglevel = logging.INFO if verbose else logging.CRITICAL
+    r = reporter(path, missing=missing, loglevel=loglevel)
+    return r.report(template=template, preview=preview)
 
 
 def parse_args():
@@ -41,6 +45,8 @@ def parse_args():
                         help='Value to show if a requested field was not found in the '
                              'provided file(s). By default, "N/A". Use empty value "" '
                              'to disable.')
+    parser.add_argument('-v', '--verbose', action='store_true',
+                        help='Switch logging level to info for detailed debugging.')
     return parser.parse_args()
 
 
@@ -53,7 +59,9 @@ def main():
         HAS_PYMOL = False
     args = parse_args()
     for path in args.paths:
-        print(run(path, args.template, preview=HAS_PYMOL, missing=args.missing))
+        print(run(path, args.template, preview=HAS_PYMOL, missing=args.missing,
+                  verbose=args.verbose))
+
 
 
 if __name__ == '__main__':

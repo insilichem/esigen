@@ -14,6 +14,8 @@ import sys
 from collections import defaultdict
 from textwrap import dedent
 from itertools import chain
+import logging
+import warnings
 # 3rd party
 from cclib.io.ccio import guess_filetype
 from cclib.parser.data import ccData
@@ -66,7 +68,7 @@ class ESIgenReport(object):
     """
 
     def __init__(self, path, parser=None, datatype=ccDataExtended, missing=None,
-                 *args, **kwargs):
+                 loglevel=logging.WARNING, *args, **kwargs):
         if not os.path.isfile(path):
             raise ValueError('Path "{}" is not available'.format(path))
         self.path = path
@@ -81,7 +83,7 @@ class ESIgenReport(object):
                 logfile = open(self.path)
             else:
                 logfile = self.path
-            self.parser = guessed(logfile, datatype=datatype)
+            self.parser = guessed(logfile, datatype=datatype, loglevel=loglevel)
             self.parser.datatype = datatype  # workaround
             self.parser = self.parser.parse
         self.name = os.path.splitext(os.path.basename(path))[0]
