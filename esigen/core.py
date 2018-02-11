@@ -24,11 +24,13 @@ from markdown import markdown
 from jinja2 import PackageLoader
 from jinja2.sandbox import SandboxedEnvironment as Environment
 from jinja2.meta import find_undeclared_variables
+import numpy as np
 # Own
 from . import render
 from .utils import new_filename, PERIODIC_TABLE
 from .io import ccDataExtended
 
+warnings.simplefilter(action='ignore', category=FutureWarning)
 __here__ = os.path.abspath(os.path.dirname(__file__))
 BUILTIN_TEMPLATES = sorted(os.listdir(os.path.join(__here__, 'templates')), key=str.lower)
 
