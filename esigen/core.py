@@ -97,6 +97,13 @@ class ESIgenReport(object):
         self.jinja_env.globals['viewer3d'] = '{{ viewer3d }}'
         self.jinja_env.globals['missing'] = missing
         self.jinja_env.globals['convertor'] = convertor
+        self.jinja_env.globals['zip'] = zip
+        self.jinja_env.globals['np'] = np
+        self.jinja_env.globals['slice'] = slice
+        self.jinja_env.globals['map'] = map
+        self.jinja_env.globals['str'] = str
+        self.jinja_env.globals['enumerate'] = enumerate
+        self.jinja_env.globals['len'] = len
 
     def parse(self, *args, **kwargs):
         """
