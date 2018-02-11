@@ -22,6 +22,10 @@ from esigen import ESIgenReport
 from esigen.core import BUILTIN_TEMPLATES
 
 
+####
+# esigen
+####
+
 def run(path, template='default.md', missing=None, preview=True, reporter=ESIgenReport,
         verbose=False):
     if preview is True:
@@ -62,7 +66,27 @@ def main():
         print(run(path, args.template, preview=HAS_PYMOL, missing=args.missing,
                   verbose=args.verbose))
 
+###
+# esixyz
+###
 
+def parse_args_esixyz():
+    parser = argparse.ArgumentParser(prog="esixyz",
+        description='Generate XYZ files from compchem jobs')
+    parser.add_argument('path', metavar='PATH', type=str,
+                        help='Path to comp chem logfile.')
+    parser.add_argument('-n', dest='frame', metavar='STEP', type=int, default=0,
+                        help='Step from which to extract coordinates (indexed at 1). '
+                             'Default is 0 (last).')
+    return parser.parse_args()
+
+
+def esixyz():
+    args = parse_args_esixyz()
+    if args.frame < 0:
+        sys.exit('ERROR! N must be 0 (last) or between 1 and the number of OPT steps')
+    report = ESIgenReport(args.path, loglevel=logging.ERROR)
+    print(report.data.xyz_from(args.frame-1))
 
 if __name__ == '__main__':
     main()

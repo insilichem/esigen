@@ -44,7 +44,7 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ stoichiometry }}`.
     - `{{ imaginary_freqs }}`: Number of negative frequencies.
     - `{{ mean_of_electrons }}`: Mean of `alphaelectrons` and `betaelectrons`.
-    - `{{ route }}`: First of Gaussian route sections. For other programs, check `metadata`.
+    - `{{ metadata['route'] }}`: First of Gaussian route sections. For other programs, check `metadata`.
     - `{{ nsteps }}`: Number of optimization steps. Extracted from `scfenergies` size.
 - Magnitudes
     - `{{ electronic_energy }}`. Last of `scfenergies`, Eh.

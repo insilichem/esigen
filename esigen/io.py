@@ -107,13 +107,20 @@ class ccDataExtended(ccData_optdone_bool):
     @property
     def nsteps(self):
         if hasattr(self, 'scfenergies'):
-            return self.scfenergies.size
+            return self.scfenergies.shape[0]
 
     @property
     def xyz_block(self):
         return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
                           for (a, xyz) in zip(self.atoms, self.coordinates)])
     cartesians = xyz_block
+
+    def xyz_from(self, n):
+        try:
+            return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
+                              for (a, xyz) in zip(self.atoms, self.atomcoords[n])])
+        except IndexError:
+            raise ValueError('N must be smaller than {}'.format(self.atomcoords.shape[0]))
 
     @property
     def pdb_block(self):
@@ -176,6 +183,15 @@ class GaussianParser(_cclib_Gaussian):
                     route_lines.append(line[1:].rstrip())
                     line = inputfile.next()
                 self.metadata['route'] = ''.join(route_lines).strip()
+            if "following ModRedundant" in line:
+                line = next(inputfile)
+                self.scannames = []
+                while line.strip():
+                    fields = line.split()
+                    indices = map(int, line[1:-1])
+                    self.scannames.append(indices)
+                    line = next(inputfile)
+
         except Exception as e:
             self.logger.error('Line could not be parsed! '
                                 'Job will continue, but errors may arise')

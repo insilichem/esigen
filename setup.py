@@ -42,6 +42,7 @@ setup(
     entry_points='''
         [console_scripts]
         esigen=esigen.cli:main
+        esixyz=esigen.cli:esixyz
         esigenweb=esigen.web:main
         '''
 )
