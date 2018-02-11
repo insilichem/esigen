@@ -8,7 +8,7 @@
 
 __Requested operations__
 
-`{{ route }}`
+`{{ metadata['route'] }}`
 
 __Relevant magnitudes__
 

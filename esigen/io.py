@@ -60,7 +60,6 @@ class ccDataExtended(ccData_optdone_bool):
          'zeropointenergy':     Attribute(float, 'electronic + zero-point energies', 'N/A'),
          'alphaelectrons':      Attribute(int,   'alpha electrons',                  'N/A'),
          'betaelectrons':       Attribute(int,   'beta electrons',                   'N/A'),
-         'route':               Attribute(str,   'route section',                    'N/A'),
          # ChemShell only
          'mmenergies':          Attribute(list,  'MM energy decomposition',          'N/A'),
          'energycontributions': Attribute(list,  'QM/MM energy decomposition',       'N/A'),
@@ -176,7 +175,7 @@ class GaussianParser(_cclib_Gaussian):
                 while '-----' not in line:
                     route_lines.append(line[1:].rstrip())
                     line = inputfile.next()
-                self.set_attribute('route', ''.join(route_lines).strip())
+                self.metadata['route'] = ''.join(route_lines).strip()
         except Exception as e:
             self.logger.error('Line could not be parsed! '
                                 'Job will continue, but errors may arise')

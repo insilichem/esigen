@@ -8,7 +8,9 @@
 
 __Requested operations__
 
-`{{ route }}`
+Run with {{ metadata['package']}} {{ metadata['package_version']}}.
+
+`{{ metadata['route'] }}`
 
 __Relevant magnitudes__
 
