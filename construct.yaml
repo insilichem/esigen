@@ -1,0 +1,37 @@
+{% if PY_VERSION[0] == '2' %}
+{% set NAME = 'esigen_pymol' %}
+{% else %}
+{% set NAME = 'esigen' %}
+{% endif %}
+name: {{ NAME }}
+version: {{ environ.get('GIT_DESCRIBE_TAG', 'vN/A')[1:] }}
+license_file: LICENSE
+
+# Welcome image for Windows installer
+welcome_image: docs/img/graphictoc.png                  [win]
+
+{% if environ.get('OS', '').startswith('Windows') or environ.get('APPVEYOR') %}
+{% set CONDA_BUILD_LOCAL = 'file:///' + environ['CONDA_PREFIX'] + '/conda-bld' %}
+{% else %}
+{% set CONDA_BUILD_LOCAL = 'file://' + environ['CONDA_PREFIX'] + '/conda-bld' %}
+{% endif %}
+channels:
+  - {{ CONDA_BUILD_LOCAL }}
+  - http://repo.continuum.io/pkgs/main/
+  - http://repo.continuum.io/pkgs/free/
+  - https://conda.anaconda.org/insilichem
+  - https://conda.anaconda.org/conda-forge
+  - https://conda.anaconda.org/auto
+{% if PY_VERSION == '2.7' %}
+  - https://conda.anaconda.org/omnia
+  - https://conda.anaconda.org/egilliesix
+{% endif %}
+
+specs:
+  - python {{ PY_VERSION}}*
+  - nomkl              [unix]
+  - esigen
+
+{% if PY_VERSION[0] == '2' %}
+post_install: devtools/post-construct.sh
+{% endif %}

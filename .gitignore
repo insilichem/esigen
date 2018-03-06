@@ -67,3 +67,6 @@ docs/_build/
 tests/.benchmarks
 tests/.pytest*
 .pytest*
+
+# Constructor
+esigen*-*-*-*.sh

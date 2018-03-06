@@ -1,0 +1,131 @@
+# Derived from https://github.com/theochem/qcgrids/blob/master/.travis.yml
+env:
+  matrix:
+  - MYCONDAPY=2.7
+  - MYCONDAPY=3.6
+
+####
+# EVERYTHING BELOW THIS LINE WILL BE COPIED INTO OTHER YMLs
+####
+
+# Do not use Travis Python to save some time.
+language: generic
+os:
+- linux
+- osx
+osx_image: xcode6.4
+dist: trusty
+sudo: false
+
+matrix:
+  # We only test on Linux with one specific Python version, unless we make a release. All
+  # other cases are allowed to fail and will exit early. With the fast_finish option,
+  # travis will send a status update to github as soon as the non-allowed-to-fail has
+  # finished. This speeds up testing in PRs.
+  #
+  # This is not ideal. It would be better to run just one item from the build matrix when
+  # not preparing a release. This is not possible on Travis. There are several tickets on
+  # travis-ci related to this limitation.
+  #
+  #    https://github.com/travis-ci/travis-ci/issues/7451
+  #    https://github.com/travis-ci/travis-ci/issues/7149
+  #    https://github.com/travis-ci/travis-ci/issues/2778
+  #    ...
+  fast_finish: true
+  allow_failures:
+  - os: osx
+
+cache:
+  directories:
+  - $HOME/download
+  - $HOME/miniconda
+
+before_cache:
+- if [[ ! $TRAVIS_TAG ]]; then rm -rf $HOME/miniconda/conda-bld; fi
+- rm -rf $HOME/miniconda/locks $HOME/miniconda/pkgs $HOME/miniconda/var $HOME/miniconda/conda-meta/history
+
+branches:
+  only:
+  - master
+  - /^v[0-9]+\.[0-9]+(\.[0-9]+)?([abc][0-9]*)?$/  # release branches
+
+before_install:
+# Get miniconda. Take the right version, so re-installing python is hopefully not needed.
+- if test -e $HOME/miniconda/bin; then
+    echo "miniconda already installed.";
+  else
+    echo "Installing miniconda.";
+    rm -rf $HOME/miniconda;
+    mkdir -p $HOME/download;
+    if [[ -d $HOME/download/miniconda.sh ]]; then rm -rf $HOME/download/miniconda.sh; fi;
+    if [ "${MYCONDAPY}" = "2.7" ]; then
+      if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O $HOME/download/miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -O $HOME/download/miniconda.sh;
+      fi;
+    else
+      if [ "${TRAVIS_OS_NAME}" = "linux" ]; then
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $HOME/download/miniconda.sh;
+      else
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O $HOME/download/miniconda.sh;
+      fi;
+    fi;
+    bash $HOME/download/miniconda.sh -b -p $HOME/miniconda;
+  fi
+
+
+install:
+- source $HOME/miniconda/bin/activate
+- hash -r
+
+# Configure conda and get a few essentials
+- conda config --set always_yes yes
+# Show conda info for debugging
+- conda install -q conda conda-build
+- conda config --add channels insilichem
+- conda config --add channels conda-forge
+- conda config --add channels auto
+- if [[ $MYCONDAPY = 2.7 ]]; then
+    conda config --add channels omnia;
+    conda config --add channels egilliesix;
+  fi;
+- conda info -a
+- conda list
+# Dependencies
+- travis_wait conda build --python=${MYCONDAPY} devtools/conda-recipe
+- if [[ $TRAVIS_TAG ]]; then
+    conda install -q anaconda-client;
+    anaconda -t $ANACONDA_TOKEN upload -u insilichem $HOME/miniconda/conda-bld/**/esigen-*.tar.bz2;
+  fi;
+
+before_deploy:
+- conda install constructor;
+- conda remove --force constructor;
+- pip install -U --no-deps https://github.com/jaimergp/constructor/archive/jinja-env.zip;
+- constructor .
+
+deploy:
+# Deploy to PyPI
+- provider: pypi
+  username: jaimergp
+  skip_cleanup: true
+  password:
+    secure: al4NX0/MIP0IDu7IcMKlKi6ySWTSNNxiM2DcOJROnqcyAOtC5+r+j+VmB03YZxLXw8+czUxDWorORRXmOsHTw29+BRWLBKJAjLUQw2QYMlf/0tCkrvpKvMG+OY9w1dxOVBOb3atme9IjQn6QDlMdu30sw8vaHudNEOMD6uspCRFngW4mjFAgTwgm2Bxs9Kmyeo83oVArdPDXU7ww1T7Jc6mKxX2e2YGjCGoVLrgsIZIJZOyxFRynwvZsYmjyLxKsQ82WbAaKptNdes4K0ihfQAwTDECGnFDzjU8TxonwaXpKW/2rkJPxkb62MdpDnWD5NtatrJ1oqx0tUILBLriUpQaRA2qR9pApBmsehQesC/z4jaNPmQqs8/he6SCPuEMneiICsCouwJOEcRD2MCdhRdFyfzVWdmcZI9Lf8jyMq/cHWwfKWGuIM/PVClMwupDrvJxcGkoXN/T+mWTaXPRNTPBcldq7GDBhKxm6vWUHPJOyS/w4/9lQs91sENVd6CBPzM8EcX4nV0JkjYKoGxuO2tEwa3LUihbgnpr2QdckYjxRUp8VLUW825886vrZSfRRTjfJp6d9EBLa4FC6YOezwxeotaquVmkMLjDPnboAEbQjbUicSSOaqKUDvjD+jxdnxc9KAKEDUEiXIIzx8wPO2JmoESeqg6hlYWntjqk2/tM=
+  on:
+    tags: true
+    condition: "$MYCONDAPY = 3.6 && $TRAVIS_OS_NAME = linux"
+#Deploy to GitHub releases
+- provider: releases
+  api_key:
+    secure: R91DAiTQpGyiWCZ9FeqCVuCxk244cK67D4ojDtjCxdBGpZ4btH15PCnMpxQM9yAJ9hF6Jk3oLAeEjZW+VAiWJ+S8E4P0E7drBHQgevUcXmwxe2/1F/mvaDFAdAb6s9d59x90jhmItKq4kcNJ/GzV3VhnsvFoJIcWf5ldcjerRsBYV5ChQAJUWSzObbGLqQaPOuRCSXHtcm7WYP/7IfBq6YphXgeSmEEdcgpU+x4ZGInZZOYVejadV7xOjcQCkhnpitX2lWj00WkPAs8NlSoRwygfmwr26yesUvg2P0vqTjj7LI5+HY4I7TNhjgGZdSp+6t4gG6/l7OzxaUyn6KLiFoqOXc9M87Pl/YL19Pu7jQM0c4lcnGRmcZOiyL4BpJH7ugWka3naLUyKirImhEle5ESoxRyflYLaRS21a71RgSSMX8tyX0YbtaP2o/iI6+tqHrDaIP11Ql2sq3/JMRbIFwNsYsqAYXLSnwRSR4HzEOlhZEYs44D6B/2YVWjtwNgbNs/yJi0LN4bZFky67JnA9DGwzWqfrEvJbwP02poJTiAX5V20SZmwJeczWtujBDWPzphUFQstpM9J7KsJ7qrieDxgpgV7aETRyFes99emkEZbwICtMIQQxff5f/UnLVzgghcZ5bynRJN1XjktgNq1CjJWjUhs/nRzlHvAWDf3XbI=
+  file_glob: true
+  file: esigen**.sh
+  name: ESIgen ${TRAVIS_TAG}
+  body: ${TRAVIS_COMMIT_MESSAGE}
+  draft: false
+  prerelease: false
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: insilichem/esigen
