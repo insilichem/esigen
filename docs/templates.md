@@ -7,6 +7,8 @@ Some [templates are included with ESIgen](https://github.com/insilichem/esigen/t
 - `default.md`. Uses an interactive 3D viewer in the web interface and static images on the command line. A table of magnitudes is provided, together with the coordinates and, if available, first 10 frequencies.
 - `TD.md`. Same as default, but listing the excitation energies of TD calculations.
 - `simple.md`. Dummy example to help illustrate easy templating.
+- `chemshell.md`. Shows experimental support for some ChemShell QM/MM jobs.
+- `checks.md`. Day-to-day analysis tasks for Gaussian jobs.
 
 However, you might want to modify them or create your own from scratch. Keep reading for further details.
 
@@ -46,6 +48,11 @@ Additionally, ESIgen provides some more fields and methods you can use during th
     - `{{ mean_of_electrons }}`: Mean of `alphaelectrons` and `betaelectrons`.
     - `{{ metadata['route'] }}`: First of Gaussian route sections. For other programs, check `metadata`.
     - `{{ nsteps }}`: Number of optimization steps. Extracted from `scfenergies` size.
+    - ModRedundant scans (Gaussian only, might change anytime; see `checks.md` for an example):
+        - `{{ modredvars }}`: List of variables being scanned (R83, A21, D125...).
+        - `{{ modreddefs }}`: Atomic definition of those variables (2 atoms for R, 3 for A, 4 for D)
+        - `{{ modredvalues }}`: (m, n) array for variable values (distance in A, angle in degrees), where m is the number of cycles and n the number of variables.
+        - `{{ modredenergies }}`: (j, k, l) array of -dE/dx values, where j is the number of cycles, k the number of iteration at each cycle and l the number of variables being scanned.
 - Magnitudes
     - `{{ electronic_energy }}`. Last of `scfenergies`, Eh.
     - `{{ thermalenergy }}`: Sum of electronic and thermal energies, Eh.

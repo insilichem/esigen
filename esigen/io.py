@@ -18,6 +18,7 @@ is patched upon import of this module (see end of file).
 from __future__ import division, print_function, absolute_import
 import os
 import logging
+import re
 from collections import defaultdict
 import numpy as np
 from cclib.io.ccio import triggers as ccio_triggers
@@ -60,6 +61,11 @@ class ccDataExtended(ccData_optdone_bool):
          'zeropointenergy':     Attribute(float, 'electronic + zero-point energies', 'N/A'),
          'alphaelectrons':      Attribute(int,   'alpha electrons',                  'N/A'),
          'betaelectrons':       Attribute(int,   'beta electrons',                   'N/A'),
+         'modredvars':          Attribute(list,  'ModRedundant variables',           'N/A'),
+         'modreddefs':          Attribute(list,  'ModRedundant definitions',         'N/A'),
+         'modredenergies':      Attribute(list,  'ModRedundant energies',            'N/A'),
+         'modredvalues':        Attribute(list,  'ModRedundant values (dist, angle)','N/A'),
+         'maxcartesianforces':  Attribute(list,  'Max cartesian forces',             'N/A'),
          # ChemShell only
          'mmenergies':          Attribute(list,  'MM energy decomposition',          'N/A'),
          'energycontributions': Attribute(list,  'QM/MM energy decomposition',       'N/A'),
@@ -163,7 +169,6 @@ class GaussianParser(_cclib_Gaussian):
     # Reimplement .extract() in your own subclasses to add more fields.
     def extract(self, inputfile, line):
         try:
-            super(GaussianParser, self).extract(inputfile, line)
             if "Stoichiometry" in line:
                 self.set_attribute('stoichiometry', line.split()[-1])
             if "Sum of electronic and zero-point Energies=" in line:
@@ -183,20 +188,69 @@ class GaussianParser(_cclib_Gaussian):
                     route_lines.append(line[1:].rstrip())
                     line = inputfile.next()
                 self.metadata['route'] = ''.join(route_lines).strip()
-            if "following ModRedundant" in line:
+            # ! R80   R(61,67)                1.0949         estimate D2E/DX2                !
+            # ! R81   R(74,75)                1.654          estimate D2E/DX2                !
+            # ! R82   R(74,78)                1.4917         estimate D2E/DX2                !
+            # ! R83   R(74,81)                2.3155         Scan                            !
+            # ! R84   R(75,76)                1.4818         estimate D2E/DX2                !
+            # ! R85   R(75,77)                1.4786         estimate D2E/DX2                !
+            # ! R86   R(75,97)                1.7995         estimate D2E/DX2                !
+            # ! R87   R(78,79)                1.0895         estimate D2E/DX2                !
+            if line[:2] == ' !' and "Scan" in line:  # reaction coordinate being assessed
+                if not hasattr(self, 'modredvars'):
+                    self.modredvars = []
+                    self.modreddefs = []
+                    self.modredvalues = []
+                    self.modredenergies = [[]]
+                fields = line.split()
+                self.modredvars.append(fields[1])
+                atoms = [int(a) - 1 for a in
+                         re.search('[A-Z]\(([\d,]+)\)', fields[2]).groups()[0].split(',')]
+                self.modreddefs.append(atoms)
+            # ITry= 1 IFail=0 DXMaxC= 8.52D-01 DCOld= 1.00D+10 DXMaxT= 7.50D-02 DXLimC= 3.00D+00 Rises=T
+            # Variable       Old X    -DE/DX   Delta X   Delta X   Delta X     New X
+            #                                 (Linear)    (Quad)   (Total)
+            #     R1        4.58797  -0.00150  -0.00627   0.00000  -0.00627   4.58170
+            #     R2        3.54601   0.00198  -0.00219   0.00000  -0.00219   3.54382
+            #     R3        3.56544   0.00283   0.00199   0.00000   0.00199   3.56743
+            #     R4        3.54630   0.00358   0.00057   0.00000   0.00057   3.54688
+            #     R5        4.05549  -0.00236   0.00239   0.00000   0.00243   4.05792
+            #     R6        4.11072  -0.00118  -0.00158   0.00000  -0.00155   4.10916
+            #     R7        4.23620  -0.00085  -0.00445   0.00000  -0.00442   4.23178
+            #     R8        4.29838  -0.00111  -0.00076   0.00000  -0.00072   4.29766
+            #     R9        4.34017   0.00165  -0.03341   0.00000  -0.03341   4.30675
+            #    R10        2.92230   0.00033  -0.00108   0.00000  -0.00108   2.92122
+            if line[1:9] == 'Variable':
+                self.modredenergies[-1].append([])
+                next(inputfile)
                 line = next(inputfile)
-                self.scannames = []
-                while line.strip():
+                while 'Converged?' not in line:
                     fields = line.split()
-                    indices = map(int, line[1:-1])
-                    self.scannames.append(indices)
+                    if fields[0] in self.modredvars:
+                        self.modredenergies[-1][-1].append(float(fields[2]))
                     line = next(inputfile)
+            if 'Optimized Parameters' in line:
+                self.modredenergies.append([])
+                self.modredvalues.append([])
+                for i in range(5):
+                    line = next(inputfile)
+                while line[1:5] != '----':
+                    fields = line.split()
+                    if fields[1] in self.modredvars:
+                        self.modredvalues[-1].append(float(fields[3]))
+                    line = next(inputfile)
+            if line[1:23] == 'Cartesian Forces:  Max':
+                if not hasattr(self, 'maxcartesianforces'):
+                    self.maxcartesianforces = []
+                self.maxcartesianforces.append(float(line.split()[3]))
 
         except Exception as e:
             self.logger.error('Line could not be parsed! '
                                 'Job will continue, but errors may arise')
             self.logger.error('  Exception: %s', e)
             self.logger.error('  Line: %s', line)
+
+        super(GaussianParser, self).extract(inputfile, line)
 
 
 class ChemShell(Logfile):
