@@ -76,16 +76,13 @@ before_install:
 
 
 install:
-- source $HOME/miniconda/bin/activate
-- hash -r
-
+- source $HOME/miniconda/etc/profile.d/conda.sh
+- conda activate
 # Configure conda and get a few essentials
 - conda config --set always_yes yes
 # Show conda info for debugging
 - conda install -q conda conda-build
 - conda config --add channels insilichem
-- conda config --add channels conda-forge
-- conda config --add channels auto
 - if [[ $MYCONDAPY = 2.7 ]]; then
     conda config --add channels omnia;
     conda config --add channels egilliesix;

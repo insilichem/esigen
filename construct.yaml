@@ -19,9 +19,6 @@ channels:
   - {{ CONDA_BUILD_LOCAL }}
   - http://repo.continuum.io/pkgs/main/
   - http://repo.continuum.io/pkgs/free/
-  - https://conda.anaconda.org/insilichem
-  - https://conda.anaconda.org/conda-forge
-  - https://conda.anaconda.org/auto
 {% if PY_VERSION == '2.7' %}
   - https://conda.anaconda.org/omnia
   - https://conda.anaconda.org/egilliesix
