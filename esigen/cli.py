@@ -18,7 +18,7 @@ import shutil
 import subprocess
 import sys
 import logging
-from esigen import ESIgenReport
+from esigen import ESIgenReport, __version__
 from esigen.core import BUILTIN_TEMPLATES
 
 
@@ -51,6 +51,8 @@ def parse_args():
                              'to disable.')
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='Switch logging level to info for detailed debugging.')
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s v{}'.format(__version__))
     return parser.parse_args()
 
 

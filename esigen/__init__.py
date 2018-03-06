@@ -6,5 +6,6 @@ Generate supporting information reports for computational chemistry publications
 """
 
 from .core import ESIgenReport
-
-__version__ = "0.0.2"
+from ._version import get_versions
+__version__ = get_versions()['version']
+del get_versions
