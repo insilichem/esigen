@@ -9,7 +9,10 @@ wrappers for Jinja2 templating and 3D image renderization.
 
 # Stdlib
 from __future__ import division, print_function, absolute_import, unicode_literals
-import __builtin__
+try:
+    import builtins
+except ImportError:
+    import __builtin__ as builtins
 import os
 import sys
 from collections import defaultdict
@@ -100,7 +103,7 @@ class ESIgenReport(object):
         self.jinja_env.globals['missing'] = missing
         self.jinja_env.globals['convertor'] = convertor
         self.jinja_env.globals['np'] = np
-        self.jinja_env.globals.update(__builtin__.__dict__)
+        self.jinja_env.globals.update(builtins.__dict__)
 
     def parse(self, *args, **kwargs):
         """
