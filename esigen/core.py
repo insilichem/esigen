@@ -9,6 +9,7 @@ wrappers for Jinja2 templating and 3D image renderization.
 
 # Stdlib
 from __future__ import division, print_function, absolute_import, unicode_literals
+import __builtin__
 import os
 import sys
 from collections import defaultdict
@@ -32,7 +33,8 @@ from .io import ccDataExtended
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 __here__ = os.path.abspath(os.path.dirname(__file__))
-BUILTIN_TEMPLATES = sorted(os.listdir(os.path.join(__here__, 'templates')), key=str.lower)
+_lower = str.lower if sys.version_info.major == 3 else unicode.lower
+BUILTIN_TEMPLATES = sorted(os.listdir(os.path.join(__here__, 'templates')), key=_lower)
 
 
 class ESIgenReport(object):
@@ -97,13 +99,8 @@ class ESIgenReport(object):
         self.jinja_env.globals['viewer3d'] = '{{ viewer3d }}'
         self.jinja_env.globals['missing'] = missing
         self.jinja_env.globals['convertor'] = convertor
-        self.jinja_env.globals['zip'] = zip
         self.jinja_env.globals['np'] = np
-        self.jinja_env.globals['slice'] = slice
-        self.jinja_env.globals['map'] = map
-        self.jinja_env.globals['str'] = str
-        self.jinja_env.globals['enumerate'] = enumerate
-        self.jinja_env.globals['len'] = len
+        self.jinja_env.globals.update(__builtin__.__dict__)
 
     def parse(self, *args, **kwargs):
         """
