@@ -10,7 +10,7 @@ Number of imaginary frequencies: {{ imaginary_freqs }}
 {% endfor %}
 {% endif %}
 
-Converged after {{ nsteps }} fully completed steps: {{ optdone }}
+__Converged after {{ nsteps }} fully completed steps: {{ optdone }}__
 {% if nsteps < scftargets.shape[0] %}
 ! {{nsteps}} steps were completed, but {{ scftargets.shape[0] }} were attempted. Early termination?
 {% endif %}
@@ -26,9 +26,10 @@ SCF convergence in latest steps
 {% set geoconverged_idx = np.argwhere(geoconverged_query).flatten() %}
 {% set geoconverged_status = np.where((geovalues[geoconverged_idx] < geotargets), 'Y', 'n') %}
 
-Geometric convergence found at steps (use `esixyz` to extract them):
+__Geometric convergence found at steps (use `esixyz` to extract them)__
+
 {% for cycle, status in zip(geoconverged_idx, geoconverged_status) %}
-- #{{ str(cycle + 1).ljust(3) }}: {{ ' '.join(map(str, status)) }}
+- {{ str(cycle + 1).ljust(3) }}: {{ ' '.join(map(str, status)) }}
 {% endfor %}
 
 {% if 0 %}
@@ -41,7 +42,9 @@ Coordinates for latest geometrically converged structure (#{{geoconverged_idx.ma
 
 {% if modredvars != missing %}
 {% set linelen = 29 + 12*len(modredvars) %}
-ModRedundant Scan
+__ModRedundant Scan__
+
+```
 {{ '=' * linelen}}
   #|  Max Forces  || ModRed: {% for var in modredvars %} {{var.rjust(9)}} |{% endfor%}
 
@@ -52,10 +55,11 @@ ModRedundant Scan
 {{ str(loop.index).rjust(3)}}| {{ str(next(forcesiter)).rjust(12) }} || -dE/dx: {% for var in vars %} {{ str(var).rjust(9)}} |{% endfor %}
 
 {% endfor %}
-                  || Values: {% for val in values %} {{ str(val).rjust(9)}} |{% endfor %}
+                  ||  Value: {% for val in values %} {{ str(val).rjust(9)}} |{% endfor %}
 
 {{ '=' * linelen}}
 {% endfor %}
+```
 {% endif %}
 
 ***
