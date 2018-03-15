@@ -16,11 +16,12 @@ requirements:
 
   run:
     - python
-    - nomkl
+    - nomkl     # [unix]
     - numpy
     - pymol     # [py27 and linux]
     - libglu    # [py27 and linux]
     - glew      # [py27 and linux]
+    - menuinst  # [win]
 
 test:
   imports:

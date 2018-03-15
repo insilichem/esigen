@@ -1,0 +1,15 @@
+{
+    "menu_name": "ESIgen",
+    "menu_items":
+        [
+            {
+                "script": "${PYTHON_SCRIPTS}/esigenweb.exe",
+                "scriptarguments": [],
+                "name": "ESIgen webUI",
+                "workdir": "${PREFIX}",
+                "icon": "${MENU_DIR}/app.ico",
+                "desktop": true,
+                "quicklaunch": true
+            }
+        ]
+}

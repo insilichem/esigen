@@ -6,9 +6,10 @@
 name: {{ NAME }}
 version: {{ environ.get('GIT_DESCRIBE_TAG', 'vN/A')[1:] }}
 license_file: LICENSE
+company: InsiliChem
 
 # Welcome image for Windows installer
-welcome_image: docs/img/graphictoc.png                  [win]
+default_image_color: green    [win]
 
 {% if environ.get('OS', '').startswith('Windows') or environ.get('APPVEYOR') %}
 {% set CONDA_BUILD_LOCAL = 'file:///' + environ['CONDA_PREFIX'] + '/conda-bld' %}
