@@ -220,37 +220,37 @@ class GaussianParser(_cclib_Gaussian):
             #     R8        4.29838  -0.00111  -0.00076   0.00000  -0.00072   4.29766
             #     R9        4.34017   0.00165  -0.03341   0.00000  -0.03341   4.30675
             #    R10        2.92230   0.00033  -0.00108   0.00000  -0.00108   2.92122
-            if line[1:9] == 'Variable':
-                self.modredenergies[-1].append([])
-                next(inputfile)
-                line = next(inputfile)
-                while 'Converged?' not in line:
-                    fields = line.split()
-                    if fields[0] in self.modredvars:
-                        self.modredenergies[-1][-1].append(float(fields[2]))
+            if hasattr(self, 'modredenergies'):
+                if line[1:9] == 'Variable':
+                    self.modredenergies[-1].append([])
+                    next(inputfile)
                     line = next(inputfile)
-            if 'Optimized Parameters' in line:
-                self.modredenergies.append([])
-                self.modredvalues.append([])
-                for i in range(5):
-                    line = next(inputfile)
-                while line[1:5] != '----':
-                    fields = line.split()
-                    if fields[1] in self.modredvars:
-                        self.modredvalues[-1].append(float(fields[3]))
-                    line = next(inputfile)
+                    while 'Converged?' not in line:
+                        fields = line.split()
+                        if fields[0] in self.modredvars:
+                            self.modredenergies[-1][-1].append(float(fields[2]))
+                        line = next(inputfile)
+                if  'Optimized Parameters' in line:
+                    self.modredenergies.append([])
+                    self.modredvalues.append([])
+                    for i in range(5):
+                        line = next(inputfile)
+                    while line[1:5] != '----':
+                        fields = line.split()
+                        if fields[1] in self.modredvars:
+                            self.modredvalues[-1].append(float(fields[3]))
+                        line = next(inputfile)
             if line[1:23] == 'Cartesian Forces:  Max':
                 if not hasattr(self, 'maxcartesianforces'):
                     self.maxcartesianforces = []
                 self.maxcartesianforces.append(float(line.split()[3]))
 
+            super(GaussianParser, self).extract(inputfile, line)
         except Exception as e:
             self.logger.error('Line could not be parsed! '
-                                'Job will continue, but errors may arise')
+                              'Job will continue, but errors may arise')
             self.logger.error('  Exception: %s', e)
             self.logger.error('  Line: %s', line)
-
-        super(GaussianParser, self).extract(inputfile, line)
 
 
 class ChemShell(Logfile):

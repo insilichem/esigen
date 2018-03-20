@@ -116,8 +116,8 @@ class ESIgenReport(object):
         """
         try:
             return self.parser(*args, **kwargs)
-        except ValueError:
-            raise ValueError("File {} could not be parsed. Please")
+        except ValueError as e:
+            raise ValueError("File {} could not be parsed. Reason: {}".format(e))
 
     # Render methods
     def render_with_pymol(self, **kwargs):
