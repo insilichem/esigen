@@ -21,6 +21,7 @@ import logging
 import re
 from collections import defaultdict
 import numpy as np
+from cclib.io import CML
 from cclib.io.ccio import triggers as ccio_triggers
 from cclib.parser import Gaussian as _cclib_Gaussian
 from cclib.parser.logfileparser import Logfile
@@ -116,6 +117,10 @@ class ccDataExtended(ccData_optdone_bool):
             return self.scfenergies.shape[0]
 
     @property
+    def has_coordinates(self):
+        return hasattr(self, 'atomnos') and hasattr(self, 'atomcoords')
+
+    @property
     def xyz_block(self):
         return '\n'.join(['{:4} {: 15.6f} {: 15.6f} {: 15.6f}'.format(a, *xyz)
                           for (a, xyz) in zip(self.atoms, self.coordinates)])
@@ -151,8 +156,8 @@ class ccDataExtended(ccData_optdone_bool):
         return '\n'.join(pdb)
 
     @property
-    def has_coordinates(self):
-        return hasattr(self, 'atomnos') and hasattr(self, 'atomcoords')
+    def cml_block(self):
+        return CML(self).generate_repr()
 
 
 class GaussianParser(_cclib_Gaussian):

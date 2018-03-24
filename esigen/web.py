@@ -192,6 +192,8 @@ def report(uuid, template='default', css='github', missing='N/A',
                 f.write(molecule.data.pdb_block)
             with open(os.path.join(root, molecule.name + '.xyz'), 'w') as f:
                 f.write(molecule.data.xyz_block)
+            with open(os.path.join(root, molecule.name + '.cml'), 'w') as f:
+                f.write(molecule.data.cml_block)
     if not reports:
         return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
 
@@ -227,6 +229,10 @@ def _engine_md(reports, **kwargs):
 
 def _engine_xyz(reports, **kwargs):
     return _engine_zip(extensions=('.xyz',), **kwargs)
+
+
+def _engine_cml(reports, **kwargs):
+    return _engine_zip(extensions=('.cml',), **kwargs)
 
 
 def _engine_cjson(reports, **kwargs):
@@ -308,6 +314,7 @@ EXPORT_ENGINES = {
     'html': _engine_html,
     'zip': _engine_zip,
     'xyz': _engine_xyz,
+    'cml': _engine_cml,
     'cjson': _engine_cjson,
     'json': _engine_json,
     'gist': _engine_gist,
