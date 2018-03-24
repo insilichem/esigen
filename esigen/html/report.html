@@ -104,13 +104,20 @@ function AddNGLWidget(index, moleculeUrl, basename) {
                             <li><a href="cjson" target="_blank">Chemical JSON data</a></li>
                         </ul>
                     </li>
+                    {% if GITHUB or FIGSHARE %}
                     <li class="export-submenu">
                         <a href="javascript:;">DOI-citable exports</a>
                         <ul class="export-submenu-content">
-                            <li><a href="javascript:alert('GitHub has stopped allowing anonymous Gist. This feature is being reimplemented with user authentication. Sorry!');">GitHub Gist</a></li>
+                            {% if GITHUB %}
+
+                            <li><a href="gist?template={{template}}" target="_blank">GitHub Gist</a></li>
+                            {% endif %}
+                            {% if FIGSHARE %}
                             <li><a href="javascript:alert('Upcoming feature!');">FigShare</a></li>
+                            {% endif %}
                         </ul>
                     </li>
+                    {% endif %}
                     <li class="export-submenu">
                         <a href="javascript:;">More options</a>
                         <ul class="export-submenu-content">

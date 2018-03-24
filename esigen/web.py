@@ -26,10 +26,9 @@ except ImportError:
 import numpy as np
 import requests
 from flask import (Flask, Response, request, redirect, url_for, render_template,
-                   send_from_directory, send_file, jsonify)
+                   send_from_directory, send_file, jsonify, session, g)
 from flask.json import JSONEncoder
 from werkzeug.utils import secure_filename
-from flask_sslify import SSLify
 from .core import ESIgenReport, BUILTIN_TEMPLATES
 
 
@@ -42,20 +41,37 @@ if HAS_PYMOL is None:
     except ImportError as e:
         HAS_PYMOL = False
 
+
 app = Flask(__name__, static_folder='html/static', template_folder='html')
 
 PRODUCTION = False
 if os.environ.get('IN_PRODUCTION'):
+    from flask_sslify import SSLify
     # only trigger SSLify if the app is running on Heroku
     PRODUCTION = True
     sslify = SSLify(app)
+
+
+GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
+GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
+GITHUB_SECRET_STATE = os.urandom(24)
+GITHUB = GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET
+
+if GITHUB:
+    from flask_github import GitHub
+    app.config['GITHUB_CLIENT_ID'] = GITHUB_CLIENT_ID
+    app.config['GITHUB_CLIENT_SECRET'] = GITHUB_CLIENT_SECRET
+    github = GitHub(app)
+
 
 UPLOADS = "/tmp"
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.jinja_env.globals['MAX_CONTENT_LENGTH'] = 50
 app.config['PRODUCTION'] = PRODUCTION
 app.config['UPLOADS'] = UPLOADS
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY') or 'QPt4B6Lj2^DjwI#0QB9U^Ggmw'
 app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
+app.jinja_env.globals['GITHUB'] = GITHUB
 app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
 ALLOWED_EXTENSIONS = set(('.out', '.log', '.adfout', '.qfi'))
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
@@ -178,6 +194,8 @@ def report(uuid, template='default', css='github', missing='N/A',
     else:
         preview = None
     missing = missing[:10] if missing is not None else None
+    json_dict = {}
+    cjson_dict = {}
     for fn in sorted(os.listdir(root)):
         if os.path.splitext(fn)[1] not in ALLOWED_EXTENSIONS:
             continue
@@ -185,6 +203,8 @@ def report(uuid, template='default', css='github', missing='N/A',
         molecule = reporter(path, missing=missing)
         report = molecule.report(template=template, preview=preview, process_markdown=html)
         reports.append((molecule, report))
+        json_dict[molecule.basename] = molecule.data_as_dict()
+        cjson_dict[molecule.basename] = json.loads(molecule.data_as_cjson())
         with open(os.path.join(root, molecule.name + '.md'), 'w') as f:
             f.write(report)
         if molecule.data.has_coordinates:
@@ -196,7 +216,11 @@ def report(uuid, template='default', css='github', missing='N/A',
                 f.write(molecule.data.cml_block)
     if not reports:
         return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
-
+    with open(os.path.join(root, molecule.name + '.json'), 'w') as f:
+        f.write(json.dumps(json_dict, cls=NumpyJSONEncoder))
+    with open(os.path.join(root, molecule.name + '.cjson'), 'w') as f:
+        f.write(json.dumps(cjson_dict, cls=NumpyJSONEncoder))
+    session.uuid = uuid
     return EXPORT_ENGINES[engine](reports=reports, css=css, uuid=uuid, template=template, root=root)
 
 
@@ -250,20 +274,40 @@ def _engine_json(reports, **kwargs):
 
 
 def _engine_gist(reports, uuid, **kwargs):
-    return redirect(url_for("index", message="GitHub Gist export is temporarily disabled.", **URL_KWARGS))
-    # gist_data = {'description': "ESIgen report #{}".format(uuid),
-    #              'public': True,
-    #              'files': {'ESIgen.md': {'content':
-    #                         "Created with [ESIgen](https://github.com/insilichem/esigen)"}}
-    #             }
-    # for molecule, report in reports:
-    #     gist_data['files'][molecule.name + '.md'] = {'content': report}
-    #     if molecule.data.has_coordinates:
-    #         gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
-    #         gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
-    # response = requests.post('https://api.github.com/gists', json=gist_data)
-    # response.raise_for_status()
-    # return redirect(response.json()['html_url'])
+    if not GITHUB:
+        return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
+    session['uuid'] = uuid
+    return github.authorize(scope="gist")
+
+
+@github.access_token_getter
+def github_token_getter():
+    return session.get('github_oauth_token')
+
+
+@app.route('/callback-github')
+@github.authorized_handler
+def github_authorized(oauth_token):
+    next_url = request.args.get('next') or url_for('index')
+    if oauth_token is None:
+        return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
+
+    session['github_oauth_token'] = oauth_token
+    uuid = session['uuid']
+    root = os.path.join(UPLOADS, uuid)
+    gist_data = {'description': "ESIgen report #{}".format(uuid),
+                 'public': True,
+                 'files': {'{}-ESIgen.md'.format(datetime.datetime.now().strftime("%Y-%m-%d_%H%M")):
+                            {'content': "# Created with [ESIgen](https://github.com/insilichem/esigen)"}}
+                }
+
+    for base, dirs, files in os.walk(root):
+        for filename in files:
+            with open(os.path.join(base, filename)) as f:
+                gist_data['files'][filename] = {'content': f.read()}
+
+    response = github.post('gists', data=gist_data)
+    return redirect(response['html_url'])
 
 
 def _engine_figshare(reports, uuid, **kwargs):

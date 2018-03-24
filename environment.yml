@@ -10,3 +10,4 @@ dependencies:
   - markdown
   - gunicorn
   - requests
+  - GitHub-Flask
