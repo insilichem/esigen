@@ -11,3 +11,4 @@ dependencies:
   - gunicorn
   - requests
   - GitHub-Flask
+  - requests_oauthlib

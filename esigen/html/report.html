@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Supporting Information Generator</title>
+<title>ESIgen - Supporting Information Generator</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/{}'.format(css)) }}">
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
@@ -113,7 +113,7 @@ function AddNGLWidget(index, moleculeUrl, basename) {
                             <li><a href="gist?template={{template}}" target="_blank">GitHub Gist</a></li>
                             {% endif %}
                             {% if FIGSHARE %}
-                            <li><a href="javascript:alert('Upcoming feature!');">FigShare</a></li>
+                            <li><a href="figshare?template={{template}}" target="_blank">FigShare</a></li>
                             {% endif %}
                         </ul>
                     </li>

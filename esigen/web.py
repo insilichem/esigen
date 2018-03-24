@@ -17,6 +17,7 @@ import sys
 from uuid import uuid4
 import datetime
 import shutil
+import hashlib
 from textwrap import dedent
 from zipfile import ZipFile, ZIP_DEFLATED
 try:
@@ -29,8 +30,10 @@ from flask import (Flask, Response, request, redirect, url_for, render_template,
                    send_from_directory, send_file, jsonify, session, g)
 from flask.json import JSONEncoder
 from werkzeug.utils import secure_filename
+from requests_oauthlib import OAuth2Session
+from oauthlib.oauth2 import MobileApplicationClient
 from .core import ESIgenReport, BUILTIN_TEMPLATES
-
+from ._figshare import Figshare
 
 HAS_PYMOL = None
 if HAS_PYMOL is None:
@@ -56,12 +59,19 @@ GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET')
 GITHUB_SECRET_STATE = os.urandom(24)
 GITHUB = GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET
-
 if GITHUB:
     from flask_github import GitHub
     app.config['GITHUB_CLIENT_ID'] = GITHUB_CLIENT_ID
     app.config['GITHUB_CLIENT_SECRET'] = GITHUB_CLIENT_SECRET
     github = GitHub(app)
+
+FIGSHARE_CLIENT_ID = os.environ.get('FIGSHARE_CLIENT_ID')
+FIGSHARE_CLIENT_SECRET = os.environ.get('FIGSHARE_CLIENT_SECRET')
+FIGSHARE_SECRET_STATE = os.urandom(24)
+FIGSHARE = FIGSHARE_CLIENT_ID and FIGSHARE_CLIENT_SECRET
+if FIGSHARE:
+    app.config['FIGSHARE_CLIENT_ID'] = FIGSHARE_CLIENT_ID
+    app.config['FIGSHARE_CLIENT_SECRET'] = FIGSHARE_CLIENT_SECRET
 
 
 UPLOADS = "/tmp"
@@ -72,6 +82,7 @@ app.config['UPLOADS'] = UPLOADS
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY') or 'QPt4B6Lj2^DjwI#0QB9U^Ggmw'
 app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
 app.jinja_env.globals['GITHUB'] = GITHUB
+app.jinja_env.globals['FIGSHARE'] = FIGSHARE
 app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
 ALLOWED_EXTENSIONS = set(('.out', '.log', '.adfout', '.qfi'))
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
@@ -91,6 +102,7 @@ class NumpyJSONEncoder(JSONEncoder):
             return super(NumpyJSONEncoder, self).default(obj)
 
 app.json_encoder = NumpyJSONEncoder
+
 
 @app.route("/")
 def index():
@@ -277,7 +289,9 @@ def _engine_gist(reports, uuid, **kwargs):
     if not GITHUB:
         return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
     session['uuid'] = uuid
-    return github.authorize(scope="gist")
+    if not github_token_getter():
+        return github.authorize(scope="gist")
+    return gist_upload()
 
 
 @github.access_token_getter
@@ -293,26 +307,82 @@ def github_authorized(oauth_token):
         return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
 
     session['github_oauth_token'] = oauth_token
+    return gist_upload()
+
+
+def gist_upload():
     uuid = session['uuid']
     root = os.path.join(UPLOADS, uuid)
     gist_data = {'description': "ESIgen report #{}".format(uuid),
-                 'public': True,
-                 'files': {'{}-ESIgen.md'.format(datetime.datetime.now().strftime("%Y-%m-%d_%H%M")):
-                            {'content': "# Created with [ESIgen](https://github.com/insilichem/esigen)"}}
-                }
+                 'public': False, 'files': {}}
 
     for base, dirs, files in os.walk(root):
         for filename in files:
             with open(os.path.join(base, filename)) as f:
                 gist_data['files'][filename] = {'content': f.read()}
 
-    response = github.post('gists', data=gist_data)
+    now = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
+    gist_data['files']['{}-ESIgen.md'.format(now )] = {'content':
+    dedent("""
+        # Report {}
+
+        ## Table of contents
+        - {}
+
+        ***
+
+        Created with [ESIgen](https://github.com/insilichem/esigen) on {}
+        """).format(uuid, '\n- '.join(sorted(gist_data['files'])), now)}
+
+    response = github.post('gists', data=gist_data, verify=False)
     return redirect(response['html_url'])
 
 
 def _engine_figshare(reports, uuid, **kwargs):
-    pass
+    session.pop('figshare_oauth_state', '')
+    if not FIGSHARE:
+        return redirect(url_for("index", message="Figshare integration not enabled!", **URL_KWARGS))
+    # if not session.get('figshare_oauth_token'):
+    #     session.pop('figshare_oauth_state', '')
+    # return figshare_upload()
+    return figshare_request_token()
 
+
+def figshare_request_token(scope='all'):
+    oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope)
+    url, state = oauth.authorization_url(Figshare.AUTH_URL)
+    session['figshare_oauth_state'] = state
+    return redirect(url)
+
+
+@app.route('/callback-figshare', methods=["GET"])
+def figshare_callback(scope='all'):
+    oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'],
+                          scope=scope, )#state=session['figshare_oauth_state'])
+    figshare_token = oauth.fetch_token(
+        Figshare.BASE_URL.format(endpoint='token'),
+        client_secret=app.config['FIGSHARE_CLIENT_SECRET'],
+        authorization_response=request.url, verify=False)
+    session['figshare_oauth_token'] = figshare_token
+    return figshare_upload()
+
+
+def figshare_upload():
+    token = session['figshare_oauth_token']
+    uuid = session['uuid']
+    root = os.path.join(UPLOADS, uuid)
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H%M")
+    figshare = Figshare(token=token['access_token'])
+    article_id, article_url = figshare.create_article(
+        title='{} ESIgen report'.format(uuid),
+        description='Created with ESIgen on {}'.format(now))
+    if article_id is None:
+        return redirect(url_for("index", message="Could not create article on FigShare", **URL_KWARGS))
+    for base, dirs, files in os.walk(root):
+        for filename in files:
+            figshare.upload_files(article_id, os.path.join(base, filename))
+
+    return redirect(article_url)
 
 @app.route("/privacy_policy.html")
 def privacy_policy():
@@ -351,7 +421,7 @@ def allowed_filename(*filenames):
 
 def main():
     print("Running local server...")
-    app.run(debug=True, threaded=True)
+    app.run(debug=True, threaded=True, ssl_context=('cert.pem',))
 
 
 EXPORT_ENGINES = {

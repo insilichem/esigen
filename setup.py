@@ -40,7 +40,7 @@ setup(
         'Operating System :: OS Independent',
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
-    install_requires=['cclib', 'Flask', 'flask-sslify', 'GitHub-Flask', 'markdown', 'requests'],
+    install_requires=['cclib', 'Flask', 'flask-sslify', 'GitHub-Flask', 'markdown', 'requests', 'requests_oauthlib'],
     entry_points='''
         [console_scripts]
         esigen=esigen.cli:main
