@@ -133,8 +133,9 @@ def report(uuid, template='default', css='github', missing='N/A',
     """The location we send them to at the end of the upload."""
     if not uuid:
         return redirect(url_for("index", **URL_KWARGS))
-    if engine not in ('html', 'zip', 'json', 'gist', 'md'):
-        engine = 'html'
+    if engine not in EXPORT_ENGINES:
+        return redirect(url_for("index", message="Report processor `{}` not recognized!".format(engine), **URL_KWARGS))
+
     # POST / GET handling
     custom_template = False
     if request.method == 'POST':
@@ -194,38 +195,73 @@ def report(uuid, template='default', css='github', missing='N/A',
     if not reports:
         return redirect(url_for("index", message="File(s) could not be parsed!", **URL_KWARGS))
 
-    if engine == 'html':
-        return render_template('report.html', css=css, uuid=uuid, reports=reports,
-                               ngl='{{ viewer3d }}' in report, template=template)
-    elif engine == 'zip':
-        memfile = BytesIO()
-        with ZipFile(memfile, 'w', ZIP_DEFLATED) as zf:
-            for base, dirs, files in os.walk(root):
-                for filename in files:
-                    zf.write(os.path.join(base, filename), arcname=filename)
-        memfile.seek(0)
-        return send_file(memfile, attachment_filename='{}.zip'.format(uuid), as_attachment=True)
-    elif engine == 'json':
-        d = {}
-        for molecule, report in reports:
-            d[molecule.basename] = {'report': report, 'data': molecule.data_as_dict()}
-        return jsonify(d)
-    elif engine == 'gist':
-        gist_data = {'description': "ESIgen report #{}".format(uuid),
-                     'public': True,
-                     'files': {'ESIgen.md': {'content':
-                                "Created with [ESIgen](https://github.com/insilichem/esigen)"}}
-                    }
-        for molecule, report in reports:
-            gist_data['files'][molecule.name + '.md'] = {'content': report}
-            if molecule.data.has_coordinates:
-                gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
-                gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
-        response = requests.post('https://api.github.com/gists', json=gist_data)
-        response.raise_for_status()
-        return redirect(response.json()['html_url'])
-    elif engine == 'md':
-        return Response('\n'.join([r for (m,r) in reports]), content_type='text/plain')
+    return EXPORT_ENGINES[engine](reports=reports, css=css, uuid=uuid, template=template, root=root)
+
+
+def _engine_html(reports, css, uuid, template, **kwargs):
+    return render_template('report.html', css=css, uuid=uuid, reports=reports,
+                           ngl='{{ viewer3d }}' in reports[0][1], template=template)
+
+
+def _engine_zip(root=None, uuid=None, extensions=None, **kwargs):
+    memfile = BytesIO()
+    with ZipFile(memfile, 'w', ZIP_DEFLATED) as zf:
+        for base, dirs, files in os.walk(root):
+            for filename in files:
+                if extensions:
+                    name, ext = os.path.splitext(filename)
+                    if ext not in extensions:
+                        continue
+                zf.write(os.path.join(base, filename), arcname=filename)
+    memfile.seek(0)
+    if extensions is not None:
+        att_filename = '{}-{}.zip'.format(uuid, '-'.join([ext[1:] for ext in extensions]))
+    else:
+        att_filename = '{}.zip'.format(uuid)
+    return send_file(memfile, attachment_filename=att_filename, as_attachment=True)
+
+
+def _engine_md(reports, **kwargs):
+    return Response('\n'.join([r for (m,r) in reports]), content_type='text/plain')
+
+
+def _engine_xyz(reports, **kwargs):
+    return _engine_zip(extensions=('.xyz',), **kwargs)
+
+
+def _engine_cjson(reports, **kwargs):
+    d = {}
+    for molecule, report in reports:
+        d[molecule.basename] = json.loads(molecule.data_as_cjson())
+    return jsonify(d)
+
+
+def _engine_json(reports, **kwargs):
+    d = {}
+    for molecule, report in reports:
+        d[molecule.basename] = {'report': report, 'data': molecule.data_as_dict()}
+    return jsonify(d)
+
+
+def _engine_gist(reports, uuid, **kwargs):
+    return redirect(url_for("index", message="GitHub Gist export is temporarily disabled.", **URL_KWARGS))
+    # gist_data = {'description': "ESIgen report #{}".format(uuid),
+    #              'public': True,
+    #              'files': {'ESIgen.md': {'content':
+    #                         "Created with [ESIgen](https://github.com/insilichem/esigen)"}}
+    #             }
+    # for molecule, report in reports:
+    #     gist_data['files'][molecule.name + '.md'] = {'content': report}
+    #     if molecule.data.has_coordinates:
+    #         gist_data['files'][molecule.name + '.pdb'] = {'content': molecule.data.pdb_block}
+    #         gist_data['files'][molecule.name + '.xyz'] = {'content': molecule.data.xyz_block}
+    # response = requests.post('https://api.github.com/gists', json=gist_data)
+    # response.raise_for_status()
+    # return redirect(response.json()['html_url'])
+
+
+def _engine_figshare(reports, uuid, **kwargs):
+    pass
 
 
 @app.route("/privacy_policy.html")
@@ -262,6 +298,19 @@ def allowed_filename(*filenames):
         if '.' in fn and os.path.splitext(fn)[1].lower() in ALLOWED_EXTENSIONS:
             yield filename
 
+
 def main():
     print("Running local server...")
     app.run(debug=True, threaded=True)
+
+
+EXPORT_ENGINES = {
+    'html': _engine_html,
+    'zip': _engine_zip,
+    'xyz': _engine_xyz,
+    'cjson': _engine_cjson,
+    'json': _engine_json,
+    'gist': _engine_gist,
+    'md': _engine_md,
+    'figshare': _engine_figshare
+}

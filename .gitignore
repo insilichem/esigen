@@ -58,6 +58,7 @@ docs/_build/
 .directory
 *~
 *.sublime-workspace
+.vscode
 
 # PyCharm
 .idea
