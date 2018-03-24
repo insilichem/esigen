@@ -39,8 +39,8 @@ __Molecular Geometry in Cartesian Coordinates__
 ```xyz
 {{cartesians}}
 ```
-
-__Excited states__
+{% if etsecs %}
+__Excited states__ (Top 5 out of {{len(etsecs)}})
 
 {% for state in etsecs[:5] %}
 {% set symmetry = etsyms[loop.index-1] %}
@@ -56,5 +56,5 @@ E={{energy}}eV, f={{ strength }}
 
 {% endfor %}
 {% endfor %}
-
+{% endif %}
 ***

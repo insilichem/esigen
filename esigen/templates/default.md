@@ -43,7 +43,7 @@ __Molecular Geometry in Cartesian Coordinates__
 ```
 {% if vibfreqs != missing %}
 
-__Frequencies__
+__Frequencies__ (Top 10 out of {{len(vibfreqs)}})
 
 ```
 {% for freq in vibfreqs[:10] %}
