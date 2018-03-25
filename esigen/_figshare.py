@@ -11,7 +11,6 @@ import os
 import requests
 from requests.exceptions import HTTPError
 
-
 class Figshare(object):
 
     AUTH_URL = 'https://figshare.com/account/applications/authorize'
@@ -25,7 +24,8 @@ class Figshare(object):
         headers = {'Authorization': 'token ' + self.token}
         if data is not None and not binary:
             data = json.dumps(data)
-        response = requests.request(method, url, headers=headers, data=data, verify=False)
+        response = requests.request(method, url, headers=headers, data=data,
+                                    verify='IN_PRODUCTION' in os.environ)
         try:
             response.raise_for_status()
             try:

@@ -865,6 +865,9 @@ li.export-submenu > a:focus + ul.export-submenu-content {
   visibility: visible;
   opacity: 1;
 }
+li.export-submenu > a:focus::after {
+  content: " \25BC";
+}
 
 ul.export-submenu-content {
   display: inline-block;

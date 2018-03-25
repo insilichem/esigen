@@ -65,6 +65,7 @@ if GITHUB:
     app.config['GITHUB_CLIENT_SECRET'] = GITHUB_CLIENT_SECRET
     github = GitHub(app)
 
+
 FIGSHARE_CLIENT_ID = os.environ.get('FIGSHARE_CLIENT_ID')
 FIGSHARE_CLIENT_SECRET = os.environ.get('FIGSHARE_CLIENT_SECRET')
 FIGSHARE_SECRET_STATE = os.urandom(24)
@@ -79,13 +80,14 @@ app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024
 app.jinja_env.globals['MAX_CONTENT_LENGTH'] = 50
 app.config['PRODUCTION'] = PRODUCTION
 app.config['UPLOADS'] = UPLOADS
-app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY') or 'QPt4B6Lj2^DjwI#0QB9U^Ggmw'
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY', 'QPt4B6Lj2^DjwI#0QB9U^Ggmw')
 app.jinja_env.globals['IN_PRODUCTION'] = PRODUCTION
 app.jinja_env.globals['GITHUB'] = GITHUB
 app.jinja_env.globals['FIGSHARE'] = FIGSHARE
 app.jinja_env.globals['HEROKU_RELEASE_VERSION'] = os.environ.get('HEROKU_RELEASE_VERSION', '')
 ALLOWED_EXTENSIONS = set(('.out', '.log', '.adfout', '.qfi'))
 URL_KWARGS = dict(_external=True, _scheme='https') if PRODUCTION else {}
+VERIFY_KWARGS = {} if PRODUCTION else {'verify': False}
 
 
 class NumpyJSONEncoder(JSONEncoder):
@@ -236,6 +238,15 @@ def report(uuid, template='default', css='github', missing='N/A',
     return EXPORT_ENGINES[engine](reports=reports, css=css, uuid=uuid, template=template, root=root)
 
 
+@app.route('/export/<target>/<uuid>')
+def export(target, uuid):
+    if not uuid or target not in EXPORT_TARGETS:
+        return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
+    return render_template('export.html', target=EXPORT_TARGETS[target],
+                           redirect_uri=url_for(EXPORT_FUNCTIONS[target], uuid=uuid))
+
+
+
 def _engine_html(reports, css, uuid, template, **kwargs):
     return render_template('report.html', css=css, uuid=uuid, reports=reports,
                            ngl='{{ viewer3d }}' in reports[0][1], template=template)
@@ -290,99 +301,110 @@ def _engine_gist(reports, uuid, **kwargs):
         return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
     session['uuid'] = uuid
     if not github_token_getter():
-        return github.authorize(scope="gist")
-    return gist_upload()
+        uri = url_for('github_authorized', uuid=uuid, _external=True)
+        return github.authorize(scope="gist", redirect_uri=uri)
+    return redirect(url_for('export', target='gist', uuid=uuid))
 
 
-@github.access_token_getter
-def github_token_getter():
-    return session.get('github_oauth_token')
+if GITHUB:
+    @github.access_token_getter
+    def github_token_getter():
+        return session.get('github_oauth_token')
 
 
-@app.route('/callback-github')
-@github.authorized_handler
-def github_authorized(oauth_token):
-    next_url = request.args.get('next') or url_for('index')
-    if oauth_token is None:
-        return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
+    @app.route('/callback-github/<uuid>')
+    @github.authorized_handler
+    def github_authorized(oauth_token, uuid):
+        if 'error' in request.args:
+            msg = "An error happened! {}: {}".format(request.args['error'], request.args['error_description'])
+            return redirect(url_for("index", message=msg, **URL_KWARGS))
+        if oauth_token is None:
+            return redirect(url_for("index", message="GitHub authentication failed!", **URL_KWARGS))
+        session['github_oauth_token'] = oauth_token
+        return redirect(url_for('export', target='figshare', uuid=uuid))
 
-    session['github_oauth_token'] = oauth_token
-    return gist_upload()
 
+    @app.route('/export-to-github/<uuid>')
+    def gist_upload(uuid):
+        if not uuid or not github_token_getter():
+            return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
+        root = os.path.join(UPLOADS, uuid)
+        gist_data = {'description': "ESIgen report #{}".format(uuid),
+                    'public': False, 'files': {}}
 
-def gist_upload():
-    uuid = session['uuid']
-    root = os.path.join(UPLOADS, uuid)
-    gist_data = {'description': "ESIgen report #{}".format(uuid),
-                 'public': False, 'files': {}}
+        for base, dirs, files in os.walk(root):
+            for filename in files:
+                with open(os.path.join(base, filename)) as f:
+                    gist_data['files'][filename] = {'content': f.read()}
 
-    for base, dirs, files in os.walk(root):
-        for filename in files:
-            with open(os.path.join(base, filename)) as f:
-                gist_data['files'][filename] = {'content': f.read()}
+        now = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
+        gist_data['files']['{}-ESIgen.md'.format(now )] = {'content':
+        dedent("""
+            # Report {}
 
-    now = datetime.datetime.now().strftime("%Y-%m-%d_%H%M")
-    gist_data['files']['{}-ESIgen.md'.format(now )] = {'content':
-    dedent("""
-        # Report {}
+            ## Table of contents
+            - {}
 
-        ## Table of contents
-        - {}
+            ***
 
-        ***
+            Created with [ESIgen](https://github.com/insilichem/esigen) on {}
+            """).format(uuid, '\n- '.join(sorted(gist_data['files'])), now)}
 
-        Created with [ESIgen](https://github.com/insilichem/esigen) on {}
-        """).format(uuid, '\n- '.join(sorted(gist_data['files'])), now)}
-
-    response = github.post('gists', data=gist_data, verify=False)
-    return redirect(response['html_url'])
+        response = github.post('gists', data=gist_data, **VERIFY_KWARGS)
+        return redirect(response['html_url'])
 
 
 def _engine_figshare(reports, uuid, **kwargs):
-    session.pop('figshare_oauth_state', '')
     if not FIGSHARE:
         return redirect(url_for("index", message="Figshare integration not enabled!", **URL_KWARGS))
-    # if not session.get('figshare_oauth_token'):
-    #     session.pop('figshare_oauth_state', '')
-    # return figshare_upload()
-    return figshare_request_token()
+    if not session.get('figshare_oauth_token'):
+        session.pop('figshare_oauth_state', '')
+        return figshare_request_token(uuid)
+    return redirect(url_for('export', target='figshare', uuid=uuid))
 
 
-def figshare_request_token(scope='all'):
-    oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope)
-    url, state = oauth.authorization_url(Figshare.AUTH_URL)
-    session['figshare_oauth_state'] = state
-    return redirect(url)
+if FIGSHARE:
+    def figshare_request_token(uuid, scope='all'):
+        oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope,
+                              redirect_uri=url_for('figshare_callback', uuid=uuid, _external=True))
+        url, state = oauth.authorization_url(Figshare.AUTH_URL)
+        session['figshare_oauth_state'] = state
+        return redirect(url)
 
 
-@app.route('/callback-figshare', methods=["GET"])
-def figshare_callback(scope='all'):
-    oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'],
-                          scope=scope, )#state=session['figshare_oauth_state'])
-    figshare_token = oauth.fetch_token(
-        Figshare.BASE_URL.format(endpoint='token'),
-        client_secret=app.config['FIGSHARE_CLIENT_SECRET'],
-        authorization_response=request.url, verify=False)
-    session['figshare_oauth_token'] = figshare_token
-    return figshare_upload()
+    @app.route('/callback-figshare/<uuid>', methods=["GET"])
+    def figshare_callback(uuid, scope='all'):
+        oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'],
+                              scope=scope, state=session['figshare_oauth_state'])
+        try:
+            session['figshare_oauth_token'] = oauth.fetch_token(
+                Figshare.BASE_URL.format(endpoint='token'),
+                client_secret=app.config['FIGSHARE_CLIENT_SECRET'],
+                authorization_response=request.url, **VERIFY_KWARGS)
+        except MissingCodeError:
+            return redirect(url_for("index", message="Figshare authentication failed!", **URL_KWARGS))
+        return redirect(url_for('export', target='figshare', uuid=uuid))
 
 
-def figshare_upload():
-    token = session['figshare_oauth_token']
-    uuid = session['uuid']
-    root = os.path.join(UPLOADS, uuid)
-    now = datetime.datetime.now().strftime("%Y-%m-%d %H%M")
-    figshare = Figshare(token=token['access_token'])
-    article_id, article_url = figshare.create_article(
-        title='{} ESIgen report'.format(uuid),
-        description='Created with ESIgen on {}'.format(now))
-    if article_id is None:
-        return redirect(url_for("index", message="Could not create article on FigShare", **URL_KWARGS))
-    for base, dirs, files in os.walk(root):
-        for filename in files:
-            figshare.upload_files(article_id, os.path.join(base, filename))
+    @app.route('/export-to-figshare/<uuid>')
+    def figshare_upload(uuid):
+        token = session['figshare_oauth_token']
+        if not uuid or not token:
+            return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
+        root = os.path.join(UPLOADS, uuid)
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H%M")
+        figshare = Figshare(token=token['access_token'])
+        article_id, article_url = figshare.create_article(
+            title='{} ESIgen report'.format(uuid),
+            description='Created with ESIgen on {}'.format(now))
+        if article_id is None:
+            return redirect(url_for("index", message="Could not create article on FigShare", **URL_KWARGS))
+        for base, dirs, files in os.walk(root):
+            for filename in files:
+                figshare.upload_files(article_id, os.path.join(base, filename))
 
-    return redirect(article_url)
+        return redirect(article_url)
+
 
 @app.route("/privacy_policy.html")
 def privacy_policy():
@@ -421,7 +443,7 @@ def allowed_filename(*filenames):
 
 def main():
     print("Running local server...")
-    app.run(debug=True, threaded=True, ssl_context=('cert.pem',))
+    app.run(debug=True, threaded=True)
 
 
 EXPORT_ENGINES = {
@@ -434,4 +456,12 @@ EXPORT_ENGINES = {
     'gist': _engine_gist,
     'md': _engine_md,
     'figshare': _engine_figshare
+}
+EXPORT_TARGETS = {
+    'gist': 'GitHub Gist',
+    'figshare': 'Figshare'
+}
+EXPORT_FUNCTIONS = {
+    'gist': 'gist_upload',
+    'figshare': 'figshare_upload'
 }
