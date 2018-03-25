@@ -388,7 +388,7 @@ if FIGSHARE:
             session['figshare_oauth_token'] = oauth.fetch_token(
                 Figshare.BASE_URL.format(endpoint='token'),
                 client_secret=app.config['FIGSHARE_CLIENT_SECRET'],
-                authorization_response=request.url, **VERIFY_KWARGS)
+                authorization_response=request.url.replace('http://', 'https://'), **VERIFY_KWARGS)
         except MissingCodeError:
             return redirect(url_for("index", message="Figshare authentication failed!", **URL_KWARGS))
         return redirect(url_for('export', target='figshare', uuid=uuid, **URL_KWARGS))
