@@ -31,7 +31,7 @@ from flask import (Flask, Response, request, redirect, url_for, render_template,
 from flask.json import JSONEncoder
 from werkzeug.utils import secure_filename
 from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import MobileApplicationClient
+from oauthlib.oauth2 import MobileApplicationClient, MissingCodeError
 from .core import ESIgenReport, BUILTIN_TEMPLATES
 from ._figshare import Figshare
 
