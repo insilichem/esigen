@@ -325,7 +325,7 @@ if GITHUB:
         if oauth_token is None:
             return redirect(url_for("index", message="GitHub authentication failed!", **URL_KWARGS))
         session['github_oauth_token'] = oauth_token
-        return redirect(url_for('export', target='figshare', uuid=uuid, **URL_KWARGS))
+        return redirect(url_for('export', target='gist', uuid=uuid, **URL_KWARGS))
 
 
     @app.route('/export-to-github')
@@ -397,7 +397,7 @@ if FIGSHARE:
     @app.route('/export-to-figshare')
     @app.route('/export-to-figshare/<uuid>')
     def figshare_upload(uuid=None):
-        token = session['figshare_oauth_token']
+        token = session.get('figshare_oauth_token')
         if not uuid or not token:
             return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
         root = os.path.join(UPLOADS, uuid)
