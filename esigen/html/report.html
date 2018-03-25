@@ -124,6 +124,7 @@ function AddNGLWidget(index, moleculeUrl, basename) {
                             <li><a href="javascript:;" onclick="return generatePDF();">Save as PDF</a></li>
                             <li><a href="javascript:;" id='copy-btn' data-clipboard-target="#markup" onclick="return copyToClipboard();">Copy to clipboard</a></li>
                             <li><a href="javascript:;" onclick="window.print()" target="_blank">Print</a></li>
+                            <li><a href="{{ url_for('index') }}">Back to homepage</a></li>
                         </ul>
                     </li>
                 </ul>
