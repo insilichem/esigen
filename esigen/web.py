@@ -303,7 +303,8 @@ def _engine_gist(reports, uuid, **kwargs):
         return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
     session['uuid'] = uuid
     if not github_token_getter():
-        uri = url_for('github_authorized', uuid=uuid, **URL_KWARGS)
+        uri = url_for('github_authorized', uuid=uuid, _external=True, _scheme='https')
+        print('Requesting GitHub token with redirect:', uri)
         return github.authorize(scope="gist", redirect_uri=uri)
     return redirect(url_for('export', target='gist', uuid=uuid, **URL_KWARGS))
 
@@ -369,7 +370,8 @@ def _engine_figshare(reports, uuid, **kwargs):
 
 if FIGSHARE:
     def figshare_request_token(uuid, scope='all'):
-        uri = url_for('figshare_callback', uuid=uuid, **URL_KWARGS)
+        uri = url_for('figshare_callback', uuid=uuid, _external=True, _scheme='https')
+        print('Requesting Figshare token with redirect:', uri)
         oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope,
                               redirect_uri=uri)
         url, state = oauth.authorization_url(Figshare.AUTH_URL)
@@ -378,7 +380,7 @@ if FIGSHARE:
 
 
     @app.route('/callback-figshare')
-    @app.route('/callback-figshare/<uuid>', methods=["GET"])
+    @app.route('/callback-figshare/<uuid>')
     def figshare_callback(uuid=None, scope='all'):
         oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'],
                               scope=scope, state=session['figshare_oauth_state'])
@@ -450,7 +452,8 @@ def allowed_filename(*filenames):
 
 def main():
     print("Running local server...")
-    app.run(debug=True, threaded=True)
+    ssl = {'ssl_context': ('cert.pem',)} if os.path.isfile('cert.pem') else {}
+    app.run(debug=True, threaded=True, **ssl)
 
 
 EXPORT_ENGINES = {
