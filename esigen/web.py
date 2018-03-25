@@ -238,8 +238,10 @@ def report(uuid, template='default', css='github', missing='N/A',
     return EXPORT_ENGINES[engine](reports=reports, css=css, uuid=uuid, template=template, root=root)
 
 
+@app.route('/export/')
+@app.route('/export/<target>')
 @app.route('/export/<target>/<uuid>')
-def export(target, uuid):
+def export(target=None, uuid=None):
     if not uuid or target not in EXPORT_TARGETS:
         return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
     return render_template('export.html', target=EXPORT_TARGETS[target],
@@ -302,6 +304,7 @@ def _engine_gist(reports, uuid, **kwargs):
     session['uuid'] = uuid
     if not github_token_getter():
         uri = url_for('github_authorized', uuid=uuid, _external=True)
+        print('Redirecting to URI:', uri)
         return github.authorize(scope="gist", redirect_uri=uri)
     return redirect(url_for('export', target='gist', uuid=uuid))
 
@@ -312,9 +315,10 @@ if GITHUB:
         return session.get('github_oauth_token')
 
 
+    @app.route('/callback-github')
     @app.route('/callback-github/<uuid>')
     @github.authorized_handler
-    def github_authorized(oauth_token, uuid):
+    def github_authorized(oauth_token, uuid=None):
         if 'error' in request.args:
             msg = "An error happened! {}: {}".format(request.args['error'], request.args['error_description'])
             return redirect(url_for("index", message=msg, **URL_KWARGS))
@@ -324,8 +328,9 @@ if GITHUB:
         return redirect(url_for('export', target='figshare', uuid=uuid))
 
 
+    @app.route('/export-to-github')
     @app.route('/export-to-github/<uuid>')
-    def gist_upload(uuid):
+    def gist_upload(uuid=None):
         if not uuid or not github_token_getter():
             return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
         root = os.path.join(UPLOADS, uuid)
@@ -365,15 +370,18 @@ def _engine_figshare(reports, uuid, **kwargs):
 
 if FIGSHARE:
     def figshare_request_token(uuid, scope='all'):
+        uri = url_for('figshare_callback', uuid=uuid, _external=True)
         oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope,
-                              redirect_uri=url_for('figshare_callback', uuid=uuid, _external=True))
+                              redirect_uri=uri)
+        print('Redirecting to URI:', uri)
         url, state = oauth.authorization_url(Figshare.AUTH_URL)
         session['figshare_oauth_state'] = state
         return redirect(url)
 
 
+    @app.route('/callback-figshare')
     @app.route('/callback-figshare/<uuid>', methods=["GET"])
-    def figshare_callback(uuid, scope='all'):
+    def figshare_callback(uuid=None, scope='all'):
         oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'],
                               scope=scope, state=session['figshare_oauth_state'])
         try:
@@ -386,8 +394,9 @@ if FIGSHARE:
         return redirect(url_for('export', target='figshare', uuid=uuid))
 
 
+    @app.route('/export-to-figshare')
     @app.route('/export-to-figshare/<uuid>')
-    def figshare_upload(uuid):
+    def figshare_upload(uuid=None):
         token = session['figshare_oauth_token']
         if not uuid or not token:
             return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
