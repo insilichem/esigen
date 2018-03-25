@@ -245,7 +245,7 @@ def export(target=None, uuid=None):
     if not uuid or target not in EXPORT_TARGETS:
         return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
     return render_template('export.html', target=EXPORT_TARGETS[target],
-                           redirect_uri=url_for(EXPORT_FUNCTIONS[target], uuid=uuid))
+                           redirect_uri=url_for(EXPORT_FUNCTIONS[target], uuid=uuid, **URL_KWARGS))
 
 
 
@@ -303,10 +303,9 @@ def _engine_gist(reports, uuid, **kwargs):
         return redirect(url_for("index", message="GitHub integration not enabled!", **URL_KWARGS))
     session['uuid'] = uuid
     if not github_token_getter():
-        uri = url_for('github_authorized', uuid=uuid, _external=True)
-        print('Redirecting to URI:', uri)
+        uri = url_for('github_authorized', uuid=uuid, **URL_KWARGS)
         return github.authorize(scope="gist", redirect_uri=uri)
-    return redirect(url_for('export', target='gist', uuid=uuid))
+    return redirect(url_for('export', target='gist', uuid=uuid, **URL_KWARGS))
 
 
 if GITHUB:
@@ -325,7 +324,7 @@ if GITHUB:
         if oauth_token is None:
             return redirect(url_for("index", message="GitHub authentication failed!", **URL_KWARGS))
         session['github_oauth_token'] = oauth_token
-        return redirect(url_for('export', target='figshare', uuid=uuid))
+        return redirect(url_for('export', target='figshare', uuid=uuid, **URL_KWARGS))
 
 
     @app.route('/export-to-github')
@@ -365,15 +364,14 @@ def _engine_figshare(reports, uuid, **kwargs):
     if not session.get('figshare_oauth_token'):
         session.pop('figshare_oauth_state', '')
         return figshare_request_token(uuid)
-    return redirect(url_for('export', target='figshare', uuid=uuid))
+    return redirect(url_for('export', target='figshare', uuid=uuid, **URL_KWARGS))
 
 
 if FIGSHARE:
     def figshare_request_token(uuid, scope='all'):
-        uri = url_for('figshare_callback', uuid=uuid, _external=True)
+        uri = url_for('figshare_callback', uuid=uuid, **URL_KWARGS)
         oauth = OAuth2Session(app.config['FIGSHARE_CLIENT_ID'], scope=scope,
                               redirect_uri=uri)
-        print('Redirecting to URI:', uri)
         url, state = oauth.authorization_url(Figshare.AUTH_URL)
         session['figshare_oauth_state'] = state
         return redirect(url)
@@ -391,7 +389,7 @@ if FIGSHARE:
                 authorization_response=request.url, **VERIFY_KWARGS)
         except MissingCodeError:
             return redirect(url_for("index", message="Figshare authentication failed!", **URL_KWARGS))
-        return redirect(url_for('export', target='figshare', uuid=uuid))
+        return redirect(url_for('export', target='figshare', uuid=uuid, **URL_KWARGS))
 
 
     @app.route('/export-to-figshare')
