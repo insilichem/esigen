@@ -466,7 +466,7 @@ if ZENODO:
             session['zenodo_oauth_token'] = oauth.fetch_token(
                 Zenodo.TOKEN_URL,
                 client_secret=app.config['ZENODO_CLIENT_SECRET'],
-                authorization_response=request.url, **VERIFY_KWARGS)
+                authorization_response=request.url.replace('http://', 'https://'), **VERIFY_KWARGS)
         except MissingCodeError:
             return redirect(url_for("index", message="Zenodo authentication failed!", **URL_KWARGS))
         return redirect(url_for('export', target='zenodo', uuid=uuid, **URL_KWARGS))
@@ -507,10 +507,12 @@ def privacy_policy():
 def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
 
+
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for("index", message="Session cleared", **URL_KWARGS))
+
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
