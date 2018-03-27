@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Modified from https://docs.figshare.com/#upload_files_example_upload_on_figshare
+Based on https://docs.figshare.com/#upload_files_example_upload_on_figshare
 """
 
 import hashlib
@@ -10,22 +10,33 @@ import os
 
 import requests
 from requests.exceptions import HTTPError
+VERIFY = 'IN_PRODUCTION' in os.environ
 
-class Figshare(object):
+class WebHook(object):
 
-    AUTH_URL = 'https://figshare.com/account/applications/authorize'
-    BASE_URL = 'https://api.figshare.com/v2/{endpoint}'
-    CHUNK_SIZE = 1048576
+    AUTH_URL = 'REPLACE_THIS'
+    BASE_URL = 'REPLACE_THIS/{endpoint}'
+    _HEADER_AUTH_KEYWORD = 'token'
+    _DEFAULT_HEADERS = {}
+    AUTH_METHOD = 'headers'
 
     def __init__(self, token):
         self.token = token
 
-    def raw_issue_request(self, method, url, data=None, binary=False):
-        headers = {'Authorization': 'token ' + self.token}
+    def raw_issue_request(self, method, url, data=None, binary=False, headers=None, params=None, **kwargs):
+        if headers is None:
+            headers = self._DEFAULT_HEADERS.copy()
+        if params is None:
+            params = {}
+        if self.AUTH_METHOD == 'headers':
+            headers['Authorization'] = '{} {}'.format(self._HEADER_AUTH_KEYWORD, self.token)
+        elif self.AUTH_METHOD == 'params':
+            params['access_token'] = self.token
+
         if data is not None and not binary:
             data = json.dumps(data)
-        response = requests.request(method, url, headers=headers, data=data,
-                                    verify='IN_PRODUCTION' in os.environ)
+        response = requests.request(method, url, headers=headers, data=data, params=params,
+                                    verify=VERIFY, **kwargs)
         try:
             response.raise_for_status()
             try:
@@ -33,7 +44,7 @@ class Figshare(object):
             except ValueError:
                 data = response.content
         except HTTPError as error:
-            print('Caught an HTTPError: {}'.format(error.message))
+            print('Caught an HTTPError: {}'.format(error))
             print('Body:\n', response.content)
             raise
 
@@ -41,6 +52,14 @@ class Figshare(object):
 
     def issue_request(self, method, endpoint, *args, **kwargs):
         return self.raw_issue_request(method, self.BASE_URL.format(endpoint=endpoint), *args, **kwargs)
+
+
+class Figshare(WebHook):
+
+    AUTH_URL = 'https://figshare.com/account/applications/authorize'
+    TOKEN_URL = 'https://api.figshare.com/v2/token'
+    BASE_URL = 'https://api.figshare.com/v2/{endpoint}'
+    CHUNK_SIZE = 1048576
 
     def list_articles(self, ):
         result = self.issue_request('GET', 'account/articles')
@@ -129,3 +148,25 @@ class Figshare(object):
             results.append(r)
         return results
 
+
+class Zenodo(WebHook):
+
+    AUTH_URL = r'https://zenodo.org/oauth/authorize'
+    TOKEN_URL = r'https://zenodo.org/oauth/token'
+    BASE_URL = r'https://zenodo.org/api/{endpoint}'
+    _HEADER_AUTH_KEYWORD = 'Bearer'
+    _DEFAULT_HEADERS = {"Content-Type": "application/json"}
+    AUTH_METHOD = 'params'
+
+    def create_article(self, title, description='Created with ESIgen'):
+        data = {'metadata': {'title': title, 'upload_type': 'dataset', 'description': description}}
+        result = self.issue_request('POST', 'deposit/depositions', data=data)
+        return result.get('id'), result.get('links', {}).get('html')
+
+    def upload_files(self, article_id, *filenames):
+        for filename in filenames:
+            data = {'filename': os.path.basename(filename)}
+            files = {'file': open(filename, 'rb')}
+            print('Uploading file', filename)
+            r = self.issue_request('POST', 'deposit/depositions/{}/files'.format(article_id),
+                                   data=data, files=files, headers={}, binary=True)

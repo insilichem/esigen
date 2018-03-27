@@ -26,6 +26,7 @@ except ImportError:
     from io import BytesIO
 import numpy as np
 import requests
+from requests import HTTPError
 from flask import (Flask, Response, request, redirect, url_for, render_template,
                    send_from_directory, send_file, jsonify, session, g)
 from flask.json import JSONEncoder
@@ -33,7 +34,7 @@ from werkzeug.utils import secure_filename
 from requests_oauthlib import OAuth2Session
 from oauthlib.oauth2 import MobileApplicationClient, MissingCodeError
 from .core import ESIgenReport, BUILTIN_TEMPLATES
-from ._figshare import Figshare
+from ._webhooks import Figshare, Zenodo
 
 HAS_PYMOL = None
 if HAS_PYMOL is None:
@@ -73,6 +74,15 @@ FIGSHARE = FIGSHARE_CLIENT_ID and FIGSHARE_CLIENT_SECRET
 if FIGSHARE:
     app.config['FIGSHARE_CLIENT_ID'] = FIGSHARE_CLIENT_ID
     app.config['FIGSHARE_CLIENT_SECRET'] = FIGSHARE_CLIENT_SECRET
+
+
+ZENODO_CLIENT_ID = os.environ.get('ZENODO_CLIENT_ID')
+ZENODO_CLIENT_SECRET = os.environ.get('ZENODO_CLIENT_SECRET')
+ZENODO_SECRET_STATE = os.urandom(24)
+ZENODO = ZENODO_CLIENT_ID and ZENODO_CLIENT_SECRET
+if ZENODO:
+    app.config['ZENODO_CLIENT_ID'] = ZENODO_CLIENT_ID
+    app.config['ZENODO_CLIENT_SECRET'] = ZENODO_CLIENT_SECRET
 
 
 UPLOADS = "/tmp"
@@ -386,7 +396,7 @@ if FIGSHARE:
                               scope=scope, state=session['figshare_oauth_state'])
         try:
             session['figshare_oauth_token'] = oauth.fetch_token(
-                Figshare.BASE_URL.format(endpoint='token'),
+                Figshare.TOKEN_URL,
                 client_secret=app.config['FIGSHARE_CLIENT_SECRET'],
                 authorization_response=request.url.replace('http://', 'https://'), **VERIFY_KWARGS)
         except MissingCodeError:
@@ -403,14 +413,87 @@ if FIGSHARE:
         root = os.path.join(UPLOADS, uuid)
         now = datetime.datetime.now().strftime("%Y-%m-%d %H%M")
         figshare = Figshare(token=token['access_token'])
-        article_id, article_url = figshare.create_article(
-            title='{} ESIgen report'.format(uuid),
-            description='Created with ESIgen on {}'.format(now))
+        try:
+            article_id, article_url = figshare.create_article(
+                title='{} ESIgen report'.format(uuid),
+                description='Created with ESIgen on {}'.format(now))
+        except HTTPError as e:
+            if e.response.status_code == 401:
+                session.pop('figshare_oauth_token', '')
+                return figshare_request_token(uuid)
+            raise
         if article_id is None:
             return redirect(url_for("index", message="Could not create article on FigShare", **URL_KWARGS))
         for base, dirs, files in os.walk(root):
             for filename in files:
                 figshare.upload_files(article_id, os.path.join(base, filename))
+
+        return redirect(article_url)
+
+
+def _engine_zenodo(reports, uuid, **kwargs):
+    if not ZENODO:
+        return redirect(url_for("index", message="Zenodo integration not enabled!", **URL_KWARGS))
+    session['uuid'] = uuid
+    if not session.get('zenodo_oauth_token'):
+        if not session.get('zenodo_oauth_token'):
+            session.pop('zenodo_oauth_state', '')
+            return zenodo_request_token(uuid)
+    return redirect(url_for('export', target='zenodo', uuid=uuid, **URL_KWARGS))
+
+
+if ZENODO:
+    def zenodo_request_token(uuid, scope='deposit:write'):
+        uri = url_for('zenodo_callback', _external=True, _scheme='https')
+        print('Requesting Zenodo token with redirect:', uri)
+        oauth = OAuth2Session(app.config['ZENODO_CLIENT_ID'], scope=scope,
+                              redirect_uri=uri)
+        url, state = oauth.authorization_url(Zenodo.AUTH_URL)
+        session['zenodo_oauth_state'] = state
+        return redirect(url)
+
+
+    @app.route('/callback-zenodo')
+    @app.route('/callback-zenodo/<uuid>')
+    def zenodo_callback(uuid=None, scope='deposit:write'):
+        uri = url_for('zenodo_callback', _external=True, _scheme='https')
+        oauth = OAuth2Session(app.config['ZENODO_CLIENT_ID'], redirect_uri=uri,
+                              scope=scope, state=session['zenodo_oauth_state'])
+        if uuid is None:
+            uuid = session['uuid']
+        try:
+            print('Got URL:', request.url)
+            session['zenodo_oauth_token'] = oauth.fetch_token(
+                Zenodo.TOKEN_URL,
+                client_secret=app.config['ZENODO_CLIENT_SECRET'],
+                authorization_response=request.url, **VERIFY_KWARGS)
+        except MissingCodeError:
+            return redirect(url_for("index", message="Zenodo authentication failed!", **URL_KWARGS))
+        return redirect(url_for('export', target='zenodo', uuid=uuid, **URL_KWARGS))
+
+
+    @app.route('/export-to-zenodo/')
+    @app.route('/export-to-zenodo/<uuid>')
+    def zenodo_upload(uuid=None):
+        token = session.get('zenodo_oauth_token')
+        if not uuid or not token:
+            return redirect(url_for("index", message="Operation not allowed!", **URL_KWARGS))
+        root = os.path.join(UPLOADS, uuid)
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H%M")
+        zenodo = Zenodo(token=token['access_token'])
+        try:
+            article_id, article_url = zenodo.create_article(title='{} ESIgen report'.format(uuid),
+                                                            description='Created with ESIgen on {}'.format(now))
+        except HTTPError as e:
+            if e.response.status_code == 401:
+                session.pop('zenodo_oauth_token', '')
+                return zenodo_request_token(uuid)
+            raise
+        if article_id is None:
+            return redirect(url_for("index", message="Could not create article on Zenodo", **URL_KWARGS))
+        for base, dirs, files in os.walk(root):
+            for filename in files:
+                zenodo.upload_files(article_id, os.path.join(base, filename))
 
         return redirect(article_url)
 
@@ -424,6 +507,10 @@ def privacy_policy():
 def get_image(filename):
     return send_from_directory(UPLOADS, filename, as_attachment=True)
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for("index", message="Session cleared", **URL_KWARGS))
 
 def ajax_response(status, msg):
     status_code = "ok" if status else "error"
@@ -452,6 +539,9 @@ def allowed_filename(*filenames):
 
 def main():
     print("Running local server...")
+    if '--debug' in sys.argv:
+        import logging
+        logging.basicConfig(level=logging.DEBUG)
     ssl = {'ssl_context': ('cert.pem',)} if os.path.isfile('cert.pem') else {}
     app.run(debug=True, threaded=True, **ssl)
 
@@ -465,13 +555,16 @@ EXPORT_ENGINES = {
     'json': _engine_json,
     'gist': _engine_gist,
     'md': _engine_md,
-    'figshare': _engine_figshare
+    'figshare': _engine_figshare,
+    'zenodo': _engine_zenodo,
 }
 EXPORT_TARGETS = {
     'gist': 'GitHub Gist',
-    'figshare': 'Figshare'
+    'figshare': 'Figshare',
+    'zenodo': 'Zenodo',
 }
 EXPORT_FUNCTIONS = {
     'gist': 'gist_upload',
-    'figshare': 'figshare_upload'
+    'figshare': 'figshare_upload',
+    'zenodo': 'zenodo_upload',
 }
