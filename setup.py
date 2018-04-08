@@ -18,7 +18,7 @@ def read(*filenames, **kwargs):
             buf.append(f.read())
     return sep.join(buf)
 
-long_description = read('README.md')
+long_description = read('README.rst')
 
 setup(
     name='esigen',
@@ -41,6 +41,7 @@ setup(
         'Topic :: Scientific/Engineering :: Chemistry',
     ],
     install_requires=['cclib', 'Flask', 'flask-sslify', 'GitHub-Flask', 'markdown', 'requests', 'requests_oauthlib'],
+                      #'sphinx', 'sphinx_rtd_theme'],
     entry_points='''
         [console_scripts]
         esigen=esigen.cli:main

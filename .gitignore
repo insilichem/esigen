@@ -71,3 +71,8 @@ tests/.pytest*
 
 # Constructor
 esigen*-*-*-*.sh
+
+# self-signed certs
+host.cert
+host.key
+cert.pem
