@@ -84,7 +84,7 @@ during the templating:
 
    -  ``{{ name }}``: Extracted from the filename, without the
       extension.
-   -  ``{{ stoichiometry }}``.
+   -  ``{{ stoichiometry }}``. (Gaussian only).
    -  ``{{ imaginary_freqs }}``: Number of negative frequencies.
    -  ``{{ mean_of_electrons }}``: Mean of ``alphaelectrons`` and
       ``betaelectrons``.
@@ -92,6 +92,7 @@ during the templating:
       other programs, check ``metadata``.
    -  ``{{ nsteps }}``: Number of optimization steps. Extracted from
       ``scfenergies`` size.
+   - ``{{ solvent }}``. Solvent chosen, if applicable. (Gaussian only).
    -  ModRedundant scans (Gaussian only, might change anytime; see
       ``checks.md`` for an example):
 
@@ -106,7 +107,7 @@ during the templating:
          where j is the number of cycles, k the number of iteration at
          each cycle and l the number of variables being scanned.
 
--  Magnitudes
+-  Magnitudes (Gaussian only)
 
    -  ``{{ electronic_energy }}``. Last of ``scfenergies``, Eh.
    -  ``{{ thermalenergy }}``: Sum of electronic and thermal energies,
