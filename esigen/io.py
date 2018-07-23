@@ -57,6 +57,7 @@ class ccDataExtended(ccData_optdone_bool):
     _attributes.update(
         {# Gaussian only
          'stoichiometry':       Attribute(str,   'stoichiometry',                    'N/A'),
+         'solvent':             Attribute(str,   'solvent',                          'N/A'),
          'thermalenergy':       Attribute(float, 'electronic + thermal energies',    'N/A'),
          'zeropointenergy':     Attribute(float, 'electronic + zero-point energies', 'N/A'),
          'alphaelectrons':      Attribute(int,   'alpha electrons',                  'N/A'),
@@ -245,6 +246,10 @@ class GaussianParser(_cclib_Gaussian):
                     self.maxcartesianforces = []
                 self.maxcartesianforces.append(float(line.split()[3]))
 
+            # Retrieve solvent in use
+            if line[1:23] == 'Solvent              :':
+                solvent = line.split()[2].rstrip(',')
+                self.set_attribute('solvent', solvent)
             super(GaussianParser, self).extract(inputfile, line)
         except Exception as e:
             self.logger.error('Line could not be parsed! '
