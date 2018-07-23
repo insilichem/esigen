@@ -22,6 +22,7 @@ import logging
 import warnings
 # 3rd party
 from cclib.io.ccio import guess_filetype
+from cclib.io import CJSONWriter
 from cclib.parser.data import ccData
 from cclib.parser.utils import convertor
 from markdown import markdown
@@ -189,3 +190,6 @@ class ESIgenReport(object):
                 v = self._missing
             d[k] = v
         return d
+
+    def data_as_cjson(self):
+        return CJSONWriter(self.data, terse=True).generate_repr()

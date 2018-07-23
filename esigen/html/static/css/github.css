@@ -836,3 +836,55 @@ table.relevantdata td + td {
     95% {left: 120%;}
     to {left: 100%;}
 }
+
+ul.export-options {
+  margin: 1em 0;
+  list-style: none;
+}
+ul.export-options > li {
+  display: inline;
+  white-space: nowrap;
+}
+ul.export-options > li:last-child::after {
+  content: '';
+}
+ul.export-options > li::after {
+  content: ' · ';
+}
+ul.export-options > li > a::after {
+  content: " \25B2";
+}
+li.export-submenu {
+  position: relative;
+  display: inline-block;
+}
+li.export-submenu > a:hover, li.export-submenu > a:active {
+  text-decoration: underline;
+}
+li.export-submenu > a:focus + ul.export-submenu-content {
+  visibility: visible;
+  opacity: 1;
+}
+li.export-submenu > a:focus::after {
+  content: " \25BC";
+}
+
+ul.export-submenu-content {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  bottom: 2em;
+  left: 0;
+  z-index: 1;
+  padding: 0.5em 1em;
+  background: rgb(250, 250, 250);
+  border-radius: 0.3em;
+  box-shadow: 0 0 5px 5px rgba(50, 50, 50, 0.5);
+  list-style-type: none;
+  opacity: 0;
+  transition: visibility 0.25s,opacity 0.25s linear;
+}
+ul.export-submenu-content > li {
+  padding: 0.5em 0;
+  cursor:pointer;
+}

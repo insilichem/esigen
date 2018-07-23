@@ -16,3 +16,5 @@ dependencies:
     - markdown
     - gunicorn
     - requests
+    - GitHub-Flask
+    - requests_oauthlib

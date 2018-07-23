@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Uploading files to {{ target }}</h1>
+<p>Please wait</p>
+<div class="export-loader"></div>
+
+{% if redirect_uri %}
+<script>
+window.setTimeout(function(){ window.location.replace('{{ redirect_uri }}'); }, 500);
+</script>
+{% endif %}
+{% endblock %}

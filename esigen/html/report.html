@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Supporting Information Generator</title>
+<title>ESIgen - Supporting Information Generator</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/{}'.format(css)) }}">
 <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" />
 </head>
@@ -90,25 +90,59 @@ function AddNGLWidget(index, moleculeUrl, basename) {
 
         <div id="footer">
             <div id="loader" class="loader" style="display:none;"></div>
-            <p class="do-not-print">
-                Export as <a href="javascript:;" onclick="return generatePDF();">PDF</a> &middot;
-                <a href="zip">ZIP</a> + <a href="javascript:;" onclick="return renderCanvasZip();">Images</a> &middot;
-                <a href="md?template={{template}}" target="_blank">Markdown</a> &middot;
-                <a href="json" target="_blank">JSON</a> &middot;
-                <a href="gist?template={{template}}" target="_blank">Gist</a> |
-                <a href="javascript:;" id='copy-btn' data-clipboard-target="#markup" onclick="return copyToClipboard();">Copy to clipboard</a> &middot;
-                <a href="javascript:window.print()" target="_blank">Print</a> &middot;
-                <a href="{{ url_for('index') }}">Back to front page</a> &middot;
-                <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
-            </p>
+            <div class="do-not-print">
+                <ul class="export-options">
+                    <li class="export-submenu">
+                        <a href="javascript:;">Download</a>
+                        <ul class="export-submenu-content">
+                            <li><a href="zip">All files in a ZIP</a></li>
+                            <li><a href="javascript:;" onclick="return renderCanvasZip();">Rendered Images</a></li>
+                            <li><a href="md?template={{template}}" target="_blank">Plain text report</a></li>
+                            <li><a href="xyz">XYZ coordinates</a></li>
+                            <li><a href="cml">CML coordinates</a></li>
+                            <li><a href="json" target="_blank">Raw JSON data</a></li>
+                            <li><a href="cjson" target="_blank">Chemical JSON data</a></li>
+                        </ul>
+                    </li>
+                    {% if GITHUB or FIGSHARE or ZENODO %}
+                    <li class="export-submenu">
+                        <a href="javascript:;">DOI-citable exports</a>
+                        <ul class="export-submenu-content">
+                            {% if FIGSHARE %}
+                            <li><a href="figshare?template={{template}}" target="_blank">FigShare</a></li>
+                            {% endif %}
+                            {% if GITHUB %}
+                            <li><a href="gist?template={{template}}" target="_blank">GitHub Gist</a></li>
+                            {% endif %}
+                            {% if FIGSHARE %}
+                            <li><a href="zenodo?template={{template}}" target="_blank">Zenodo</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li class="export-submenu">
+                        <a href="javascript:;">More options</a>
+                        <ul class="export-submenu-content">
+                            <li><a href="javascript:;" onclick="return generatePDF();">Save as PDF</a></li>
+                            <li><a href="javascript:;" id='copy-btn' data-clipboard-target="#markup" onclick="return copyToClipboard();">Copy to clipboard</a></li>
+                            <li><a href="javascript:;" onclick="window.print()" target="_blank">Print</a></li>
+                            <li><a href="{{ url_for('index') }}">Back to homepage</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
             <p align="center">
-                Generated automatically with <a href="https://github.com/insilichem/esigen" target="_blank">insilichem/esigen</a>
+                Generated automatically with <a href="https://github.com/insilichem/esigen" target="_blank">insilichem/esigen</a> &middot; <a href="{{ url_for('privacy_policy') }}" target="_blank">Privacy policy</a>
             </p>
         </div>
     </div>
 </div>
 <script>
     function generatePDF() {
+        var ok = confirm("Generating PDF reports is not recommended! PDF is a format designed for human-readable, ready-to-print documents, but it is terrible for science reproducibility! If you are going to use it as part of your ESI, please only do that if you are also including raw, machine-readable files like your original input and output files, plain-text summaries, XYZ files, or CJSON dumps. You will find them in the Download options.")
+        if (!ok) {
+            return false;
+        }
         var response = xepOnline.Formatter.Format('main',  {
             //render: 'download',
             filename: '{{ "esigen-report-{}".format(uuid) }}',
