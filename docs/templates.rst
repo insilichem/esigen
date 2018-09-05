@@ -84,6 +84,8 @@ during the templating:
 
    -  ``{{ name }}``: Extracted from the filename, without the
       extension.
+   -  ``{{ filename }}``: Filename, with extension.
+   -  ``{{ filepath }}``: Full path to the file.
    -  ``{{ stoichiometry }}``. (Gaussian only).
    -  ``{{ imaginary_freqs }}``: Number of negative frequencies.
    -  ``{{ mean_of_electrons }}``: Mean of ``alphaelectrons`` and

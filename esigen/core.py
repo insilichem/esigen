@@ -170,8 +170,8 @@ class ESIgenReport(object):
             elif preview == 'static_server':
                 image = os.path.basename(self.render_with_pymol_server())
 
-        rendered = t.render(name=self.name, image=image, preview=preview,
-                            **self.data_as_dict())
+        rendered = t.render(name=self.name, filepath=self.path, filename=os.path.basename(self.path),
+                            image=image, preview=preview, **self.data_as_dict())
         if process_markdown:
             return markdown(rendered, extensions=['markdown.extensions.tables',
                                                   'markdown.extensions.fenced_code',
