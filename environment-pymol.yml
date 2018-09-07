@@ -10,7 +10,7 @@ dependencies:
   - libglu
   - pip:
     - apscheduler
-    - cclib
+    - cclib>=1.6
     - flask
     - flask-sslify
     - markdown

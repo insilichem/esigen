@@ -57,7 +57,6 @@ class ccDataExtended(ccData_optdone_bool):
     _attributes = ccData_optdone_bool._attributes.copy()
     _attributes.update(
         {# Gaussian only
-         'stoichiometry':       Attribute(str,   'stoichiometry',                    'N/A'),
          'solvent':             Attribute(str,   'solvent',                          'N/A'),
          'thermalenergy':       Attribute(float, 'electronic + thermal energies',    'N/A'),
          'zeropointenergy':     Attribute(float, 'electronic + zero-point energies', 'N/A'),
@@ -74,7 +73,7 @@ class ccDataExtended(ccData_optdone_bool):
          })
     _attrlist = sorted(_attributes.keys())
     _properties = ['mean_of_electrons', 'atoms', 'coordinates', 'electronic_energy',
-                   'imaginary_freqs', 'cartesians', 'nsteps']
+                   'imaginary_freqs', 'cartesians', 'nsteps', 'stoichiometry']
 
     def as_dict(self):
         """
@@ -116,6 +115,11 @@ class ccDataExtended(ccData_optdone_bool):
     def nsteps(self):
         if hasattr(self, 'scfenergies'):
             return self.scfenergies.shape[0]
+
+    @property
+    def stoichiometry(self):
+        from cclib.method import Nuclear
+        return Nuclear(self).stoichiometry()
 
     @property
     def has_coordinates(self):
