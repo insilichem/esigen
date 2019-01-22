@@ -1,6 +1,8 @@
 {% if PY_VERSION[0] == '2' %}
 {% set NAME = 'esigen_pymol' %}
+{% set THISPYVERSION = '2.7' %}
 {% else %}
+{% set THISPYVERSION = '3.7' %}
 {% set NAME = 'esigen' %}
 {% endif %}
 name: {{ NAME }}
@@ -26,7 +28,7 @@ channels:
 {% endif %}
 
 specs:
-  - python {{ PY_VERSION}}*
+  - python {{ THISPYVERSION }}*
   - nomkl              [unix]
   - esigen
 

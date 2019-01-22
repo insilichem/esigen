@@ -3,10 +3,10 @@ environment:
   BINSTAR_TOKEN:
     secure: zW96v77uhbDdArc0805i/CDIvVpZvqCJyJ+WgSE1b65nPLO0nGUwmZ9qshUICIba
   matrix:
-    - PYTHON: "C:\\Python36_64"
-      PYTHON_VERSION: "3.6"
+    - PYTHON: "C:\\Python37_64"
+      PYTHON_VERSION: "3.7"
       PYTHON_ARCH: "64"
-      CONDA_PY: "36"
+      CONDA_PY: "37"
 
 matrix:
   fast_finish: true
