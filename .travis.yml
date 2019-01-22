@@ -81,7 +81,7 @@ install:
 # Configure conda and get a few essentials
 - conda config --set always_yes yes
 # Show conda info for debugging
-- conda install -q conda conda-build
+- conda install -q conda conda-build=3.16
 - conda config --add channels insilichem
 - if [[ $MYCONDAPY = 2.7 ]]; then
     conda config --add channels omnia;
