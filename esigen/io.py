@@ -27,7 +27,7 @@ from cclib.parser import Gaussian as _cclib_Gaussian
 from cclib.parser.logfileparser import Logfile
 from cclib.parser.data import ccData_optdone_bool, Attribute
 from cclib.parser.utils import convertor
-from .utils import  PERIODIC_TABLE
+from .utils import PERIODIC_TABLE
 
 
 class ccDataExtended(ccData_optdone_bool):
