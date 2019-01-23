@@ -112,7 +112,7 @@ deploy:
     secure: y1Nx6o9/B0CAGKq6uLCmfo3DGKcse42nmZ+NjGhhxf6eLGlv9jv4H6THoPJXKheEPUxB8F4cE93W6NanA9re6Kbnctxx7PSuiS2hoo7csGx4ekU4m4NUU3BEqYoAc6O/YradRCaCsWiFpUr94k9OoEDkisVfqDpXN0hgvB+UF3lMk9w/GXrGSAlW+t0yNvKsMW3STnUNSLxmtEtfrR9OgERrNFjiUgDiQ0YPxheV2lDupTlGxdQm9/0VaRrrdtM2GcH23/PR95WKMo7j17YND875GH2oFd5hhSQWp2pgpnowLLkKIssXl42rMSpCFsiCF9PZyB3wq0r6m5gtHD/1SvlWdtbcfk1RDUfTzM1/zPD9cWrWiWzwCvPzUuzcwYT5VgTN5lXMZERREi8SZICnDNGSWxm8osk7tTj4kI7DOWsftZNQ2WVV5llUn4rKkAJhslgdi0eM0rBAKl/KKm/YB8an1IVGFS6aJ339SuviWJ65LCKsIChwUZEVGoDq2WcKpXxZRmu9HpsXaaX/P8oEPw09ZVhOd0hAzFh7B0CvETxqC02XmWhXgVotXx6t1xDqpbEsCI7TdRP94QxWZZfo4RK/DueSM7a1WWAJTXydygdFSjQ7X+GLcC9+xUm91UKYZ3J25jDyLvjN1YdW7PNd8a6F6GN/T8GhUe7munz3C/I=
   on:
     tags: true
-    condition: "$MYCONDAPY = 3.6 && $TRAVIS_OS_NAME = linux"
+    condition: "$MYCONDAPY = 3.7 && $TRAVIS_OS_NAME = linux"
 #Deploy to GitHub releases
 - provider: releases
   api_key:
@@ -127,3 +127,4 @@ deploy:
   on:
     tags: true
     repo: insilichem/esigen
+    condition: $MYCONDAPY =~ (^2\.7)|(^3\.7)
